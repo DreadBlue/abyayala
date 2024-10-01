@@ -1,0 +1,3 @@
+<template>
+  <BookingConfirmacion />
+</template>

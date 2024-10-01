@@ -1,0 +1,119 @@
+[
+  {
+    "src": "/cabanas/kashi.webp",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "KASHI",
+    "descripcion": "\"Luna\" en los pueblos Wayuu."
+  },
+
+  {
+    "src": "/cabanas/kogui.jpg",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "KOGUI",
+    "descripcion": "Comunidad ancestral de la Sierra nevada de Santa marta."
+  },
+
+  {
+    "src": "/cabanas/kombilesa.jpg",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "KOMBILESA",
+    "descripcion": "\"Amigo\" en lengúa palenquera."
+  },
+
+  {
+    "src": "/cabanas/maleiwa.jpg",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "MALEIWA",
+    "descripcion": "Dios creador Wayuu."
+  },
+
+  {
+    "src": "/cabanas/ochun.jpg",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "OCHUN",
+    "descripcion": "Reina del agua."
+  },
+
+  {
+    "src": "/cabanas/pangea.webp",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "PANGEA",
+    "descripcion": "Nombre del continente raíz."
+  },
+
+  {
+    "src": "/cabanas/polekakasue.webp",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "POLEKA KASUE",
+    "pick": true,
+    "cantidad": "8",
+    "precio": 320000,
+    "server": "http://localhost:3000/datos",
+    "descripcion": "Nombre ancestral del nevado Santa Isabel.",
+    "detalles": [
+      "🛏️ Cama doble",
+      "🛁 Baño compartido",
+      "🍳 Desayuno incluido",
+      "🧖🏻 Toallas",
+      "👩🏿‍🤝‍👨🏻 2 personas.",
+      "💵 Precio: 320.000"
+    ]
+  },
+
+  {
+    "src": "/cabanas/serankua.webp",
+    "tipo": "Safari",
+    "titulo": "CABAÑA SAFARI",
+    "nombre": "SERANKUA",
+    "descripcion": "Dios creador y sol de la Sierra Nevada de Santa Marta."
+  },
+
+  {
+    "src": "/cabanas/ancestral.jpeg",
+    "tipo": "Ancestral",
+    "titulo": "CABAÑA ANCESTRAL",
+    "nombre": "AWÁ KWAIKER",
+    "pick": true,
+    "cantidad": "1",
+    "precio": 420000,
+    "server": "http://localhost:3000/datos2",
+    "descripcion": "Pueblo Indio Americano, que en lengua Awapit significa 'Gente de la montaña'.",
+    "detalles": [
+      "🛏️ Cama doble y habitación deluxe",
+      "🛁 Baño privado (externo)",
+      "🍳 Desayuno incluido",
+      "🧖🏻 Toallas",
+      "👩🏿‍🤝‍👨🏻 2 personas.",
+      "🏞️ Vista a la montaña.",
+      "💵 Precio: 420.000"
+    ]
+  },
+
+  {
+    "src": "/cabanas/anamay.jpeg",
+    "tipo": "AncestralDos",
+    "titulo": "CABAÑA ANCESTRAL",
+    "nombre": "ANAMAY",
+    "pick": true,
+    "cantidad": "1",
+    "precio": 420000,
+    "server": "http://localhost:3000/datos2",
+    "descripcion": "Pueblo Indio Americano, que en lengua Awapit significa 'Gente de la montaña'.",
+    "detalles": [
+      "🛏️ Cama doble y habitación deluxe",
+      "🛁 Baño privado (interno)",
+      "🍳 Desayuno incluido",
+      "🧖🏻 Toallas",
+      "👩🏿‍🤝‍👨🏻 2 personas.",
+      "🏞️ Vista a la montaña.",
+      "💵 Precio: 420.000"
+    ]
+  }
+]

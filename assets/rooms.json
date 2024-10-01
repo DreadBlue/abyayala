@@ -1,0 +1,17 @@
+[
+    {
+        "home": "si",
+        "src": "https://firebasestorage.googleapis.com/v0/b/abyayala-c7fa8.appspot.com/o/assets%2Fcabanasafari.jpg?alt=media&token=5da0e6bc-818e-4686-8093-fc4700ccdeb0",
+        "tipo": "Safari",
+        "nombre": "CABAÑA SAFARI",
+        "precio": "320.000"
+    },
+
+    {
+        "home": "si",
+        "src": "https://firebasestorage.googleapis.com/v0/b/abyayala-c7fa8.appspot.com/o/assets%2Fcabanaancestral.jpg?alt=media&token=f2f21b00-8d9a-49a2-b9f1-d4c57701509d",
+        "tipo": "Ancestral",
+        "nombre": "CABAÑA SAFARI",
+        "precio": "420.000"
+    }
+]
