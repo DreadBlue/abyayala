@@ -66,7 +66,7 @@
             v-if="cash"
             class="bg-second color-white"
             @click="initiateCheckout('cash')"
-            :disabled="!invoice[0]"
+            :disabled="!invoice.name"
             >PAGAR</v-btn
           >
           <v-btn
@@ -196,11 +196,12 @@ export default {
         if (Object.values(item).some((value) => value === '')) {
           this.warning = true;
         } else {
+          this.useBooking.loading = true;
           this.warning = false;
           if (payment == 'card') {
             await this.useBooking.reservar(item);
             checkout.open();
-          } else if (payment == 'cash' && item.invoice[0] != undefined) {
+          } else if (payment == 'cash') {
             await this.useBooking.reservar(item);
             await this.useBooking.fetchGoogle(item, true, true);
             return navigateTo('/reservar/confirmacion');

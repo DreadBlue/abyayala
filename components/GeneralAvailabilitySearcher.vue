@@ -60,9 +60,13 @@
 
 <script setup>
 import { DateTime } from 'luxon';
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
 import { useDisplay } from 'vuetify';
 
 const router = useRouter()
+dayjs.extend(customParseFormat);
 const { smAndUp } = useDisplay();
 const reactiveHeight = ref('max-width: 85%');
 
@@ -88,7 +92,11 @@ const onCheckInSelected = () => {
 };
 
 const redirection = () => {
-  router.push({path: '/reservar', query: {checkIn: dateCheckIn.value, checkOut: dateCheckOut.value}});
+  const dates = {
+    checkIn: dayjs(dateCheckIn.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
+    checkOut: dayjs(dateCheckOut.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
+  };
+  router.push({ path: '/reservar', query: dates });
 };
 
 watch(smAndUp, (val) => {

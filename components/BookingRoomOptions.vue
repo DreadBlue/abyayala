@@ -26,9 +26,14 @@
           <v-btn @click="increase(item)" class="ml-10"> + </v-btn>
         </div>
         <span
-          v-if="disponibilidad[item.tipo] - item.cantidad == 0"
+          v-if="availability[item.tipo] == 0"
           class="d-flex justify-center pb-4 text-body-2 text-md-body-1"
           >Sin disponibilidad</span
+        >
+        <span
+          v-if="availability[item.tipo] > 0"
+          class="d-flex justify-center pb-4 text-body-2 text-md-body-1"
+          >Disponibilidad: {{ availability[item.tipo] }}</span
         >
         <div class="text-center text-body-2 text-md-body-1">
           <v-btn
@@ -43,7 +48,6 @@
 </template>
 
 <script>
-import cabanas from '../assets/cabanas.json';
 import { useBookingStore } from '/stores/booking.js';
 import { useDisplay } from 'vuetify';
 
@@ -68,22 +72,21 @@ export default {
   },
   props: {
     item: Object,
+    availability: Object,
   },
   data() {
     const useBooking = useBookingStore();
     const router = useRouter();
     return {
-      rooms: cabanas.filter((item) => item.pick === true),
       amount: 0,
       useBooking,
-      disponibilidad: useBooking.disponibilidad,
       precio: 0,
       router,
     };
   },
   methods: {
     increase(cabana) {
-      if (this.amount < cabana.cantidad - this.disponibilidad[cabana.tipo]) {
+      if (this.amount < this.availability[cabana.tipo]) {
         this.amount++;
       }
     },
