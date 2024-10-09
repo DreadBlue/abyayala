@@ -49,7 +49,6 @@ onMounted(async () => {
   idReserva.value = item.idReserva;
   localStorage.removeItem('item');
   const { 'bold-order-id': boldOrderId, 'bold-tx-status': boldTxStatus } = useRoute().query;
-  console.log(idReserva.value);
 });
 
 watch(

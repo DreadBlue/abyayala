@@ -227,13 +227,22 @@ export default {
     let correoReenviado = ref(false);
 
     const sendEmail = async () => {
+      const item = {
+        nombre: props.booking[0].Nombre,
+        correo: props.booking[0].Correo,
+        amountRooms: props.booking[0]['Cantidad de cabañas'],
+        acompanantes: props.booking[0]['Cantidad de huespedes'],
+        checkIn: props.booking[0]['Check in'],
+        checkOut: props.booking[0]['Check out'],
+        precio: props.booking[0].Valor,
+        cabana: props.booking[0]['Tipo de cabaña'],
+        idReserva: props.booking[0].idReserva,
+      }
+      localStorage.setItem('item', JSON.stringify(item));
+
       try {
-        const booking = {
-          nombre: props.booking[0].Nombre,
-          correo: props.booking[0].Correo,
-          acompanantes: props.booking[0]['Cantidad de huespedes'],
-        };
-        useBooking.fetchGoogle(booking, true, false);
+        await useBooking.fetchGoogle(true, false);
+        localStorage.removeItem('item')
         correoReenviado.value = true;
       } catch (error) {
         console.error('Email error:', error);

@@ -80,6 +80,7 @@ export default {
         Ancestral: '/cabanas/ancestral.jpeg',
         Safari: '/otros/imagen3.JPG',
         AncestralDos: '/cabanas/anamay.jpeg',
+        Anamay: '/cabanas/anamay.jpeg',
       },
       useAdmin,
     };

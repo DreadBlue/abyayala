@@ -64,7 +64,7 @@
           style="text-decoration: none; color: white"
           >Maps</NuxtLink
         >
-        <NuxtLink to="admin" style="text-decoration: none; color: white"
+        <NuxtLink to="/admin" style="text-decoration: none; color: white"
           >Admin</NuxtLink
         >
       </v-col>
