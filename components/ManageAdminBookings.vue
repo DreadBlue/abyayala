@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
+import { useAdminStore } from '/stores/admin.js';
 
 export default {
   props: {
@@ -73,7 +73,7 @@ export default {
     },
   },
   data() {
-    const useBooking = useBookingStore();
+    const useAdmin = useAdminStore();
     return {
       displayed: [],
       cabanasPic: {
@@ -81,7 +81,7 @@ export default {
         Safari: '/otros/imagen3.JPG',
         AncestralDos: '/cabanas/anamay.jpeg',
       },
-      useBooking,
+      useAdmin,
     };
   },
   watch: {
@@ -97,7 +97,7 @@ export default {
       return str.replace(/(^|\s)\S/g, (match) => match.toUpperCase());
     },
     async loadReservas() {
-      const moreBookings = await this.useBooking.cargarReservas();
+      const moreBookings = await this.useAdmin.cargarReservas();
       this.displayed = [...this.displayed, ...moreBookings];
     },
   },

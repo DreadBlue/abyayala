@@ -5,11 +5,18 @@ export const useGeneralStore = defineStore('general', {
     return {
       showPreview: false,
       signOutButton: false,
+      loading: false,
+      warning: false,
     };
   },
   actions: {
-    updateState(value, variable) {
-      this[variable] = value;
+    updateDetails(item) {
+      const statesNames = Object.keys(this.$state);
+      for (const data in item) {
+        if (statesNames.includes(data)) {
+          this.$state[data] = item[data];
+        }
+      }
     },
   },
 });

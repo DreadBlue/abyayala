@@ -1,5 +1,6 @@
 <template>
   <v-container class="d-flex flex-column ga-15 pa-0 px-15 py-7" fluid>
+
     <v-row :class="`elevation-${5}`">
       <v-col cols="12" sm="6" :style="reactiveHeight" class="d-flex">
         <img
@@ -53,6 +54,9 @@ import { useDisplay } from 'vuetify';
 
 export default {
   setup() {
+    const useBooking = useBookingStore();
+    const checkIn = computed(() => useBooking.checkIn); 
+    const checkOut = computed(() => useBooking.checkOut);
     const { smAndDown } = useDisplay();
     const reactiveHeight = ref('height: 450px');
     watch(
@@ -68,7 +72,7 @@ export default {
         immediate: true,
       },
     );
-    return { reactiveHeight };
+    return { reactiveHeight, checkIn, checkOut };
   },
   props: {
     item: Object,

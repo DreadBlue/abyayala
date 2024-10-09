@@ -15,12 +15,14 @@
 <script setup>
 import dayjs from 'dayjs';
 import { useBookingStore } from '/stores/booking.js';
+import { useAdminStore } from '/stores/admin.js';
 
 definePageMeta({
   middleware: 'auth',
 });
 
 const useBooking = useBookingStore();
+const useAdmin = useAdminStore();
 let bookings = ref([]);
 
 let filters = ref({
@@ -33,7 +35,7 @@ const loaderText = 'Cargando reservas';
 
 const fetchBookings = async () => {
   try {
-    bookings.value = await useBooking.adminBookings(filters);
+    bookings.value = await useAdmin.adminBookings(filters.value);
   } catch (error) {
     console.error('Failed to fetch bookings:', error);
   }

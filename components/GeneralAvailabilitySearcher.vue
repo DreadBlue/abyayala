@@ -62,14 +62,14 @@
 import { DateTime } from 'luxon';
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
+import { useBookingStore } from '/stores/booking.js';
 import { useDisplay } from 'vuetify';
 
 const router = useRouter()
 dayjs.extend(customParseFormat);
 const { smAndUp } = useDisplay();
 const reactiveHeight = ref('max-width: 85%');
-
+const useBooking = useBookingStore();
 const min = DateTime.local().toString().slice(0, 10);
 let minMonth = 0;
 const dateCheckIn = ref('');
@@ -96,6 +96,7 @@ const redirection = () => {
     checkIn: dayjs(dateCheckIn.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
     checkOut: dayjs(dateCheckOut.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
   };
+  useBooking.updateDetails(dates);
   router.push({ path: '/reservar', query: dates });
 };
 

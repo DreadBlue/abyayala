@@ -26,6 +26,7 @@
                     </v-text-field>
                   </v-col>
                 </v-row>
+                <span class="d-flex justify-center pt-3" v-if="warning">Faltan datos</span>
               </v-container>
             </v-form>
           </v-col>
@@ -76,7 +77,6 @@
             >PAGAR</v-btn
           >
         </div>
-        <span class="d-flex justify-center" v-if="warning">Faltan datos</span>
       </v-col>
     </v-row>
   </v-container>
@@ -87,17 +87,23 @@ import { useBookingStore } from '/stores/booking.js';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export default {
+  setup() {
+    const useGeneral = useGeneralStore();
+    const warning = computed(() => {
+      return useGeneral.warning;
+    });
+    return { warning, useGeneral}
+  },
   data() {
     const useBooking = useBookingStore();
     return {
       card: false,
       cash: false,
-      warning: false,
       invoice: [],
       Inputs: {
         InputUno: [
           '6',
-          'Nombre completo',
+          'Nombre y apellido',
           'text',
           'solo',
           '12',
@@ -161,27 +167,17 @@ export default {
   },
   methods: {
     async initiateCheckout(payment) {
+      this.useGeneral.updateDetails({loading: true});
       const amount = this.useBooking.precio;
-      const orderId = 'ORDER' + Date.now() * 1e6;
       const functions = getFunctions();
+      const orderId = 'ORDER' + Date.now() * 1e6;
+
 
       const generateHash = httpsCallable(functions, 'generateHash');
 
       try {
         const response = await generateHash({ orderId, amount });
         const { hash } = response.data;
-
-        const checkout = new BoldCheckout({
-          orderId: orderId,
-          currency: 'COP',
-          amount: amount,
-          apiKey: 'FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw',
-          integritySignature: hash,
-          description: 'Pago valor dinámico',
-          redirectionUrl: 'https://abyayalahostel.com/reservar/confirmacion',
-          extraNombre: this.Inputs.InputUno[7],
-          extraCelular: this.Inputs.InputDos[7],
-        });
 
         let item = {
           nombre: this.Inputs.InputUno[7],
@@ -193,19 +189,28 @@ export default {
           invoice: this.invoice,
         };
 
-        if (Object.values(item).some((value) => value === '')) {
-          this.warning = true;
-        } else {
-          this.useBooking.loading = true;
-          this.warning = false;
+        const checkout = new BoldCheckout({
+          orderId: orderId,
+          currency: 'COP',
+          amount: amount,
+          // apiKey: 'KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA',
+          apiKey: 'FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw',
+          integritySignature: hash,
+          description: 'Pago valor dinámico',
+          // redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
+          redirectionUrl: 'https://www.abyayalahostel.com/reservar/confirmacion',
+        });
+
+        if (Object.values(item).every((value) => value !== '')) {
+          await this.useBooking.reservar(item);
           if (payment == 'card') {
-            await this.useBooking.reservar(item);
             checkout.open();
           } else if (payment == 'cash') {
-            await this.useBooking.reservar(item);
-            await this.useBooking.fetchGoogle(item, true, true);
             return navigateTo('/reservar/confirmacion');
           }
+        } else {
+          this.useGeneral.updateDetails({loading: false});
+          this.useGeneral.updateDetails({warning: true});
         }
       } catch (error) {
         console.error('Error al generar el hash:', error);

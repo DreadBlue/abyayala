@@ -15,7 +15,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return navigateTo('/admin', { redirectCode: 301 });
       }
   
-    console.log('hola middleware')
   })
 
   

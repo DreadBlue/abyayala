@@ -4,9 +4,9 @@
     <v-row class="d-flex justify-center text-center">
       <v-col cols="12" class="d-flex flex-column align-center">
         <span class="text-h3 text-sm-h2 color-main">RESERVA CONFIRMADA</span>
-        <!-- <span class="color-main text-subtitle-2 text-sm-subtitle pt-3"
-          >Código de reserva: ABYA{{ idReserva }}</span
-        > -->
+        <span class="color-main text-subtitle-2 text-sm-subtitle pt-3"
+          >Código de reserva: {{ idReserva }}</span
+        >
       </v-col>
       <v-col
         cols="12"
@@ -35,13 +35,22 @@ import { useBookingStore } from '/stores/booking.js';
 import { useDisplay } from 'vuetify';
 
 const useBooking = useBookingStore();
-const idReserva = computed(() => useBooking.idReserva);
+const idReserva = ref('Cargando...');
 
 const { smAndDown } = useDisplay();
 const reactiveHeight = ref('height: 450px');
 
 let loaded = ref(true);
-const textLoader = 'Realizando reserva';
+const textLoader = 'Confirmando reserva';
+
+onMounted(async () => {
+  useBooking.fetchGoogle(true, true);
+  const item = JSON.parse(localStorage.getItem('item'));
+  idReserva.value = item.idReserva;
+  localStorage.removeItem('item');
+  const { 'bold-order-id': boldOrderId, 'bold-tx-status': boldTxStatus } = useRoute().query;
+  console.log(idReserva.value);
+});
 
 watch(
   smAndDown,

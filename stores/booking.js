@@ -10,8 +10,9 @@ import {
   orderBy,
   setDoc,
   doc,
+  increment,
   limit,
-  startAfter,
+  updateDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "/firebase/firebase.config.js";
@@ -53,280 +54,6 @@ export const useBookingStore = defineStore("booking", {
       }
     },
 
-    async lookBooking(booking) {
-      try {
-        const reservaDB = query(
-          collection(db, "reservas"),
-          where("idReserva", "==", parseInt(booking[0])),
-          where("Correo", "==", booking[1])
-        );
-        let snapshot = await getDocs(reservaDB);
-        if (snapshot.docs.length == 0) {
-          return "wrong information";
-        } else if (!snapshot.docs.length == 0) {
-          const docs = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return docs;
-        }
-      } catch (error) {
-        console.log("error fetching booking: ", error);
-        throw error;
-      }
-    },
-    async adminBookings(filters) {
-      try {
-        const reservaDB = query(
-          collection(db, "reservas"),
-          where("Check in", ">=", filters.value.startDate),
-          orderBy("Check in", "desc")
-        );
-        let snapshot = await getDocs(reservaDB);
-        const docs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        this.lastBooking = docs[docs.length - 1]["Check in"];
-        return docs;
-      } catch (error) {
-        console.log("error fetching booking: ", error);
-        throw error;
-      }
-    },
-
-    async reservar(item) {
-      const reservadasCollection = query(
-        collection(db, "reservadas"),
-        where("fecha", "in", this.bookingRange),
-        where("cabaña", "==", this.cabana)
-      );
-
-      try {
-        const querySnapshot = await getDocs(reservadasCollection);
-        const docs = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        let ocurrences = {};
-        for (const reserva of docs) {
-          if (!ocurrences[reserva.fecha]) {
-            ocurrences[reserva.fecha] = 1;
-          } else {
-            ocurrences[reserva.fecha]++;
-          }
-        }
-        let ocupadas = 0;
-        for (const fecha in ocurrences) {
-          if (ocurrences[fecha] > ocupadas) {
-            ocupadas = ocurrences[fecha];
-          }
-        }
-        console.log("ocupadas", ocupadas);
-        const makeReservation = async () => {
-          try {
-            const reservaDB = query(
-              collection(db, "reservas"),
-              orderBy("timestamp", "desc"),
-              limit(1)
-            );
-            let snapshot = await getDocs(reservaDB);
-            const docs = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-
-            const idReserva = docs[0].idReserva + 1;
-            const storage = getStorage();
-            const archivoRef = ref(storage, `Comprobantes/ABYA${idReserva}`);
-
-            const uploadInvoice = await uploadBytes(
-              archivoRef,
-              item.invoice[0]
-            );
-            console.log("Archivo subido con éxito", uploadInvoice);
-
-            const url = await getDownloadURL(archivoRef);
-
-            await setDoc(doc(db, "reservas", `ABYA${idReserva}`), {
-              idReserva: idReserva,
-              Nombre: item.nombre,
-              Celular: item.celular,
-              Correo: item.correo,
-              Cédula: item.cedula,
-              "Cantidad de cabañas": this.amountRooms,
-              "Cantidad de huespedes": item.acompanantes,
-              "Check in": dayjs(this.checkIn, "DD-MM-YYYY").format(
-                "YYYY-MM-DD"
-              ),
-              "Check out": dayjs(this.checkOut, "DD-MM-YYYY").format(
-                "YYYY-MM-DD"
-              ),
-              "Información de acompañantes": item.infoAcompanantes,
-              Valor: this.precio,
-              "Tipo de cabaña": this.cabana,
-              timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              urlInvoice: url,
-            });
-
-            this.idReserva = idReserva;
-
-            let numCabanas = this.amountRooms;
-            while (numCabanas > 0) {
-              let noches = 1;
-              for (const element of this.bookingRange) {
-                await setDoc(
-                  doc(
-                    db,
-                    "reservadas",
-                    `${idReserva + numCabanas.toString() + noches.toString()}`
-                  ),
-                  {
-                    cabaña: this.cabana,
-                    fecha: element,
-                  }
-                );
-                noches++;
-              }
-              numCabanas = numCabanas - 1;
-            }
-          } catch (error) {
-            console.log("error fetching booking: ", error);
-            throw error;
-          }
-        };
-
-        if (this.cabana == "Safari" && this.amountRooms <= 8 - ocupadas) {
-          makeReservation();
-        } else if (
-          this.cabana == "Ancestral" &&
-          this.amountRooms <= 1 - ocupadas
-        ) {
-          makeReservation();
-        } else if (
-          this.cabana == "Ancestral Dos" &&
-          this.amountRooms <= 1 - ocupadas
-        ) {
-          makeReservation();
-        }
-      } catch (error) {
-        console.error("Error fetching documents: ", error);
-      }
-    },
-
-    async fetchGoogle(item, emailF, eventF) {
-      const reservaDB = query(
-        collection(db, "reservas"),
-        orderBy("timestamp", "desc"),
-        limit(1)
-      );
-      let snapshot = await getDocs(reservaDB);
-      const docs = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      const idReserva = docs[0].idReserva;
-
-      if (emailF == true) {
-        try {
-          const infoEmail = {
-            Nombre: item.nombre,
-            BookingRooms: this.amountRooms,
-            Correo: item.correo,
-            NumeroAcompanantes: item.acompanantes,
-            CheckInDate: this.checkIn,
-            CheckOutDate: this.checkOut,
-            PrecioCabana: this.precio,
-            TipoDeCabaña: this.cabana,
-            subject: "Confirmación de reserva",
-            idReserva: `ABYA${idReserva}`,
-          };
-
-          const functions = getFunctions();
-          const sendEmail = httpsCallable(functions, "sendEmail");
-          const email = await sendEmail({ infoEmail, secret: "SendThisEmail" });
-        } catch (error) {
-          console.log("error fetching email: ", error);
-          throw error;
-        }
-      }
-
-      if (eventF == true) {
-        try {
-          let description = `https://www.abyayalahostel.com/reserva-${idReserva}/${item.correo}`;
-          const infoEvent = {
-            RangeDates: this.bookingRange,
-            BookingRooms: this.amountRooms,
-            Nombre: item.nombre,
-            TipoDeCabaña: this.cabana,
-            PrecioCabana: this.precio,
-            description,
-            secret: "SendThisEvent",
-          };
-          const functions = getFunctions();
-          const sendCalendar = httpsCallable(functions, "sendCalendar");
-          const event = await sendCalendar({ infoEvent });
-        } catch (error) {
-          console.log("error fetching event: ", error);
-          throw error;
-        }
-      }
-    },
-
-    async cargarReservas() {
-      try {
-        const reservaDB = query(
-          collection(db, "reservas"),
-          orderBy("Check in", "desc"),
-          startAfter(this.lastBooking),
-          limit(10)
-        );
-        let snapshot = await getDocs(reservaDB);
-        const docs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        this.lastBooking = docs[docs.length - 1]["Check in"];
-
-        return docs;
-      } catch (error) {
-        console.log("Más reservas error: ", error);
-      }
-    },
-
-    async downloadBill(url) {
-      try {
-        const storage = getStorage();
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-
-        xhr.onload = (event) => {
-          const blob = xhr.response;
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = "comprobante.ext";
-          link.click();
-        };
-        xhr.open("GET", url);
-        xhr.send();
-      } catch (error) {
-        console.log("Error al descargar: ", error);
-      }
-    },
-
-    async deleteBooking(reserva, reservadas) {
-      try {
-        await deleteDoc(doc(db, reserva[0], reserva[1]));
-        for (const element of reservadas[1]) {
-          await deleteDoc(doc(db, reservadas[0], element));
-        }
-      } catch (error) {
-        console.log("Error al borrar: ", error);
-      }
-    },
-
     async createDatabase() {
       const start = new Date("2024-10-08");
       const end = new Date("2025-06-30");
@@ -365,7 +92,6 @@ export const useBookingStore = defineStore("booking", {
         this.bookingRange.push(checkIn.format("YYYY-MM-DD"));
         checkIn = checkIn.add(1, "day");
       }
-      console.log(this.bookingRange);
 
       const availabilityCollection = query(
         collection(db, "availability"),
@@ -380,21 +106,247 @@ export const useBookingStore = defineStore("booking", {
         }));
 
         for (const data of docs) {
-          console.log(data);
-          if (data.room_id == "safari" && data.spots < this.disponibilidad.Safari) {
+          if (
+            data.room_id == "safari" &&
+            data.spots < this.disponibilidad.Safari
+          ) {
             this.disponibilidad.Safari = data.spots;
           }
-          if (data.room_id == "ancestral" && data.spots < this.disponibilidad.Ancestral) {
+          if (
+            data.room_id == "ancestral" &&
+            data.spots < this.disponibilidad.Ancestral
+          ) {
             this.disponibilidad.Ancestral = data.spots;
           }
-          if (data.room_id == "anamay" && data.spots < this.disponibilidad.Anamay) {
+          if (
+            data.room_id == "anamay" &&
+            data.spots < this.disponibilidad.Anamay
+          ) {
             this.disponibilidad.Anamay = data.spots;
           }
-        };
+        }
         return this.disponibilidad;
       } catch (error) {
         console.error(error);
         return [];
+      }
+    },
+
+    async generateBookingCode() {
+      const caracteres = "ABY0123456789";
+      let codigo = "";
+      let uniqueCode = false;
+
+      for (let i = 0; i < 6; i++) {
+        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+        codigo += caracteres[indiceAleatorio];
+      }
+
+      while (uniqueCode == false) {
+        const bookingsCollection = query(
+          collection(db, "reservas"),
+          where("idReserva", "==", codigo)
+        );
+  
+        const snapshot = await getDocs(bookingsCollection);
+        const docs = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        if (docs.length == 0) {
+          uniqueCode = true;
+        };
+      }
+
+      this.idReserva = codigo;
+      return codigo;
+    },
+
+    async verifyAvailability() {
+      const availabilityCollection = query(
+        collection(db, "availability"),
+        where("date", "in", this.bookingRange),
+        where("room_id", "==", this.cabana)
+      );
+
+      try {
+        const availabilitySnapshot = await getDocs(availabilityCollection);
+        const docs = availabilitySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        let availability = true;
+
+        for (const document of docs) {
+          if (document.spots < this.amountRooms) {
+            availability = false;
+          }
+        }
+
+        return availability;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    },
+
+    async takeAvailability() {
+      const availabilityCollection = query(
+        collection(db, "availability"),
+        where("date", "in", this.bookingRange),
+        where("room_id", "==", this.cabana.toLowerCase())
+      );
+
+      try {
+        const availabilitySnapshot = await getDocs(availabilityCollection);
+        const docs = availabilitySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        for (const document of docs) {
+          const docRef = doc(db, "availability", document.id);
+          await updateDoc(docRef, {
+            spots: increment(-this.amountRooms),
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async reservar(item) {
+      const availability = await this.verifyAvailability();
+      const idReserva = await this.generateBookingCode();
+      const eventsInfo = {
+        ...item,
+        amountRooms: this.amountRooms,
+        checkIn: this.checkIn,
+        checkOut: this.checkOut,
+        precio: this.precio,
+        cabana: this.cabana,
+        idReserva: idReserva,
+        bookingRange: this.bookingRange,
+      }
+      localStorage.setItem('item', JSON.stringify(eventsInfo));
+      
+      try {
+        if (availability == true) {
+          this.fetchGoogle(true, false);
+          await this.takeAvailability();
+
+          const storage = getStorage();
+          const archivoRef = ref(storage, `Comprobantes/${idReserva}`);
+
+          const uploadInvoice = await uploadBytes(archivoRef, item.invoice[0]);
+          console.log("Archivo subido con éxito", uploadInvoice);
+
+          const url = await getDownloadURL(archivoRef);
+
+          await setDoc(doc(db, "reservas", `${idReserva}`), {
+            idReserva: idReserva,
+            Nombre: item.nombre,
+            Celular: item.celular,
+            Correo: item.correo,
+            Cédula: item.cedula,
+            "Cantidad de cabañas": this.amountRooms,
+            "Cantidad de huespedes": item.acompanantes,
+            "Check in": this.checkIn,
+            "Check out": this.checkOut,
+            "Información de acompañantes": item.infoAcompanantes,
+            Valor: this.precio,
+            "Tipo de cabaña": this.cabana,
+            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            urlInvoice: url,
+            status: "pending",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching documents: ", error);
+      }
+    },
+
+    async fetchGoogle(emailF, eventF) {
+      const item = JSON.parse(localStorage.getItem('item'));
+
+      if (emailF == true) {
+        try {
+          const infoEmail = {
+            Nombre: item.nombre,
+            BookingRooms: item.amountRooms,
+            Correo: item.correo,
+            NumeroAcompanantes: item.acompanantes,
+            CheckInDate: item.checkIn,
+            CheckOutDate: item.checkOut,
+            PrecioCabana: item.precio,
+            TipoDeCabaña: item.cabana,
+            subject: "Confirmación de reserva",
+            idReserva: item.idReserva,
+          };
+
+          const functions = getFunctions();
+          const sendEmail = httpsCallable(functions, "sendEmail");
+          const email = await sendEmail({ infoEmail, secret: "SendThisEmail" });
+        } catch (error) {
+          console.log("error fetching email: ", error);
+          throw error;
+        }
+      }
+
+      if (eventF == true) {
+        try {
+          let description = `https://www.abyayalahostel.com/reserva-${item.idReserva}/${item.correo}`;
+          const infoEvent = {
+            RangeDates: item.bookingRange,
+            BookingRooms: item.amountRooms,
+            Nombre: item.nombre,
+            TipoDeCabaña: item.cabana,
+            PrecioCabana: item.precio,
+            description,
+            secret: "SendThisEvent",
+          };
+          const functions = getFunctions();
+          const sendCalendar = httpsCallable(functions, "sendCalendar");
+          const event = await sendCalendar({ infoEvent });
+
+          return item.idReserva;
+        } catch (error) {
+          console.log("error fetching event: ", error);
+          throw error;
+        }
+      }
+    },
+
+    async downloadBill(url) {
+      try {
+        const storage = getStorage();
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "comprobante.ext";
+          link.click();
+        };
+        xhr.open("GET", url);
+        xhr.send();
+      } catch (error) {
+        console.log("Error al descargar: ", error);
+      }
+    },
+
+    async deleteBooking(reserva, reservadas) {
+      try {
+        await deleteDoc(doc(db, reserva[0], reserva[1]));
+        for (const element of reservadas[1]) {
+          await deleteDoc(doc(db, reservadas[0], element));
+        }
+      } catch (error) {
+        console.log("Error al borrar: ", error);
       }
     },
   },

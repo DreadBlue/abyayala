@@ -5,14 +5,17 @@
 
 <script>
 import { useBookingStore } from '/stores/booking.js';
+import { useAdminStore } from '/stores/admin.js';
 
 export default {
   data() {
     const useBooking = useBookingStore();
+    const useAdmin = useAdminStore();
     const route = useRoute();
     return {
       visible: false,
       useBooking,
+      useAdmin,
       info: [route.params.id, route.params.correo],
       booking: ref([]),
       loaded: ref(false),
@@ -22,10 +25,10 @@ export default {
   methods: {
     async sendRequest() {
       try {
-        this.booking.value = await this.useBooking.lookBooking(this.info);
+        this.booking.value = await this.useAdmin.lookBooking(this.info);
         if (this.booking.value == 'wrong information') {
           this.useBooking.fetchError = true;
-          navigateTo(this.useBooking.currentPath);
+          // navigateTo(this.useBooking.currentPath);
         } else if (this.booking.value !== 'wrong information') {
           this.loaded = true;
         }

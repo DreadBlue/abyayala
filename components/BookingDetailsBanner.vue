@@ -94,6 +94,7 @@ export default {
         AbyaCash: 95,
         sepsafari: 84.375,
         sepancestral: 88.0952381,
+        test: 0.38
       },
     };
   },
