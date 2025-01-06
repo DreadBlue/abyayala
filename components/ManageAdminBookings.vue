@@ -18,7 +18,7 @@
             </v-img>
 
             <v-card-text class="pt-4 texto-main">
-              {{ capitalizeWords(item.Nombre) }}
+              {{ capitalizeWords(item.Nombre) }} - {{ item.idReserva }}
             </v-card-text>
 
             <v-card-subtitle class="d-flex flex-column px-4 pb-3 ga-1">

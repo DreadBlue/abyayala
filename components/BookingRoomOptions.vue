@@ -27,7 +27,7 @@
           <v-btn @click="increase(item)" class="ml-10"> + </v-btn>
         </div>
         <span
-          v-if="availability[item.tipo] == 0"
+          v-if="availability[item.tipo] < 1"
           class="d-flex justify-center pb-4 text-body-2 text-md-body-1"
           >Sin disponibilidad</span
         >

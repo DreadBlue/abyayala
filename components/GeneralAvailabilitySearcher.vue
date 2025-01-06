@@ -97,6 +97,7 @@ const redirection = () => {
     checkOut: dayjs(dateCheckOut.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
   };
   useBooking.updateDetails(dates);
+
   router.push({ path: '/reservar', query: dates });
 };
 

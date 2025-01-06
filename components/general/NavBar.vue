@@ -28,6 +28,7 @@
             :title="route.name"
             style="font-size: 4rem"
             variant="plain"
+            :ripple="false"
           ></v-list-item>
           <v-btn
             v-if="signOutBtn"
@@ -45,6 +46,7 @@
           :active="false"
           variant="plain"
           class="px-0"
+          :ripple="false"
         ></v-list-item>
         <div class="d-flex align-center">
           <v-btn v-if="signOutBtn" class="bg-main color-white" @click="signOut"

@@ -26,7 +26,9 @@
                     </v-text-field>
                   </v-col>
                 </v-row>
-                <span class="d-flex justify-center pt-3" v-if="warning">Faltan datos</span>
+                <span class="d-flex justify-center pt-3" v-if="warning"
+                  >Faltan datos</span
+                >
               </v-container>
             </v-form>
           </v-col>
@@ -92,7 +94,7 @@ export default {
     const warning = computed(() => {
       return useGeneral.warning;
     });
-    return { warning, useGeneral}
+    return { warning, useGeneral };
   },
   data() {
     const useBooking = useBookingStore();
@@ -167,11 +169,11 @@ export default {
   },
   methods: {
     async initiateCheckout(payment) {
-      this.useGeneral.updateDetails({loading: true});
-      const amount = this.useBooking.precio;
+      this.useGeneral.updateDetails({ loading: true });
+      // const amount = this.useBooking.precio;
+      const amount = 1000;
       const functions = getFunctions();
       const orderId = 'ORDER' + Date.now() * 1e6;
-
 
       const generateHash = httpsCallable(functions, 'generateHash');
 
@@ -197,20 +199,24 @@ export default {
           apiKey: 'FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw',
           integritySignature: hash,
           description: 'Pago valor dinámico',
+          renderMode: 'embedded',
           // redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
-          redirectionUrl: 'https://www.abyayalahostel.com/reservar/confirmacion',
+          redirectionUrl:
+            'https://www.abyayalahostel.com/reservar/confirmacion',
+          extraData: JSON.stringify(item),
         });
 
         if (Object.values(item).every((value) => value !== '')) {
-          await this.useBooking.reservar(item);
           if (payment == 'card') {
+            await this.useBooking.reservar(item);
             checkout.open();
           } else if (payment == 'cash') {
+            await this.useBooking.reservar(item);
             return navigateTo('/reservar/confirmacion');
           }
         } else {
-          this.useGeneral.updateDetails({loading: false});
-          this.useGeneral.updateDetails({warning: true});
+          this.useGeneral.updateDetails({ loading: false });
+          this.useGeneral.updateDetails({ warning: true });
         }
       } catch (error) {
         console.error('Error al generar el hash:', error);

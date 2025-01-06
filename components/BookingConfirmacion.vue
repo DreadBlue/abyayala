@@ -35,7 +35,9 @@ import { useBookingStore } from '/stores/booking.js';
 import { useDisplay } from 'vuetify';
 
 const useBooking = useBookingStore();
-const idReserva = ref('Cargando...');
+const idReserva = computed(() => {
+  return useBooking.idReserva;
+});
 
 const { smAndDown } = useDisplay();
 const reactiveHeight = ref('height: 450px');
@@ -44,38 +46,9 @@ let loaded = ref(true);
 const textLoader = 'Confirmando reserva';
 
 onMounted(async () => {
-  useBooking.fetchGoogle(true, true);
-  const item = JSON.parse(localStorage.getItem('item'));
-  idReserva.value = item.idReserva;
-  localStorage.removeItem('item');
-  const { 'bold-order-id': boldOrderId, 'bold-tx-status': boldTxStatus } = useRoute().query;
+  loaded.value = false;
+  sessionStorage.removeItem('booking');
 });
-
-watch(
-  smAndDown,
-  (val) => {
-    if (val == true) {
-      reactiveHeight.value = 'height: 250px';
-    } else {
-      reactiveHeight.value = 'height: 450px';
-    }
-  },
-  {
-    immediate: true,
-  },
-);
-
-watch(
-  idReserva,
-  (val) => {
-    if (idReserva != '0') {
-      loaded = false;
-    }
-  },
-  {
-    immediate: true,
-  },
-);
 
 const BannerMenu = {
   card: {
