@@ -170,8 +170,8 @@ export default {
   methods: {
     async initiateCheckout(payment) {
       this.useGeneral.updateDetails({ loading: true });
-      // const amount = this.useBooking.precio;
-      const amount = 1000;
+      const amount = this.useBooking.precio;
+      // const amount = 1000;
       const functions = getFunctions();
       const orderId = 'ORDER' + Date.now() * 1e6;
 
