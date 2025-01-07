@@ -60,12 +60,12 @@
 
 <script setup>
 import { DateTime } from 'luxon';
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useBookingStore } from '/stores/booking.js';
 import { useDisplay } from 'vuetify';
 
-const router = useRouter()
+const router = useRouter();
 dayjs.extend(customParseFormat);
 const { smAndUp } = useDisplay();
 const reactiveHeight = ref('max-width: 85%');
@@ -91,17 +91,21 @@ const onCheckInSelected = () => {
   });
 };
 
-const redirection = () => {
+const redirection = async () => {
   const dates = {
-    checkIn: dayjs(dateCheckIn.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
-    checkOut: dayjs(dateCheckOut.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
+    checkIn: dayjs(dateCheckIn.value, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+    checkOut: dayjs(dateCheckOut.value, 'DD-MM-YYYY').format('YYYY-MM-DD'),
   };
   useBooking.updateDetails(dates);
 
   router.push({ path: '/reservar', query: dates });
 };
 
-watch(smAndUp, (val) => {
-  reactiveHeight.value = val ? 'max-width: 95%' : 'max-width: 85%';
-}, { immediate: true });
+watch(
+  smAndUp,
+  (val) => {
+    reactiveHeight.value = val ? 'max-width: 95%' : 'max-width: 85%';
+  },
+  { immediate: true },
+);
 </script>

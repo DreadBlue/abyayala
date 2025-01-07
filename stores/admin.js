@@ -60,38 +60,38 @@ export const useAdminStore = defineStore('admin', {
       }
     },
 
-    async adminBookings(filters) {
-      const activities = Object.entries(filters.activities).filter(([key, value]) => value === true).map(([key]) => key);
-      const horarios = Object.entries(filters.horario).filter(([key, value]) => value === true).map(([key]) => key);
-      const comida = Object.entries(filters.comida).filter(([key, value]) => value === true).map(([key]) => key);
-      const transporte = Object.entries(filters.transporte).filter(([key, value]) => value === true).map(([key]) => key);
+    // async adminBookings(filters) {
+    //   const activities = Object.entries(filters.activities).filter(([key, value]) => value === true).map(([key]) => key);
+    //   const horarios = Object.entries(filters.horario).filter(([key, value]) => value === true).map(([key]) => key);
+    //   const comida = Object.entries(filters.comida).filter(([key, value]) => value === true).map(([key]) => key);
+    //   const transporte = Object.entries(filters.transporte).filter(([key, value]) => value === true).map(([key]) => key);
 
-      if (activities.length > 0 && horarios.length > 0 && comida.length > 0 && transporte.length > 0) {
-        try {
-          const reservaDB = query(
-            collection(db, "bookings"),
-            where("date", "<=", filters.time.startDate),
-            where("date", ">=", filters.time.endDate),
-            where("activity", "in", activities),
-            where("horario", "in", horarios),
-            where("transporte", "in", transporte),
-            where("food", "in", comida),
-            orderBy("date", "desc")
-          );
-          let snapshot = await getDocs(reservaDB);
-          const docs = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return docs;
-        } catch (error) {
-          console.log("error fetching booking: ", error);
-          throw error;
-        }
-      } else {
-        return ['Faltan filtros']
-      }
-    },
+    //   if (activities.length > 0 && horarios.length > 0 && comida.length > 0 && transporte.length > 0) {
+    //     try {
+    //       const reservaDB = query(
+    //         collection(db, "bookings"),
+    //         where("date", "<=", filters.time.startDate),
+    //         where("date", ">=", filters.time.endDate),
+    //         where("activity", "in", activities),
+    //         where("horario", "in", horarios),
+    //         where("transporte", "in", transporte),
+    //         where("food", "in", comida),
+    //         orderBy("date", "desc")
+    //       );
+    //       let snapshot = await getDocs(reservaDB);
+    //       const docs = snapshot.docs.map((doc) => ({
+    //         id: doc.id,
+    //         ...doc.data(),
+    //       }));
+    //       return docs;
+    //     } catch (error) {
+    //       console.log("error fetching booking: ", error);
+    //       throw error;
+    //     }
+    //   } else {
+    //     return ['Faltan filtros']
+    //   }
+    // },
 
     async cargarReservas() {
       try {

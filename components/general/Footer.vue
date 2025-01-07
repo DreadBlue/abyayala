@@ -67,6 +67,11 @@
         <NuxtLink to="/admin" style="text-decoration: none; color: white"
           >Admin</NuxtLink
         >
+        <NuxtLink
+          to="/portal-de-pagos"
+          style="text-decoration: none; color: white"
+          >Portal de pagos</NuxtLink
+        >
       </v-col>
       <v-col cols="12" sm="7" class="justify-end pt-0">
         <div class="text-end pr-10">
