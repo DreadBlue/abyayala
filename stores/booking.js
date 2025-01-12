@@ -82,6 +82,7 @@ export const useBookingStore = defineStore('booking', {
       let bookingInfo = {};
       if (item.invoice.name) {
         const base64File = await fileToBase64(item.invoice);
+        console.log(this.amount)
         bookingInfo = {
           ...item,
           fileName: item.invoice.name,
@@ -90,7 +91,7 @@ export const useBookingStore = defineStore('booking', {
           amountRooms: this.amountRooms,
           checkIn: this.checkIn,
           checkOut: this.checkOut,
-          precio: this.amount,
+          precio: this.precio,
           cabana: this.cabana,
           bookingRange: this.bookingRange,
           status: 'pending',
@@ -108,7 +109,6 @@ export const useBookingStore = defineStore('booking', {
         };
       }
       console.log('bookingInfo: ', bookingInfo);
-      console.log('invoice: ', item.invoice.name);
 
       try {
         const functions = getFunctions();
