@@ -169,36 +169,5 @@ export const useBookingStore = defineStore('booking', {
         }
       }
     },
-
-    async downloadBill(url) {
-      try {
-        const storage = getStorage();
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-
-        xhr.onload = (event) => {
-          const blob = xhr.response;
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
-          link.download = 'comprobante.ext';
-          link.click();
-        };
-        xhr.open('GET', url);
-        xhr.send();
-      } catch (error) {
-        console.log('Error al descargar: ', error);
-      }
-    },
-
-    async deleteBooking(reserva, reservadas) {
-      try {
-        await deleteDoc(doc(db, reserva[0], reserva[1]));
-        for (const element of reservadas[1]) {
-          await deleteDoc(doc(db, reservadas[0], element));
-        }
-      } catch (error) {
-        console.log('Error al borrar: ', error);
-      }
-    },
   },
 });

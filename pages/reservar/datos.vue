@@ -3,13 +3,13 @@
   <v-container fluid class="pa-0 px-3 px-sm-15 bg-mygrey" v-else>
     <v-row>
       <v-col cols="12" md="4" class="mt-md-8">
-        <BookingDetailsBanner />
+        <booking-details-banner />
       </v-col>
       <v-col cols="12" md="8">
         <v-row>
           <v-col cols="12" class="d-flex flex-column">
             <div>
-              <BookingForm />
+              <FormsBookingForm />
             </div>
           </v-col>
         </v-row>
@@ -27,15 +27,21 @@ const useGeneral = useGeneralStore();
 const checkIn = ref(useBooking.checkIn);
 const checkOut = ref(useBooking.checkOut);
 const route = useRoute();
-const data = route.query
+const data = route.query;
 const paymentProcess = computed(() => {
   return useGeneral.loading;
-})  ;
-
-onBeforeMount(()=>{
-    if (!data.cabana || !data.amount || !data.checkIn || !data.checkOut || !checkIn.value || !checkOut.value) {
-    return navigateTo('/');
-  };
 });
 
+onBeforeMount(() => {
+  if (
+    !data.cabana ||
+    !data.amount ||
+    !data.checkIn ||
+    !data.checkOut ||
+    !checkIn.value ||
+    !checkOut.value
+  ) {
+    return navigateTo('/');
+  }
+});
 </script>

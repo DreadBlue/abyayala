@@ -1,3 +1,3 @@
 <template>
-  <BookingConfirmacion />
+  <booking-confirmacion />
 </template>

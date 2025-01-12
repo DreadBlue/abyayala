@@ -3,10 +3,10 @@
   <v-container v-if="!loading" fluid class="pa-0">
     <v-row>
       <v-col cols="12" md="3">
-        <manage-banner-filter />
+        <admin-banner-filter />
       </v-col>
       <v-col cols="12" md="9">
-        <manage-admin-bookings :bookings="bookings" />
+        <admin-bookings :bookings="bookings" />
       </v-col>
     </v-row>
   </v-container>

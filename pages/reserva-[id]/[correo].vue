@@ -1,6 +1,6 @@
 <template>
   <GeneralLoader v-if="!loaded" :loading-text="textLoaded" />
-  <ManageBookingDetail v-if="loaded == true" :booking="booking.value" />
+  <CustomerBooking v-if="loaded == true" :booking="booking.value" />
 </template>
 
 <script>

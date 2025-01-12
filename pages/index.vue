@@ -1,8 +1,8 @@
 <template>
-  <HomeBanner />
-  <HomeRooms />
+  <home-banner />
+  <home-rooms />
   <GeneralImagesBanner :styling="styling" :content="content" />
-  <HomeLocation />
+  <home-location />
 </template>
 
 <script>

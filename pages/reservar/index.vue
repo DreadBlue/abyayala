@@ -1,6 +1,6 @@
 <template>
   <div v-for="item in rooms">
-    <BookingRoomOptions
+    <booking-room-options
       :item="item"
       :queries="this.$route.query"
       :availability="availability"

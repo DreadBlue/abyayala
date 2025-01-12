@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <general-nav-bar />
+    <layout-nav-bar />
     <div v-if="show">
       <general-availability-searcher />
     </div>
     <slot />
-    <general-footer />
+    <layout-footer />
   </v-app>
 </template>
 
