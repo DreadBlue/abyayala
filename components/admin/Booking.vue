@@ -2,8 +2,11 @@
   <v-container fluid class="pa-0 px-3 px-sm-15 bg-mygrey">
     <v-row class="pt-3">
       <v-col cols="12" sm="7" md="9">
-        <div class="text-h5 text-sm-h4 text-md-h3 color-main">
-          GESTIONAR RESERVA
+        <div class="w-100 d-flex align-center">
+          <div class="text-h5 text-sm-h4 text-md-h3 color-main">
+            GESTIONAR RESERVA
+          </div>
+          <v-btn class="ml-5 bg-main color-white">Realizar check in</v-btn>
         </div>
         <div class="text-subtitle-2 text-sm-subtitle color-second pl-2">
           Nº DE RESERVA: {{ booking[0].id }}
@@ -198,6 +201,7 @@ import dayjs from 'dayjs';
 import { useDisplay } from 'vuetify';
 import { useBookingStore } from '/stores/booking.js';
 import { useGeneralStore } from '/stores/general.js';
+import { useAdminStore } from '/stores/admin.js';
 
 export default {
   props: {
@@ -206,6 +210,7 @@ export default {
   setup(props) {
     const useBooking = useBookingStore();
     const useGeneral = useGeneralStore();
+    const useAdmin = useAdminStore();
     const showPreview = computed(() => useGeneral.showPreview);
     function showModified(value) {
       useGeneral.updateState(value, 'showPreview');
@@ -214,10 +219,9 @@ export default {
       useBooking.downloadBill(props.booking[0].urlInvoice);
     };
     const deleteBooking = async () => {
-      useBooking.deleteBooking(
-        ['reservas', props.booking[0].id],
-        ['reservadas'],
-      );
+      const bookingInfo = props.booking[0];
+      useAdmin.deleteBooking(bookingInfo)
+      return navigateTo('/admin/reservas');
     };
     const precio = props.booking[0].Valor.toLocaleString('es-Co');
     let correoReenviado = ref(false);

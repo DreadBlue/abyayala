@@ -8,6 +8,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { db } from "/firebase/firebase.config.js";
 
 export const useAdminStore = defineStore('admin', {
@@ -113,5 +114,18 @@ export const useAdminStore = defineStore('admin', {
         console.log("Más reservas error: ", error);
       }
     },
+
+    async deleteBooking(data) {
+      const item = JSON.stringify(data);
+      try {
+        const functions = getFunctions();
+        const deleteBooking = httpsCallable(functions, 'deleteBooking');
+        const deleteEvent = await deleteBooking({ item });
+        return deleteEvent.data;
+      } catch (error) {
+        console.error('Error eliminando reserva: ', error);
+      }
+    },
+
   },
 });

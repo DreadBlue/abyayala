@@ -5,7 +5,7 @@
         <NuxtLink
           class="d-flex flex-wrap ga-4"
           style="text-decoration: none"
-          :to="`/reserva-${item.idReserva}/${item.Correo}`"
+          :to="`/admin/reservas/${item.idReserva}-${item.Correo}`"
         >
           <v-card class="mx-auto" min-width="320">
             <v-img

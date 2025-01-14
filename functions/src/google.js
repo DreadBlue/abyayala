@@ -176,6 +176,7 @@ const addCalendar = async (data) => {
 };
 
 const deleteCalendarEvent = async (data) => {
+  log('data', data);
   const clientEmail = process.env.CLIENT_EMAIL;
   const privateKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n');
   try {
@@ -193,7 +194,7 @@ const deleteCalendarEvent = async (data) => {
       // Crear un cliente de API de Google Calendar
       const calendar = google.calendar({ version: 'v3', auth });
 
-      for (const id of data.eventIds) {
+      for (const id of data.calendarIds) {
         calendar.events.delete(
           {
             calendarId:
@@ -205,7 +206,7 @@ const deleteCalendarEvent = async (data) => {
               console.error('Error al eliminar el evento:', err);
               return;
             }
-            console.log('Evento eliminado con éxito:', data.eventId);
+            console.log('Evento eliminado con éxito:', id);
           },
         );
       }

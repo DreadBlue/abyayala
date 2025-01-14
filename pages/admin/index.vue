@@ -16,6 +16,7 @@ export default {
   setup() {
     definePageMeta({
       middleware: 'admin',
+      layout: 'admin',
     });
 
     const useGeneral = useGeneralStore();
