@@ -19,6 +19,7 @@ import { useAdminStore } from '/stores/admin.js';
 
 definePageMeta({
   middleware: 'auth',
+  layout: 'admin',
 });
 
 const useBooking = useBookingStore();

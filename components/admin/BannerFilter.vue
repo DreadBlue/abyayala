@@ -24,15 +24,15 @@
 
                   <v-list-item>
                     <GeneralDatePicker
-                      v-model="myvar"
+                      v-model="filters.time.startDate"
                       style="width: 180px"
-                      :date="time[0]"
-                      class="pb-4"
+                      class="py-2"
                       labelInput="Inicio"
                     />
                     <GeneralDatePicker
                       style="width: 180px"
-                      :date="time[1]"
+                      class="pt-5"
+                      v-model="filters.time.endDate"
                       labelInput="Fin"
                     />
                   </v-list-item>
@@ -49,16 +49,66 @@
 
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
-                      <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.Ancestral"
+                      ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Ancestral</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
-                      <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.Safari"
+                      ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Safari</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item>
+                    <template v-slot:prepend="{ isActive }">
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.anamay"
+                      ></v-checkbox-btn>
+                    </template>
+                    <v-list-item-title>Anamay</v-list-item-title>
+                  </v-list-item>
+                </v-list-group>
+
+                <v-list-group value="actividades">
+                  <template v-slot:activator="{ props }">
+                    <v-list-item
+                      v-bind="props"
+                      prepend-icon="mdi-run"
+                      title="Actividades"
+                    ></v-list-item>
+                  </template>
+
+                  <v-list-item>
+                    <template v-slot:prepend="{ isActive }">
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.Ancestral"
+                      ></v-checkbox-btn>
+                    </template>
+                    <v-list-item-title>Ancestral</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item>
+                    <template v-slot:prepend="{ isActive }">
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.Safari"
+                      ></v-checkbox-btn>
+                    </template>
+                    <v-list-item-title>Safari</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item>
+                    <template v-slot:prepend="{ isActive }">
+                      <v-checkbox-btn
+                        v-model="filters.cabanas.anamay"
+                      ></v-checkbox-btn>
+                    </template>
+                    <v-list-item-title>Anamay</v-list-item-title>
                   </v-list-item>
                 </v-list-group>
               </v-list>
@@ -79,11 +129,15 @@
       </v-col>
 
       <v-col cols="12" class="h-100 d-none d-md-block">
-        <v-card class="mx-15" width="300" height="100%">
+        <v-card
+          class="mx-15 d-flex flex-column justify-space-evenly"
+          width="300"
+          height="100%"
+        >
           <v-list>
             <v-list-item
               prepend-icon="mdi-filter-multiple"
-              title="filtros"
+              title="FILTROS"
             ></v-list-item>
             <v-list-group value="time">
               <template v-slot:activator="{ props }">
@@ -96,15 +150,15 @@
 
               <v-list-item>
                 <GeneralDatePicker
-                  v-model="myvar"
                   style="width: 180px"
-                  :date="time[0]"
-                  class="pb-4"
+                  v-model="filters.time.startDate"
+                  class="pb-4 pt-3"
                   labelInput="Inicio"
                 />
                 <GeneralDatePicker
                   style="width: 180px"
-                  :date="time[1]"
+                  class="pt-2"
+                  v-model="filters.time.endDate"
                   labelInput="Fin"
                 />
               </v-list-item>
@@ -121,19 +175,139 @@
 
               <v-list-item>
                 <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                  <v-checkbox-btn
+                    v-model="filters.cabanas.Ancestral"
+                  ></v-checkbox-btn>
                 </template>
                 <v-list-item-title>Ancestral</v-list-item-title>
               </v-list-item>
 
               <v-list-item>
                 <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                  <v-checkbox-btn
+                    v-model="filters.cabanas.Safari"
+                  ></v-checkbox-btn>
                 </template>
                 <v-list-item-title>Safari</v-list-item-title>
               </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.cabanas.Anamay"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Anamay</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-group value="actividades">
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  v-bind="props"
+                  prepend-icon="mdi-run"
+                  title="Actividades"
+                ></v-list-item>
+              </template>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.activities.Torrentismo"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Torrentismo</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.activities.Canopy"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Canopy</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.activities.Rafting"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Rafting</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-group value="comida">
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  v-bind="props"
+                  prepend-icon="mdi-food"
+                  title="Comida"
+                ></v-list-item>
+              </template>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.comida.reservada"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Reservada</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.comida.noReservada"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>No reservada</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-group value="pago">
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  v-bind="props"
+                  prepend-icon="mdi-cash"
+                  title="Pago"
+                ></v-list-item>
+              </template>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.pago.completo"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Completo</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.pago.parcial"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Parcial</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.pago.ninguno"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Sin pago registrado</v-list-item-title>
+              </v-list-item>
             </v-list-group>
           </v-list>
+          <div class="d-flex justify-center align-end">
+            <v-btn class="bg-main color-white" @click="filterHandler"
+              >Buscar</v-btn
+            >
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -141,40 +315,71 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
-  data: () => ({
-    myvar: undefined,
-    open: ['Filters'],
-    time: [
-      new Date().toLocaleString().slice(0, 9),
-      new Date().toLocaleString().slice(0, 9),
-    ],
-    buscar: '',
-    drawer: false,
-    group: null,
-    items: [
-      {
-        title: 'Foo',
-        value: 'foo',
+  data() {
+    const useAdmin = useAdminStore();
+    return {
+      open: ['Filters', 'Time'],
+      buscar: '',
+      warning: false,
+      drawer: false,
+      group: null,
+      filters: {
+        time: {
+          startDate: dayjs().endOf('month').format('YYYY-MM-DD'),
+          endDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+        },
+        activities: {
+          Torrentismo: true,
+          Canopy: true,
+          Rafting: true,
+        },
+        transporte: {
+          incluido: true,
+          noIncluido: true,
+        },
+        comida: {
+          reservada: true,
+          noReservada: true,
+        },
+        cabanas: {
+          Ancestral: true,
+          Safari: true,
+          Anamay: true,
+        },
+        pago: {
+          completo: true,
+          parcial: true,
+          ninguno: true,
+        },
       },
-      {
-        title: 'Bar',
-        value: 'bar',
-      },
-      {
-        title: 'Fizz',
-        value: 'fizz',
-      },
-      {
-        title: 'Buzz',
-        value: 'buzz',
-      },
-    ],
-  }),
+      useAdmin,
+    };
+  },
   watch: {
     group() {
       this.drawer = false;
     },
+  },
+  emits: ['update:bookings', 'update:loading'],
+  methods: {
+    async filterHandler() {
+      this.$emit('update:loading', true);
+      const bookings = await this.useAdmin.adminBookings(this.filters);
+      if (bookings[0] != 'Faltan filtros') {
+        this.$emit('update:bookings', bookings);
+        this.$emit('update:loading', false);
+      } else {
+        console.log(bookings);
+        this.warning = true;
+      }
+    },
+  },
+  async mounted() {
+    const bookings = await this.useAdmin.adminBookings(this.filters);
+    this.$emit('update:bookings', bookings);
+    this.$emit('update:loading', false);
   },
 };
 </script>

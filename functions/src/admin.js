@@ -31,6 +31,40 @@ const createDatabase = onCall(async (request) => {
   }
 });
 
+
+const adminBookings = onCall(async (request) => {
+  const filters = request.data.filters;
+  const activities = Object.entries(filters.activities).filter(([key, value]) => value === true).map(([key]) => key);
+  const horarios = Object.entries(filters.horario).filter(([key, value]) => value === true).map(([key]) => key);
+  const comida = Object.entries(filters.comida).filter(([key, value]) => value === true).map(([key]) => key);
+  const transporte = Object.entries(filters.transporte).filter(([key, value]) => value === true).map(([key]) => key);
+  const reservasCollection = db.collection('reservas');
+
+  if (activities.length > 0 && horarios.length > 0 && comida.length > 0 && transporte.length > 0) {
+    try {
+      const reservasQuery = reservasCollection
+        .where("date", "<=", filters.time.startDate)
+        .where("date", ">=", filters.time.endDate)
+        .where("Tipo de cabañas", "in", filters.cabanas)
+        .where("actividades", "in", filters.actividades)
+        .where("comida", "in", filters.comida)
+        .where("pago", "in", filters.pago)
+        .orderBy("date", "desc");
+      const reservasSnapshot = await reservasQuery.get();
+      const docs = reservasSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return docs;
+    } catch (error) {
+      console.log("error fetching booking: ", error);
+      throw error;
+    }
+  } else {
+    return ['Faltan filtros'];
+  }
+});
+
 const retakeAvailability = async (item) => {
   const availabilityCollection = db.collection('availability');
   const availabilityQuery = availabilityCollection
@@ -82,4 +116,4 @@ const deleteBooking = onCall(async (request) => {
   }
 });
 
-module.exports = { createDatabase, deleteBooking };
+module.exports = { createDatabase, deleteBooking, adminBookings };

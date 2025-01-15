@@ -1,9 +1,8 @@
 <template>
   <v-app>
     <layout-admin-nav-bar />
-    <div>HOLA</div>
     <slot />
-    <general-footer />
+    <layout-footer />
   </v-app>
 </template>
 

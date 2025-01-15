@@ -1,0 +1,156 @@
+{
+    "Desayunos": [
+      {
+        "nombre": "Edén Veggie",
+        "descripcion": "Banano, papaya y fresas picadas, arepa con champiñones salteados, bebida caliente.",
+        "precio": 15000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Mezquite Veggie",
+        "descripcion": "Granola orgánica (escoges tus toppings) con yogurt o leche de almendras, fruta picada y frutos secos.",
+        "precio": 15000,
+        "tipo": "Vegetarino"
+      },
+      {
+        "nombre": "Edén",
+        "descripcion": "Caldo de costilla, rollito de jamón ahumado, arepa, bebida caliente o jugo de naranja.",
+        "precio": 15000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Mezquite",
+        "descripcion": "Huevos al gusto, arepa con queso, papaya, bebida caliente.",
+        "precio": 15000,
+        "tipo": "Vegetarino"
+      },
+      {
+        "nombre": "Kamut",
+        "descripcion": "Tamal, pan fresco, chocolate o jugo de naranja.",
+        "precio": 15000,
+        "tipo": "Carne"
+      }
+    ],
+    "Platos fuertes": [
+      {
+        "nombre": "Ajiaco con maíz",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Ajiaco con pollo",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Churrasco el Pastal",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Costillas de Chancho",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Pechuga gratinada",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Mojarra Liverpool",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Trucha Liverpool",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Bagre Liverpool en salsa",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Champiñones al ajillo",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Pasta con champiñones",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Vegetariano"
+      },
+      {
+        "nombre": "Pasta Napolitana",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 36000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Sopa de lentejas",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 28000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Crema de zanahoria",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 28000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Crema de champiñones",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 28000,
+        "tipo": "Vegano"
+      },
+      {
+        "nombre": "Hamgurguesa veggie",
+        "descripcion": "Acompañada con papas.",
+        "precio": 36000,
+        "tipo": "Vegetariana"
+      },
+      {
+        "nombre": "Hamgurguesa Abya Yala",
+        "descripcion": "Doble carne, tocineta, queso, verduras y papitas",
+        "precio": 36000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Hamgurguesa sencilla",
+        "descripcion": "Doble carne, tocineta, queso, verduras y papitas.",
+        "precio": 22000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Perro caliente sencillo",
+        "descripcion": "Acompañado con papas.",
+        "precio": 16000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Tabla de carnes Abya Yala",
+        "descripcion": "Carne de res, chorizo, pechuga, papitas criollas, yuca y ají casero.",
+        "precio": 75000,
+        "tipo": "Carne"
+      },
+      {
+        "nombre": "Sopa de lentejas",
+        "descripcion": "Acompañado de arroz, patacón, ensaldada de aguacate, cebolla y tomate.",
+        "precio": 28000,
+        "tipo": "Vegano"
+      }
+    ]
+  }
