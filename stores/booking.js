@@ -88,7 +88,7 @@ export const useBookingStore = defineStore('booking', {
       let bookingInfo = {};
       if (item.invoice.name) {
         const base64File = await fileToBase64(item.invoice);
-        console.log(this.amount)
+        const precioFinal = this.precio + this.precioActivities + this.precioMenu;
         bookingInfo = {
           ...item,
           fileName: item.invoice.name,
@@ -100,6 +100,13 @@ export const useBookingStore = defineStore('booking', {
           precio: this.precio,
           cabana: this.cabana,
           bookingRange: this.bookingRange,
+          torrentismo: this.torrentismo,
+          canopy: this.canopy,
+          rafting: this.rafting,
+          menu: this.menu,
+          precioMenu: this.precioMenu,
+          precioActividades: this.precioActivities,
+          precioFinal: this.precioFinal,
           status: 'pending',
         };
       } else {
@@ -111,6 +118,12 @@ export const useBookingStore = defineStore('booking', {
           precio: this.precio,
           cabana: this.cabana,
           bookingRange: this.bookingRange,
+          torrentismo: this.torrentismo,
+          canopy: this.canopy,
+          rafting: this.rafting,
+          menu: this.menu,
+          precioMenu: this.precioMenu,
+          precioActividades: this.precioActivities,
           status: 'pending',
         };
       }

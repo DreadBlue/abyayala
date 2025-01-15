@@ -46,6 +46,15 @@
           </div>
           <div class="d-flex justify-space-between">
             <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
+              >RESERVA HOSPEDAJE </span
+            ><span
+              class="text-body-2 text-sm-body-2"
+              style="font-weight: 400"
+              >{{ precio.toLocaleString('es-Co') }}</span
+            >
+          </div>
+          <div class="d-flex justify-space-between">
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
               >RESERVA ACTIVIDADES </span
             ><span
               class="text-body-2 text-sm-body-2"

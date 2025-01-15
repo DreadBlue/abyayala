@@ -151,7 +151,6 @@ const reservar = onCall(async (request) => {
     return 'Error en los datos ingresados';
   }
   const idReserva = await generateBookingCode();
-  const url = 'aun no se ha generado';
   const availabilityVerification = await verifyAvailability(item);
   if (availabilityVerification == false) {
     return 'No hay disponibilidad';
@@ -167,6 +166,7 @@ const reservar = onCall(async (request) => {
         public: false,
       });
     }
+    const url = `comprobantes/${idReserva}`;
     log('Comprobante subido con éxito');
 
     await reservasCollection.doc(idReserva).set({
@@ -183,7 +183,14 @@ const reservar = onCall(async (request) => {
       'Valor': item.precio,
       'Tipo de cabaña': item.cabana,
       'timestamp': dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      'urlInvoice': url,
+      'path': url,
+      'torrentismo': item.torrentismo,
+      'canopy': item.canopy,
+      'rafting': item.rafting,
+      'menu': item.menu,
+      'precioMenu': item.precioMenu,
+      'precioActividades': item.precioActivities,
+      'precioFinal': this.precioFinal,
       'status': 'pending',
     });
     log('Reserva creada con éxito');
@@ -201,11 +208,16 @@ const reservar = onCall(async (request) => {
       TipoDeCabaña: item.cabana,
       subject: 'Confirmación de reserva',
       idReserva: idReserva,
+      menu: item.menu,
+      torrentismo: item.torrentismo,
+      canopy: item.canopy,
+      rafting: item.rafting,
+      precioFinal: item.precioFinal,
       secret: secretEmail,
     };
     sendBookEmail(infoEmail);
     const secretCalendar = process.env.SECRET_CALENDAR;
-    const description = `https://www.abyayalahostel.com/reserva-${item.idReserva}/${item.correo}`;
+    const description = `https://www.abyayalahostel.com/admin/reservas/${item.idReserva}-${item.correo}`;
     const infoEvent = {
       RangeDates: item.bookingRange,
       BookingRooms: item.amountRooms,
