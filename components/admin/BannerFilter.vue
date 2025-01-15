@@ -304,7 +304,7 @@
             </v-list-group>
           </v-list>
           <div class="d-flex justify-center align-end">
-            <v-btn class="bg-main color-white" @click="filterHandler"
+            <v-btn class="bg-main color-white mb-3" @click="filterHandler"
               >Buscar</v-btn
             >
           </div>

@@ -1,9 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col class="d-flex ga-3 justify-center align-center">
-        <span class="text-h1 color-main">VIVE</span>
-        <span class="text-h2 color-second">EXPERIENCIAS</span>
+      <v-col
+        class="d-flex flex-md-row flex-column ga-md-3 justify-center align-center"
+      >
+        <span class="text-md-h1 text-h2 color-main">VIVE</span>
+        <span class="text-md-h2 text-h3 color-second">EXPERIENCIAS</span>
       </v-col>
     </v-row>
     <v-row class="my-5">
@@ -48,7 +50,9 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="d-flex ga-3 justify-center">
+      <v-col
+        class="d-flex flex-md-row flex-column ga-3 justify-center align-center"
+      >
         <v-btn readonly class="ml-2 bg-main" style="width: 210px"
           >ACTIVIDADES: {{ activitiesPrice.toLocaleString('es-Co') }}</v-btn
         >

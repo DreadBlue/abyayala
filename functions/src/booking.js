@@ -189,8 +189,8 @@ const reservar = onCall(async (request) => {
       'rafting': item.rafting,
       'menu': item.menu,
       'precioMenu': item.precioMenu,
-      'precioActividades': item.precioActivities,
-      'precioFinal': this.precioFinal,
+      'precioActividades': item.precioActividades,
+      'precioFinal': item.precioFinal,
       'status': 'pending',
     });
     log('Reserva creada con éxito');

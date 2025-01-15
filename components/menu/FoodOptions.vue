@@ -2,20 +2,27 @@
   <v-container class="virtual-scroll-container" @scroll="handleScroll">
     <v-row v-for="(categorie, key) in foodMenu">
       <v-col cols="12" class="d-flex align-center justify-space-between">
-        <span class="text-h2 ml-15 color-main">{{ key }}</span>
+        <span class="text-md-h2 text-h3 ml-md-15 color-main">{{ key }}</span>
         <v-btn class="bg-second color-white" @click="updateInfo(menuPrice)"
           >OMITIR</v-btn
         >
       </v-col>
-      <v-col v-for="plate in categorie" cols="3" class="">
-        <menu-card :plate="plate" />
+      <v-col
+        v-for="plate in categorie"
+        cols="12"
+        sm="3"
+        class="d-flex justify-center align-center text-center"
+      >
+        <div class="d-flex justify-center">
+          <menu-card :plate="plate" />
+        </div>
       </v-col>
     </v-row>
     <v-col cols="12" class="d-flex flex-column align-center">
-      <span class="text-h4 d-flex justify-center color-third"
+      <span class="text-md-h4 text-h5 d-flex justify-center color-third"
         >RESUMEN DEL PEDIDO</span
       >
-      <v-table class="w-75 my-5">
+      <v-table class="w-md-75 w-100 my-5">
         <thead>
           <tr>
             <th class="text-left"></th>

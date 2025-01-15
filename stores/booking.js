@@ -106,7 +106,7 @@ export const useBookingStore = defineStore('booking', {
           menu: this.menu,
           precioMenu: this.precioMenu,
           precioActividades: this.precioActivities,
-          precioFinal: this.precioFinal,
+          precioFinal: precioFinal,
           status: 'pending',
         };
       } else {
@@ -124,6 +124,7 @@ export const useBookingStore = defineStore('booking', {
           menu: this.menu,
           precioMenu: this.precioMenu,
           precioActividades: this.precioActivities,
+          precioFinal: precioFinal,
           status: 'pending',
         };
       }
