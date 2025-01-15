@@ -10,42 +10,60 @@
         <v-divider :thickness="4" class="border-opacity-50" />
         <div class="py-4">
           <div class="d-flex justify-space-between">
-            <span class="text-body-2 text-sm-body-1" style="font-weight: 700"
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
               >TIPO DE CABAÑA
             </span>
-            <span class="text-body-2 text-sm-body-1" style="font-weight: 400">{{
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 400">{{
               cabana
             }}</span>
           </div>
           <div class="d-flex justify-space-between">
-            <span class="text-body-2 text-sm-body-1" style="font-weight: 700"
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
               >CANTIDAD DE CABAÑAS </span
             ><span
-              class="text-body-2 text-sm-body-1"
+              class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
               >{{ amount }}</span
             >
           </div>
           <div class="d-flex justify-space-between">
-            <span class="text-body-2 text-sm-body-1" style="font-weight: 700"
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
               >FECHA DE ENTRADA </span
             ><span
-              class="text-body-2 text-sm-body-1"
+              class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
               >{{ checkIn }}</span
             >
           </div>
-          <div class="d-flex justify-space-between pb-3">
-            <span class="text-body-2 text-sm-body-1" style="font-weight: 700"
+          <div class="d-flex justify-space-between">
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
               >FECHA DE SALIDA </span
             ><span
-              class="text-body-2 text-sm-body-1"
+              class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
               >{{ checkOut }}</span
             >
           </div>
+          <div class="d-flex justify-space-between">
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
+              >RESERVA ACTIVIDADES </span
+            ><span
+              class="text-body-2 text-sm-body-2"
+              style="font-weight: 400"
+              >{{ precioActivities.toLocaleString('es-Co') }}</span
+            >
+          </div>
+          <div class="d-flex justify-space-between pb-3">
+            <span class="text-body-2 text-sm-body-2" style="font-weight: 700"
+              >RESERVA MENÚ </span
+            ><span
+              class="text-body-2 text-sm-body-2"
+              style="font-weight: 400"
+              >{{ precioMenu.toLocaleString('es-Co') }}</span
+            >
+          </div>
           <v-divider :thickness="4" class="border-opacity-50" />
-          <div class="d-flex align-center pt-3 text-body-2 text-sm-body-1">
+          <div class="d-flex align-center pt-3 text-body-2 text-sm-body-2">
             <v-col cols="6" class="text-start">
               <span> ¿Tienes código de descuento? </span>
             </v-col>
@@ -67,7 +85,13 @@
             ><span
               class="text-body-2 text-sm-body-1"
               style="font-weight: 400"
-              >{{ useBooking.precio.toLocaleString('es-Co') }}</span
+              >{{
+                (
+                  useBooking.precio +
+                  useBooking.precioActivities +
+                  useBooking.precioMenu
+                ).toLocaleString('es-Co')
+              }}</span
             >
           </div>
         </div>
@@ -88,13 +112,15 @@ export default {
       amount: useBooking.amountRooms,
       checkIn: useBooking.checkIn,
       checkOut: useBooking.checkOut,
+      precioActivities: useBooking.precioActivities,
+      precioMenu: useBooking.precioMenu,
       precio: useBooking.precio,
       voucher: '',
       descuentos: {
         AbyaCash: 95,
         sepsafari: 84.375,
         sepancestral: 88.0952381,
-        test: 0.38
+        test: 0.38,
       },
     };
   },

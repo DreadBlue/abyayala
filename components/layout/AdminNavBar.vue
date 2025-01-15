@@ -49,7 +49,7 @@
           :ripple="false"
         ></v-list-item>
         <div class="d-flex align-center">
-          <v-btn v-if="signOutBtn" class="bg-main color-white" @click="signOut"
+          <v-btn class="bg-main color-white" @click="signOut"
             >Cerrar sesión</v-btn
           >
         </div>
@@ -74,27 +74,27 @@ export default {
     routes: [
       {
         name: 'Reservas',
-        route: '/',
+        route: '/admin/reservas',
+      },
+      {
+        name: 'Ocupación',
+        route: '/ocupacion',
+      },
+      {
+        name: 'Reportes empleados',
+        route: '/empleados',
+      },
+      {
+        name: 'Solicitudes',
+        route: '/admin/solicitudes',
       },
       {
         name: 'Finanzas',
-        route: '/actividades',
+        route: '/admin/finanzas',
       },
       {
-        name: 'Cabañas',
-        route: '/cabanas',
-      },
-      {
-        name: '¿Quienes somos?',
-        route: '/quienes-somos',
-      },
-      {
-        name: 'Contacto',
-        route: '/contacto',
-      },
-      {
-        name: 'Mi reserva',
-        route: '/mireserva',
+        name: 'Dread Blue',
+        route: '/admin/dread-blue',
       },
     ],
   }),
