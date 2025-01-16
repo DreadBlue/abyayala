@@ -235,7 +235,26 @@ const reservar = onCall(async (request) => {
   }
 });
 
+const lookBooking = onCall(async (request) => {
+  const { id, mail } = request.data.bookingInfo;
+  const bookingQuery = db.collection('reservas').where('idReserva', '==', id).where('Correo', '==', mail);
+
+  try {
+    const availabilitySnapshot = await bookingQuery.get();
+    const docs = availabilitySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    log(docs);
+    return docs[0];
+  } catch (error) {
+    log('Wrong information');
+  }
+});
+
 module.exports = {
   getAvailability,
   reservar,
+  lookBooking,
 };

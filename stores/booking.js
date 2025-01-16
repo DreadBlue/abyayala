@@ -1,22 +1,6 @@
 import { defineStore } from 'pinia';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import {
-  getDocs,
-  collection,
-  where,
-  query,
-  orderBy,
-  setDoc,
-  doc,
-  increment,
-  limit,
-  updateDoc,
-  deleteDoc,
-} from 'firebase/firestore';
-import { db } from '/firebase/firebase.config.js';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from "/firebase/firebase.config.js";
 
 export const useBookingStore = defineStore('booking', {
   state: () => {
@@ -61,7 +45,6 @@ export const useBookingStore = defineStore('booking', {
 
     async getAvailability(dates) {
       try {
-        const functions = getFunctions();
         const availabilityFunction = httpsCallable(
           functions,
           'getAvailability',
@@ -131,7 +114,6 @@ export const useBookingStore = defineStore('booking', {
       console.log('bookingInfo: ', bookingInfo);
 
       try {
-        const functions = getFunctions();
         const reservarEvent = httpsCallable(functions, 'reservar');
         const reservar = await reservarEvent({ bookingInfo });
         this.idReserva = reservar.data;
@@ -141,53 +123,29 @@ export const useBookingStore = defineStore('booking', {
       }
     },
 
-    async fetchGoogle(emailF, eventF, item) {
-      if (emailF == true) {
-        try {
-          const infoEmail = {
-            Nombre: item.nombre,
-            BookingRooms: item.amountRooms,
-            Correo: item.correo,
-            NumeroAcompanantes: item.acompanantes,
-            CheckInDate: item.checkIn,
-            CheckOutDate: item.checkOut,
-            PrecioCabana: item.precio,
-            TipoDeCabaña: item.cabana,
-            subject: 'Confirmación de reserva',
-            idReserva: item.idReserva,
-          };
+    async sendEmail(item) {
+      console.log(item)
+      // try {
+      //   const sendEmail = httpsCallable(functions, 'sendEmail');
+      //   const email = await sendEmail(item);
+      //   return email;
+      // } catch (error) {
+      //   console.log('error fetching email: ', error);
+      //   throw error;
+      // }
+    },
 
-          const functions = getFunctions();
-          const sendEmail = httpsCallable(functions, 'sendEmail');
-          const email = await sendEmail({ infoEmail, secret: 'SendThisEmail' });
-        } catch (error) {
-          console.log('error fetching email: ', error);
-          throw error;
-        }
-      }
-
-      if (eventF == true) {
-        try {
-          let description = `https://www.abyayalahostel.com/reserva-${item.idReserva}/${item.correo}`;
-          const infoEvent = {
-            RangeDates: item.bookingRange,
-            BookingRooms: item.amountRooms,
-            Nombre: item.nombre,
-            TipoDeCabaña: item.cabana,
-            PrecioCabana: item.precio,
-            description,
-            secret: 'SendThisEvent',
-          };
-          const functions = getFunctions();
-          const sendCalendar = httpsCallable(functions, 'sendCalendar');
-          const event = await sendCalendar({ infoEvent });
-
-          return item.idReserva;
-        } catch (error) {
-          console.log('error fetching event: ', error);
-          throw error;
-        }
+    async changeRequest(item) {
+      console.log(item)
+      try {
+        const sendChangeRequest = httpsCallable(functions, 'createRequest');
+        const changeRequest = await sendChangeRequest(item);
+        return changeRequest;
+      } catch (error) {
+        console.log('error sending request: ', error);
+        throw error;
       }
     },
+
   },
 });

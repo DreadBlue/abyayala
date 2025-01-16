@@ -86,7 +86,8 @@
 
 <script>
 import { useBookingStore } from '/stores/booking.js';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../firebase/firebase.config';
 
 export default {
   setup() {
@@ -172,7 +173,6 @@ export default {
       this.useGeneral.updateDetails({ loading: true });
       const amount = this.useBooking.precio;
       // const amount = 1000;
-      const functions = getFunctions();
       const orderId = 'ORDER' + Date.now() * 1e6;
 
       const generateHash = httpsCallable(functions, 'generateHash');

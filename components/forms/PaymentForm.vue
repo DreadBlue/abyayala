@@ -72,7 +72,8 @@
 </template>
 
 <script setup>
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../firebase/firebase.config';
 
 const name = ref('');
 const btnLabel = ref('PAGAR');
@@ -91,7 +92,6 @@ const formattedValue = computed({
   },
 });
 
-const functions = getFunctions();
 const generateHash = httpsCallable(functions, 'generateHash');
 const warning = ref(false);
 

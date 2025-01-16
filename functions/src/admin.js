@@ -57,7 +57,7 @@ const adminBookings = onCall(async (request) => {
       }));
       return docs;
     } catch (error) {
-      console.log("error fetching booking: ", error);
+      console.log("error trayendo las reservas: ", error);
       throw error;
     }
   } else {
@@ -85,9 +85,8 @@ const retakeAvailability = async (item) => {
         spots: FieldValue.increment(item.data['Cantidad de cabañas']),
       });
     }
-    log('Availability retaken');
   } catch (error) {
-    console.error(error);
+    console.error('error al retomar disponibilidad', error);
   }
 };
 
@@ -116,4 +115,73 @@ const deleteBooking = onCall(async (request) => {
   }
 });
 
-module.exports = { createDatabase, deleteBooking, adminBookings };
+const createRequest = onCall(async (request) => {
+  const clientObject = request.data;
+  const reservaQuery = db.collection('reservas').where('idReserva', '==', clientObject.id).where('Correo', '==', clientObject.Correo);
+  const resquestCollection = db.collection('requests');
+
+  try {
+    const reservaSnapshot = await reservaQuery.get();
+    const docs = reservaSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    const serverObject = docs[0];
+    const differences = {};
+    let tipo = '';
+
+    for (const key in clientObject) {
+      if (clientObject[key] !== serverObject[key]) {
+        differences[key] = { client: clientObject[key], server: serverObject[key] };
+        if (tipo === '') {
+          tipo = key;
+        } else {
+          tipo = 'variada';
+        }
+      }
+    }
+
+    const solicitudes = {};
+    let solicitud = 1;
+
+    for (const difference in differences) {
+      if (Object.prototype.hasOwnProperty.call(differences, difference)) {
+        solicitudes[solicitud] = { solicitud: `Cambiar ${difference.toLocaleLowerCase} de ${differences[difference].client} a ${differences[difference].server}` };
+        solicitud++;
+      }
+    }
+    resquestCollection.doc(clientObject.id).set({
+      newBooking: clientObject,
+      id: clientObject.id,
+      nombre: clientObject.Nombre,
+      tipo: tipo,
+      solicitud: solicitudes,
+      status: 'pendiente',
+    });
+  } catch (error) {
+    log('Error creando la solicitud', error);
+  }
+});
+
+const fetchRequests = onCall(async () => {
+  const requestsQuery = db.collection('requests').where('status', '==', 'pendiente');
+  try {
+    const requestsSnapshot = await requestsQuery.get();
+    const docs = requestsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return docs;
+  } catch (e) {
+    log('Error trayendo solicitudes de cambio', e);
+  }
+});
+
+const manageChangeRequest = onCall(async (req) => {
+  log('req', req);
+  // const reservasCollection = db.collection('reservas').doc(data.id).update(data.newBooking);
+
+  return log('reserva updated');
+});
+
+module.exports = { createDatabase, deleteBooking, adminBookings, createRequest, fetchRequests, manageChangeRequest };

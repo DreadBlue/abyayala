@@ -6,7 +6,7 @@
           GESTIONAR RESERVA
         </div>
         <div class="text-subtitle-2 text-sm-subtitle color-second pl-2">
-          Nº DE RESERVA: {{ booking[0].id }}
+          Nº DE RESERVA: {{ booking.id }}
         </div>
       </v-col>
       <v-col
@@ -72,7 +72,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[0][item[4]]"
+                v-model="booking[item[4]]"
               >
               </v-text-field>
             </v-col>
@@ -89,20 +89,20 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[0][item[4]]"
+                v-model="booking[item[4]]"
               >
               </v-text-field>
             </v-col>
             <v-col cols="12" class="d-flex justify-space-between">
               <general-date-picker
-                v-model="booking[0]['Check in']"
+                v-model="booking['Check in']"
                 class="flex-grow-0"
                 labelInput="Check in"
-                :min="current"
+                :min="newDate"
                 :pickerWidth="reactiveWidth"
               />
               <general-date-picker
-                v-model="booking[0]['Check out']"
+                v-model="booking['Check out']"
                 class="flex-grow-0"
                 labelInput="Check out"
                 :min="checkIn"
@@ -114,11 +114,13 @@
                 readonly
                 label="Precio de reserva"
                 variant="solo"
-                v-model="precio"
+                v-model="booking.Valor"
               ></v-text-field>
             </v-col>
             <v-col cols="12" class="text-center">
-              <v-btn class="bg-third color-white">Solicitar cambios</v-btn>
+              <v-btn class="bg-third color-white" @click="sendChangeRequest()"
+                >Solicitar cambios</v-btn
+              >
             </v-col>
           </v-row>
         </v-card>
@@ -147,145 +149,90 @@
             </v-col>
             <v-col cols="12" class="d-flex flex-column align-center ga-8">
               <img
-                :src="booking[0].urlInvoice"
+                :src="booking.urlInvoice"
                 alt="Comprobante"
                 height="200"
                 width="100"
                 style="object-fit: cover"
                 @click="showModified(true)"
               />
-              <!-- <v-btn class="bg-second color-white" @click="download"
-                    >Descargar comprobante</v-btn
-                  > -->
             </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
-  <GeneralImgPreview v-if="showPreview" :img="booking[0].urlInvoice" />
+  <GeneralImgPreview v-if="showPreview" :img="booking.urlInvoice" />
 </template>
 
-<script>
+<script setup>
 import dayjs from 'dayjs';
 import { useDisplay } from 'vuetify';
 import { useBookingStore } from '/stores/booking.js';
 import { useGeneralStore } from '/stores/general.js';
 
-export default {
-  props: {
-    booking: Object,
-  },
-  setup(props) {
-    const useBooking = useBookingStore();
-    const useGeneral = useGeneralStore();
-    const showPreview = computed(() => useGeneral.showPreview);
-    function showModified(value) {
-      useGeneral.updateState(value, 'showPreview');
-    }
-    const download = async () => {
-      useBooking.downloadBill(props.booking[0].urlInvoice);
-    };
-    const deleteBooking = async () => {
-      useBooking.deleteBooking(
-        ['reservas', props.booking[0].id],
-        ['reservadas'],
-      );
-    };
-    const precio = props.booking[0].Valor.toLocaleString('es-Co');
-    let correoReenviado = ref(false);
+const useBooking = useBookingStore();
+const useGeneral = useGeneralStore();
+const showPreview = computed(() => useGeneral.showPreview);
 
-    const sendEmail = async () => {
-      const item = {
-        nombre: props.booking[0].Nombre,
-        correo: props.booking[0].Correo,
-        amountRooms: props.booking[0]['Cantidad de cabañas'],
-        acompanantes: props.booking[0]['Cantidad de huespedes'],
-        checkIn: props.booking[0]['Check in'],
-        checkOut: props.booking[0]['Check out'],
-        precio: props.booking[0].Valor,
-        cabana: props.booking[0]['Tipo de cabaña'],
-        idReserva: props.booking[0].idReserva,
-      };
-      localStorage.setItem('item', JSON.stringify(item));
+const props = defineProps({
+  booking: Object,
+});
 
-      try {
-        await useBooking.fetchGoogle(true, false);
-        localStorage.removeItem('item');
-        correoReenviado.value = true;
-      } catch (error) {
-        console.error('Email error:', error);
-      }
-    };
-
-    const { name } = useDisplay();
-    const reactiveWidth = ref('height: 450px');
-    watch(
-      name,
-      (val) => {
-        if (val == 'lg' || val == 'md') {
-          reactiveWidth.value = 'width: 294px';
-        } else if (val == 'sm' || val == 'xs') {
-          reactiveWidth.value = 'width: 145px';
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
-    return {
-      reactiveWidth,
-      sendEmail,
-      useBooking,
-      correoReenviado,
-      precio,
-      showPreview,
-      showModified,
-      download,
-      deleteBooking,
-    };
-  },
-  data() {
-    return {
-      current: dayjs().format('YYYY-MM-DD'),
-      CardUno: {
-        InputUno: ['12', 'Nombre completo', 'text', 'solo', 'Nombre'],
-        InputDos: ['6', 'Número de celular', 'text', 'solo', 'Celular'],
-        InputTres: ['6', 'Correo Electronico', 'text', 'solo', 'Correo'],
-        InputCuatro: ['6', 'Número de cédula', 'text', 'solo', 'Cédula'],
-        InputCinco: [
-          '6',
-          'Acompañantes',
-          'text',
-          'solo',
-          'Cantidad de huespedes',
-        ],
-      },
-      CardDos: {
-        InputUno: [
-          '12',
-          'Nombres y cédulas de los acompañantes',
-          'text',
-          'solo',
-          'Información de acompañantes',
-        ],
-        InputDos: ['6', 'Tipo de cabaña', 'text', 'solo', 'Tipo de cabaña'],
-        InputTres: [
-          '6',
-          'Número de cabañas',
-          'text',
-          'solo',
-          'Cantidad de cabañas',
-        ],
-      },
-    };
-  },
-  mounted() {
-    this.useBooking.amountRooms = this.booking[0]['Cantidad de cabañas'];
-    this.useBooking.checkIn = this.booking[0]['Check in'];
-    this.useBooking.checkOut = this.booking[0]['Check out'];
-    this.useBooking.precio = this.booking[0].Valor;
-    this.useBooking.cabana = this.booking[0]['Tipo de cabaña'];
-  },
+const newDate = dayjs().format('YYYY-MM-DD');
+let correoReenviado = ref(false);
+const CardUno = {
+  InputUno: ['12', 'Nombre completo', 'text', 'solo', 'Nombre'],
+  InputDos: ['6', 'Número de celular', 'text', 'solo', 'Celular'],
+  InputTres: ['6', 'Correo Electronico', 'text', 'solo', 'Correo'],
+  InputCuatro: ['6', 'Número de cédula', 'text', 'solo', 'Cédula'],
+  InputCinco: ['6', 'Acompañantes', 'text', 'solo', 'Cantidad de huespedes'],
 };
+const CardDos = {
+  InputUno: [
+    '12',
+    'Nombres y cédulas de los acompañantes',
+    'text',
+    'solo',
+    'Información de acompañantes',
+  ],
+  InputDos: ['6', 'Tipo de cabaña', 'text', 'solo', 'Tipo de cabaña'],
+  InputTres: ['6', 'Número de cabañas', 'text', 'solo', 'Cantidad de cabañas'],
+};
+
+async function sendEmail() {
+  try {
+    await useBooking.sendEmail(props.booking);
+  } catch (error) {
+    console.error('Email error:', error);
+  }
+}
+
+async function sendChangeRequest() {
+  try {
+    await useBooking.changeRequest(props.booking);
+  } catch (error) {
+    console.error('Email error:', error);
+  }
+}
+
+function showModified(value) {
+  useGeneral.updateState(value, 'showPreview');
+}
+
+const { name } = useDisplay();
+const reactiveWidth = ref('height: 450px');
+watch(
+  name,
+  (val) => {
+    if (val == 'lg' || val == 'md') {
+      reactiveWidth.value = 'width: 294px';
+    } else if (val == 'sm' || val == 'xs') {
+      reactiveWidth.value = 'width: 145px';
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

@@ -8,8 +8,9 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { db } from "/firebase/firebase.config.js";
+import { httpsCallable } from 'firebase/functions';
+import { db, functions } from "/firebase/firebase.config.js";
+
 
 export const useAdminStore = defineStore('admin', {
   state: () => {
@@ -18,26 +19,17 @@ export const useAdminStore = defineStore('admin', {
     };
   },
   actions: {
-    async lookBooking(booking) {
+    async lookBooking(bookingInfo) {
       try {
-        const reservaDB = query(
-          collection(db, "reservas"),
-          where("idReserva", "==", booking[0]),
-          where("Correo", "==", booking[1])
+        const lookBookingFunction = httpsCallable(
+          functions,
+          'lookBooking',
         );
-        let snapshot = await getDocs(reservaDB);
-        if (snapshot.docs.length == 0) {
-          return "wrong information";
-        } else if (!snapshot.docs.length == 0) {
-          const docs = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return docs;
-        }
+        const booking = await lookBookingFunction({ bookingInfo });
+        return booking;
       } catch (error) {
-        console.log("error fetching booking: ", error);
-        throw error;
+        console.error(error);
+        return [];
       }
     },
 
@@ -118,12 +110,29 @@ export const useAdminStore = defineStore('admin', {
     async deleteBooking(data) {
       const item = JSON.stringify(data);
       try {
-        const functions = getFunctions();
         const deleteBooking = httpsCallable(functions, 'deleteBooking');
         const deleteEvent = await deleteBooking({ item });
         return deleteEvent.data;
       } catch (error) {
         console.error('Error eliminando reserva: ', error);
+      }
+    },
+
+    async fetchRequests() {
+      try {
+        const fetchChangeRequests = httpsCallable(functions, 'fetchRequests');
+        const changeRequests = await fetchChangeRequests();
+        return changeRequests;
+      } catch (e) {
+        console.log('error trayendo change requests', e)
+      }
+    },
+
+    async requestAnswer(data) {
+      try {
+        console.log(data.solicitudes.data)
+      } catch (e) {
+        console.log('error enviando respuesta', e)
       }
     },
 

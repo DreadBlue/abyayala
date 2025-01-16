@@ -18,13 +18,13 @@
                     <v-list-item
                       v-bind="props"
                       prepend-icon="mdi-calendar-range"
-                      title="Fecha de check in"
+                      title="Check in"
                     ></v-list-item>
                   </template>
 
                   <v-list-item>
                     <GeneralDatePicker
-                      v-model="filters.time.startDate"
+                      v-model="filters.checkin.startDate"
                       style="width: 180px"
                       class="py-2"
                       labelInput="Inicio"
@@ -32,25 +32,25 @@
                     <GeneralDatePicker
                       style="width: 180px"
                       class="pt-5"
-                      v-model="filters.time.endDate"
+                      v-model="filters.checkin.endDate"
                       labelInput="Fin"
                     />
                   </v-list-item>
                 </v-list-group>
 
-                <v-list-group value="room">
+                <v-list-group value="solicitud">
                   <template v-slot:activator="{ props }">
                     <v-list-item
                       v-bind="props"
                       prepend-icon="mdi-bed"
-                      title="Cabañas"
+                      title="Tipo de solicitud"
                     ></v-list-item>
                   </template>
 
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.Ancestral"
+                        v-model="filters.tipo.nombre"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Ancestral</v-list-item-title>
@@ -59,7 +59,7 @@
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.Safari"
+                        v-model="filters.tipo.fecha"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Safari</v-list-item-title>
@@ -68,26 +68,26 @@
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.anamay"
+                        v-model="filters.tipo.cabana"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Anamay</v-list-item-title>
                   </v-list-item>
                 </v-list-group>
 
-                <v-list-group value="actividades">
+                <v-list-group value="estado">
                   <template v-slot:activator="{ props }">
                     <v-list-item
                       v-bind="props"
                       prepend-icon="mdi-run"
-                      title="Actividades"
+                      title="Estado de la solicitud"
                     ></v-list-item>
                   </template>
 
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.Ancestral"
+                        v-model="filters.estado.aprobado"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Ancestral</v-list-item-title>
@@ -96,7 +96,7 @@
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.Safari"
+                        v-model="filters.estado.negada"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Safari</v-list-item-title>
@@ -105,7 +105,7 @@
                   <v-list-item>
                     <template v-slot:prepend="{ isActive }">
                       <v-checkbox-btn
-                        v-model="filters.cabanas.anamay"
+                        v-model="filters.estado.pendiente"
                       ></v-checkbox-btn>
                     </template>
                     <v-list-item-title>Anamay</v-list-item-title>
@@ -144,39 +144,74 @@
                 <v-list-item
                   v-bind="props"
                   prepend-icon="mdi-calendar-range"
-                  title="Fecha de check in"
+                  title="Check in"
                 ></v-list-item>
               </template>
 
               <v-list-item>
                 <GeneralDatePicker
+                  v-model="filters.checkin.startDate"
                   style="width: 180px"
-                  v-model="filters.time.startDate"
-                  class="pb-4 pt-3"
+                  class="py-2"
                   labelInput="Inicio"
                 />
                 <GeneralDatePicker
                   style="width: 180px"
-                  class="pt-2"
-                  v-model="filters.time.endDate"
+                  class="pt-5"
+                  v-model="filters.checkin.endDate"
                   labelInput="Fin"
                 />
               </v-list-item>
             </v-list-group>
 
-            <v-list-group value="room">
+            <v-list-group value="solicitud">
               <template v-slot:activator="{ props }">
                 <v-list-item
                   v-bind="props"
                   prepend-icon="mdi-bed"
-                  title="Cabañas"
+                  title="Tipo de solicitud"
                 ></v-list-item>
               </template>
 
               <v-list-item>
                 <template v-slot:prepend="{ isActive }">
                   <v-checkbox-btn
-                    v-model="filters.cabanas.Ancestral"
+                    v-model="filters.tipo.nombre"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Ancestral</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn v-model="filters.tipo.fecha"></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Safari</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.tipo.cabana"
+                  ></v-checkbox-btn>
+                </template>
+                <v-list-item-title>Anamay</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-group value="estado">
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  v-bind="props"
+                  prepend-icon="mdi-run"
+                  title="Estado de la solicitud"
+                ></v-list-item>
+              </template>
+
+              <v-list-item>
+                <template v-slot:prepend="{ isActive }">
+                  <v-checkbox-btn
+                    v-model="filters.estado.aprobado"
                   ></v-checkbox-btn>
                 </template>
                 <v-list-item-title>Ancestral</v-list-item-title>
@@ -185,7 +220,7 @@
               <v-list-item>
                 <template v-slot:prepend="{ isActive }">
                   <v-checkbox-btn
-                    v-model="filters.cabanas.Safari"
+                    v-model="filters.estado.negada"
                   ></v-checkbox-btn>
                 </template>
                 <v-list-item-title>Safari</v-list-item-title>
@@ -194,119 +229,15 @@
               <v-list-item>
                 <template v-slot:prepend="{ isActive }">
                   <v-checkbox-btn
-                    v-model="filters.cabanas.Anamay"
+                    v-model="filters.estado.pendiente"
                   ></v-checkbox-btn>
                 </template>
                 <v-list-item-title>Anamay</v-list-item-title>
               </v-list-item>
             </v-list-group>
-
-            <v-list-group value="actividades">
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  v-bind="props"
-                  prepend-icon="mdi-run"
-                  title="Actividades"
-                ></v-list-item>
-              </template>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.activities.Torrentismo"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Torrentismo</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.activities.Canopy"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Canopy</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.activities.Rafting"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Rafting</v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-
-            <v-list-group value="comida">
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  v-bind="props"
-                  prepend-icon="mdi-food"
-                  title="Comida"
-                ></v-list-item>
-              </template>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.comida.reservada"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Reservada</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.comida.noReservada"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>No reservada</v-list-item-title>
-              </v-list-item>
-            </v-list-group>
-
-            <v-list-group value="pago">
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  v-bind="props"
-                  prepend-icon="mdi-cash"
-                  title="Pago"
-                ></v-list-item>
-              </template>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.pago.completo"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Completo</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.pago.parcial"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Parcial</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:prepend="{ isActive }">
-                  <v-checkbox-btn
-                    v-model="filters.pago.ninguno"
-                  ></v-checkbox-btn>
-                </template>
-                <v-list-item-title>Sin pago registrado</v-list-item-title>
-              </v-list-item>
-            </v-list-group>
           </v-list>
           <div class="d-flex justify-center align-end">
-            <v-btn class="bg-main color-white mb-3" @click="filterHandler"
-              >Buscar</v-btn
-            >
+            <v-btn class="bg-third mb-3" @click="filterHandler">Buscar</v-btn>
           </div>
         </v-card>
       </v-col>
@@ -326,32 +257,20 @@ export default {
       drawer: false,
       group: null,
       filters: {
-        time: {
+        checkin: {
           startDate: dayjs().endOf('month').format('YYYY-MM-DD'),
           endDate: dayjs().startOf('month').format('YYYY-MM-DD'),
         },
-        activities: {
-          Torrentismo: true,
-          Canopy: true,
-          Rafting: true,
+        tipo: {
+          fecha: true,
+          nombre: true,
+          cabana: true,
+          'Cambio de correo': true,
         },
-        transporte: {
-          incluido: true,
-          noIncluido: true,
-        },
-        comida: {
-          reservada: true,
-          noReservada: true,
-        },
-        cabanas: {
-          Ancestral: true,
-          Safari: true,
-          Anamay: true,
-        },
-        pago: {
-          completo: true,
-          parcial: true,
-          ninguno: true,
+        estado: {
+          aprobado: true,
+          negada: true,
+          pendiente: true,
         },
       },
       useAdmin,

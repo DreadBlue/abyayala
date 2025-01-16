@@ -7,7 +7,7 @@
       <v-col cols="12" sm="6">
         <GeneralValidation
           :formato="info"
-          maxLength="3"
+          maxLength="6"
           v-model:fieldOne="idReserva"
           v-model:fieldTwo="correo"
         />
@@ -50,7 +50,7 @@ export default {
         Descripcion:
           '¡Hola! Bienvenido a casa, desde aquí podrás enviar solicitudes para modificar tus fechas de reserva, el titular o realizar la reserva anticipada de tu menú de comidas durante tu estancia',
         Login: false,
-        btn: ['Gestionar reserva', `/reserva-${this.idReserva}/${this.correo}`],
+        btn: ['Gestionar reserva', `/reserva-${this.idReserva}-${this.correo}`],
       };
     },
   },

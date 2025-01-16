@@ -78,11 +78,11 @@ export default {
       },
       {
         name: 'Ocupación',
-        route: '/ocupacion',
+        route: '/admin/ocupacion',
       },
       {
         name: 'Reportes empleados',
-        route: '/empleados',
+        route: 'admin/empleados',
       },
       {
         name: 'Solicitudes',
