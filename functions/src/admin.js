@@ -6,11 +6,10 @@ const { db } = require('./firebase');
 const dayjs = require('dayjs');
 
 
-const createDatabase = onCall(async (request) => {
+const createDatabase = onCall(async () => {
   const availabilityCollection = db.collection('availability');
-  const data = request.data;
-  const start = new Date(data.start);
-  const end = new Date(data.end);
+  const start = new Date("2024-10-15");
+  const end = new Date("2025-04-30");
 
   for (
     let date = new Date(start);
