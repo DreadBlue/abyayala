@@ -82,7 +82,7 @@ export default {
       },
       {
         name: 'Reportes empleados',
-        route: 'admin/empleados',
+        route: '/admin/empleados',
       },
       {
         name: 'Solicitudes',

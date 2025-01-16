@@ -3,7 +3,7 @@
   <v-container v-if="!loading" fluid class="pa-0">
     <v-row>
       <v-col cols="12" md="3">
-        <!-- <admin-request-filter /> -->
+        <admin-request-filter />
       </v-col>
       <v-col cols="12" md="9">
         <admin-change-requests />
