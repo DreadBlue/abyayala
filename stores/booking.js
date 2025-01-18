@@ -5,12 +5,6 @@ import { functions } from "/firebase/firebase.config.js";
 export const useBookingStore = defineStore('booking', {
   state: () => {
     return {
-      nombre: '',
-      celular: '',
-      correo: '',
-      cedula: '',
-      acompanantes: 0,
-      infoAcompanantes: '',
       checkIn: '',
       checkOut: '',
       cabana: '',
@@ -69,9 +63,9 @@ export const useBookingStore = defineStore('booking', {
       };
 
       let bookingInfo = {};
+      const precioFinal = this.precio + this.precioActivities + this.precioMenu;
       if (item.invoice.name) {
         const base64File = await fileToBase64(item.invoice);
-        const precioFinal = this.precio + this.precioActivities + this.precioMenu;
         bookingInfo = {
           ...item,
           fileName: item.invoice.name,
@@ -111,7 +105,6 @@ export const useBookingStore = defineStore('booking', {
           status: 'pending',
         };
       }
-      console.log('bookingInfo: ', bookingInfo);
 
       try {
         const reservarEvent = httpsCallable(functions, 'reservar');
