@@ -56,10 +56,10 @@
         <v-btn readonly class="ml-2 bg-main" style="width: 210px"
           >ACTIVIDADES: {{ activitiesPrice.toLocaleString('es-Co') }}</v-btn
         >
-        <v-btn class="bg-main" @click="updateInfo(activitiesPrice)"
+        <v-btn class="bg-main" @click="redirection(activitiesPrice)"
           >Agregar y continuar reserva</v-btn
         >
-        <v-btn class="bg-second" @click="updateInfo(0)">OMITIR</v-btn>
+        <v-btn class="bg-second" @click="redirection(0)">OMITIR</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -106,7 +106,7 @@ const actividades = reactive({
   },
 });
 
-function updateInfo(item) {
+function redirection(item) {
   const data = route.query;
   router.push({
     path: '/reservar/menu',

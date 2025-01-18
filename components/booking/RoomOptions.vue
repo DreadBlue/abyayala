@@ -36,7 +36,7 @@
           >Disponibilidad: {{ availability[item.tipo] }}</span
         >
         <div class="text-center text-body-2 text-md-body-1">
-          <v-btn @click="updateInfo(item)" :disabled="amount === 0"
+          <v-btn @click="redirection(item)" :disabled="amount === 0"
             >RESERVAR</v-btn
           >
         </div>
@@ -96,7 +96,7 @@ export default {
         this.amount--;
       }
     },
-    updateInfo(item) {
+    redirection(item) {
       const dates = this.$route.query;
       this.router.push({
         path: '/reservar/actividades',
