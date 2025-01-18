@@ -102,7 +102,6 @@ export const useBookingStore = defineStore('booking', {
           precioMenu: this.precioMenu,
           precioActividades: this.precioActivities,
           precioFinal: precioFinal,
-          status: 'pending',
         };
       }
 
