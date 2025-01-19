@@ -2,6 +2,7 @@ const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { db } = require("./firebase");
 const { onCall } = require("firebase-functions/v2/https");
 const { sendBillEmail } = require("./google");
+const { dayjs } = require("dayjs");
 
 const formatDate = (date) => {
     const year = date.getFullYear();
@@ -114,4 +115,85 @@ const facturaManual = onCall(async (request) => {
     return sendBillEmail(infoEmail);
 });
 
-module.exports = { facturaFinal, facturaManual };
+const firestoreTesting = onCall(async () => {
+    const checkin = dayjs().format('YYYY-MM-DD');
+    const checkout = dayjs().add(1, 'day').format('YYYY-MM-DD');
+    await db.collection('reservas').doc('ABY000').set({
+        'Cantidad de cabañas': 1,
+        'Cantidad de huespedes': '1',
+        'Celular': '3008082345',
+        'Check in': checkin,
+        'Check out': checkout,
+        'Correo': 'cprada33@hotmail.com',
+        'Cedula': '432442342',
+        'Información de acompañantes': 'ddadasdas',
+        'Nombre': 'Cristian',
+        'Tipo de cabaña': 'Safari',
+        'Valor': 420000,
+        'idReserva': 'ABY000',
+        'status': 'pending',
+        'timestamp': dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        'path': 'comprobantes/ABY000',
+        'torrentismo': 2,
+        'canopy': 0,
+        'rafting': 0,
+        'menu': {
+            plato: {
+                precio: 20000,
+                nombre: 'ajiaco',
+            },
+        },
+        'precioMenu': 100000,
+        'precioActividades': 50000,
+        'precioFinal': 300000,
+
+    });
+    await db.collection('availability').doc(`safari_${checkin}`).set({
+        date: checkin,
+        room_id: 'safari',
+        spots: 20,
+    });
+    await db.collection('requests').doc('ABY000').set({
+        newBooking: {
+            'Cantidad de cabañas': 1,
+            'Cantidad de huespedes': '1',
+            'Celular': '3008082345',
+            'Check in': checkin,
+            'Check out': checkout,
+            'Correo': 'cprada33@hotmail.com',
+            'Cedula': '432442342',
+            'Información de acompañantes': 'ddadasdas',
+            'Nombre': 'Felipe',
+            'Tipo de cabaña': 'Safari',
+            'Valor': 420000,
+            'idReserva': 'ABY000',
+            'status': 'pending',
+            'timestamp': dayjs().format('YYYY-MM-DD HH:mm:ss'),
+            'path': 'comprobantes/ABY000',
+            'torrentismo': 2,
+            'canopy': 0,
+            'rafting': 0,
+            'menu': {
+                plato: {
+                    precio: 20000,
+                    nombre: 'ajiaco',
+                },
+            },
+            'precioMenu': 100000,
+            'precioActividades': 50000,
+            'precioFinal': 300000,
+
+        },
+        id: 'ABY000',
+        nombre: 'Cristian',
+        status: 'pending',
+        tipo: 'Nombre',
+        solicitud: {
+            1: {
+                solicitud: 'Cambiar nombre de Cristian a Felipe',
+            },
+        },
+    });
+});
+
+module.exports = { facturaFinal, facturaManual, firestoreTesting };
