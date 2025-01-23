@@ -9,7 +9,7 @@
           <v-btn class="ml-5 bg-main color-white">Realizar check in</v-btn>
         </div>
         <div class="text-subtitle-2 text-sm-subtitle color-second pl-2">
-          Nº DE RESERVA: {{ booking[0].id }}
+          Nº DE RESERVA: {{ booking.id }}
         </div>
       </v-col>
       <v-col
@@ -72,16 +72,16 @@
                 </v-col>
                 <v-col cols="12" class="d-flex flex-column align-center ga-8">
                   <img
-                    :src="booking[0].urlInvoice"
+                    :src="booking.urlInvoice"
                     alt="Comprobante"
                     height="200"
                     width="100"
                     style="object-fit: cover"
                     @click="showModified(true)"
                   />
-                  <!-- <v-btn class="bg-second color-white" @click="download"
+                  <v-btn class="bg-second color-white" @click="download"
                     >Descargar comprobante</v-btn
-                  > -->
+                  >
                 </v-col>
               </v-row>
             </v-card>
@@ -102,7 +102,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[0][item[4]]"
+                v-model="booking[item[4]]"
               >
               </v-text-field>
             </v-col>
@@ -119,20 +119,20 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[0][item[4]]"
+                v-model="booking[item[4]]"
               >
               </v-text-field>
             </v-col>
             <v-col cols="12" class="d-flex justify-space-between">
               <general-date-picker
-                v-model="booking[0]['Check in']"
+                v-model="booking['Check in']"
                 class="flex-grow-0"
                 labelInput="Check in"
                 :min="current"
                 :pickerWidth="reactiveWidth"
               />
               <general-date-picker
-                v-model="booking[0]['Check out']"
+                v-model="booking['Check out']"
                 class="flex-grow-0"
                 labelInput="Check out"
                 :min="checkIn"
@@ -177,23 +177,23 @@
             </v-col>
             <v-col cols="12" class="d-flex flex-column align-center ga-8">
               <img
-                :src="booking[0].urlInvoice"
+                :src="booking.urlInvoice"
                 alt="Comprobante"
                 height="200"
                 width="100"
                 style="object-fit: cover"
                 @click="showModified(true)"
               />
-              <!-- <v-btn class="bg-second color-white" @click="download"
-                    >Descargar comprobante</v-btn
-                  > -->
+              <v-btn class="bg-second color-white" @click="download"
+                >Descargar comprobante</v-btn
+              >
             </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
-  <GeneralImgPreview v-if="showPreview" :img="booking[0].urlInvoice" />
+  <GeneralImgPreview v-if="showPreview" :img="booking.urlInvoice" />
 </template>
 
 <script>
@@ -216,27 +216,27 @@ export default {
       useGeneral.updateState(value, 'showPreview');
     }
     const download = async () => {
-      useBooking.downloadBill(props.booking[0].urlInvoice);
+      useBooking.downloadBill(props.booking.urlInvoice);
     };
     const deleteBooking = async () => {
-      const bookingInfo = props.booking[0];
-      useAdmin.deleteBooking(bookingInfo)
+      const bookingInfo = props.booking;
+      useAdmin.deleteBooking(bookingInfo);
       return navigateTo('/admin/reservas');
     };
-    const precio = props.booking[0].Valor.toLocaleString('es-Co');
+    const precio = props.booking.Valor.toLocaleString('es-Co');
     let correoReenviado = ref(false);
 
     const sendEmail = async () => {
       const item = {
-        nombre: props.booking[0].Nombre,
-        correo: props.booking[0].Correo,
-        amountRooms: props.booking[0]['Cantidad de cabañas'],
-        acompanantes: props.booking[0]['Cantidad de huespedes'],
-        checkIn: props.booking[0]['Check in'],
-        checkOut: props.booking[0]['Check out'],
-        precio: props.booking[0].Valor,
-        cabana: props.booking[0]['Tipo de cabaña'],
-        idReserva: props.booking[0].idReserva,
+        nombre: props.booking.Nombre,
+        correo: props.booking.Correo,
+        amountRooms: props.booking['Cantidad de cabañas'],
+        acompanantes: props.booking['Cantidad de huespedes'],
+        checkIn: props.booking['Check in'],
+        checkOut: props.booking['Check out'],
+        precio: props.booking.Valor,
+        cabana: props.booking['Tipo de cabaña'],
+        idReserva: props.booking.idReserva,
       };
       localStorage.setItem('item', JSON.stringify(item));
 
@@ -312,11 +312,12 @@ export default {
     };
   },
   mounted() {
-    this.useBooking.amountRooms = this.booking[0]['Cantidad de cabañas'];
-    this.useBooking.checkIn = this.booking[0]['Check in'];
-    this.useBooking.checkOut = this.booking[0]['Check out'];
-    this.useBooking.precio = this.booking[0].Valor;
-    this.useBooking.cabana = this.booking[0]['Tipo de cabaña'];
+    console.log(this.booking);
+    this.useBooking.amountRooms = this.booking['Cantidad de cabañas'];
+    this.useBooking.checkIn = this.booking['Check in'];
+    this.useBooking.checkOut = this.booking['Check out'];
+    this.useBooking.precio = this.booking.Valor;
+    this.useBooking.cabana = this.booking['Tipo de cabaña'];
   },
 };
 </script>

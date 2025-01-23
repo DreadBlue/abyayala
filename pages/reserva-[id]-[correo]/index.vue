@@ -1,6 +1,6 @@
 <template>
   <general-loader v-if="!loaded" :loading-text="textLoaded" />
-  <customer-booking v-if="loaded == true" :booking="booking.data" />
+  <customer-booking v-if="loaded == true" :booking="booking" />
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
       visible: false,
       useBooking,
       useAdmin,
-      info: { id: route.params.id, mail: route.params.correo },
+      info: { id: route.params.id, email: route.params.correo },
       booking: ref(),
       loaded: ref(false),
       textLoaded: 'Buscando reserva',
@@ -25,7 +25,7 @@ export default {
   methods: {
     async lookBooking() {
       try {
-        this.booking = await this.useAdmin.lookBooking(this.info);
+        this.booking = await this.useBooking.lookBooking(this.info);
         if (this.booking.value == 'wrong information') {
           this.useBooking.fetchError = true;
           // navigateTo(this.useBooking.currentPath);

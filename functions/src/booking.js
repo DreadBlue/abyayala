@@ -1,11 +1,4 @@
-const {
-  log,
-  // info,
-  // debug,
-  // warn,
-  // error,
-  // write,
-} = require('firebase-functions/logger');
+const { log } = require('firebase-functions/logger');
 const { onCall } = require('firebase-functions/v2/https');
 const { FieldValue } = require('firebase-admin/firestore');
 const { formValidations } = require('./middlewares.js');
@@ -145,7 +138,7 @@ const takeAvailability = async (item) => {
 
 
 const reservar = onCall(async (request) => {
-  const item = request.data.bookingInfo;
+  const item = request.data;
   const inputsVerification = await formValidations(item);
   if (inputsVerification == false) {
     return 'Error en los datos ingresados';
@@ -171,15 +164,15 @@ const reservar = onCall(async (request) => {
 
     await reservasCollection.doc(idReserva).set({
       'idReserva': idReserva,
-      'Nombre': item.nombre,
-      'Celular': item.celular,
-      'Correo': item.correo,
-      'Cédula': item.cedula,
+      'Nombre': item.name,
+      'Celular': item.phone,
+      'Correo': item.email,
+      'Cédula': item.documentId,
       'Cantidad de cabañas': item.amountRooms,
-      'Cantidad de huespedes': item.acompanantes,
+      'Cantidad de huespedes': item.guests,
       'Check in': item.checkIn,
       'Check out': item.checkOut,
-      'Información de acompañantes': item.infoAcompanantes,
+      'Información de acompañantes': item.guestsInfo,
       'Valor': item.precio,
       'Tipo de cabaña': item.cabana,
       'timestamp': dayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -198,10 +191,10 @@ const reservar = onCall(async (request) => {
     log('Disponibilidad actualizada');
     const secretEmail = process.env.SECRET_EMAIL;
     const infoEmail = {
-      Nombre: item.nombre,
+      Nombre: item.name,
       BookingRooms: item.amountRooms,
-      Correo: item.correo,
-      NumeroAcompanantes: item.acompanantes,
+      Correo: item.email,
+      NumeroAcompanantes: item.guests,
       CheckInDate: item.checkIn,
       CheckOutDate: item.checkOut,
       PrecioCabana: item.precio,
@@ -236,8 +229,10 @@ const reservar = onCall(async (request) => {
 });
 
 const lookBooking = onCall(async (request) => {
-  const { id, mail } = request.data.bookingInfo;
-  const bookingQuery = db.collection('reservas').where('idReserva', '==', id).where('Correo', '==', mail);
+  const { id, email } = request.data;
+  log(id);
+  log(email);
+  const bookingQuery = db.collection('reservas').where('idReserva', '==', id).where('Correo', '==', email);
 
   try {
     const availabilitySnapshot = await bookingQuery.get();

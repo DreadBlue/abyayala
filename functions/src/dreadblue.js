@@ -2,7 +2,7 @@ const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { db } = require("./firebase");
 const { onCall } = require("firebase-functions/v2/https");
 const { sendBillEmail } = require("./google");
-const { dayjs } = require("dayjs");
+const dayjs = require("dayjs");
 
 const formatDate = (date) => {
     const year = date.getFullYear();
@@ -152,6 +152,16 @@ const firestoreTesting = onCall(async () => {
         date: checkin,
         room_id: 'safari',
         spots: 20,
+    });
+    await db.collection('availability').doc(`ancestral${checkin}`).set({
+        date: checkin,
+        room_id: 'ancestral',
+        spots: 1,
+    });
+    await db.collection('availability').doc(`anamay${checkin}`).set({
+        date: checkin,
+        room_id: 'anamay',
+        spots: 1,
     });
     await db.collection('requests').doc('ABY000').set({
         newBooking: {

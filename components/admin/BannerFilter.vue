@@ -129,11 +129,7 @@
       </v-col>
 
       <v-col cols="12" class="h-100 d-none d-md-block">
-        <v-card
-          class="mx-15 d-flex flex-column justify-space-evenly"
-          width="300"
-          height="100%"
-        >
+        <v-card class="mx-15 d-flex flex-column" width="300" height="600">
           <v-list>
             <v-list-item
               prepend-icon="mdi-filter-multiple"

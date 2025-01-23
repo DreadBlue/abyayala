@@ -37,6 +37,21 @@ export const useBookingStore = defineStore('booking', {
       }
     },
 
+    async lookBooking(bookingInfo) {
+      console.log(bookingInfo)
+      try {
+        const lookBookingFunction = httpsCallable(
+          functions,
+          'lookBooking',
+        );
+        const booking = await lookBookingFunction(bookingInfo);
+        return booking.data;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+
     async getAvailability(dates) {
       try {
         const availabilityFunction = httpsCallable(
@@ -46,6 +61,19 @@ export const useBookingStore = defineStore('booking', {
         const availability = await availabilityFunction({ dates });
         this.bookingRange = availability.data.bookingRange;
         return availability.data.disponibilidad;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+
+    async firestoreTesting() {
+      try {
+        const firestoreTesting = httpsCallable(
+          functions,
+          'firestoreTesting',
+        );
+        await firestoreTesting();
       } catch (error) {
         console.error(error);
         return [];
@@ -107,7 +135,7 @@ export const useBookingStore = defineStore('booking', {
 
       try {
         const reservarEvent = httpsCallable(functions, 'reservar');
-        const reservar = await reservarEvent({ bookingInfo });
+        const reservar = await reservarEvent(bookingInfo);
         this.idReserva = reservar.data;
         return reservar.data;
       } catch (error) {

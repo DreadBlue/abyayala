@@ -32,7 +32,7 @@ const createDatabase = onCall(async () => {
 
 
 const adminBookings = onCall(async (request) => {
-  const filters = request.data.filters;
+  const filters = request.data;
   const activities = Object.entries(filters.activities).filter(([key, value]) => value === true).map(([key]) => key);
   const horarios = Object.entries(filters.horario).filter(([key, value]) => value === true).map(([key]) => key);
   const comida = Object.entries(filters.comida).filter(([key, value]) => value === true).map(([key]) => key);
@@ -90,7 +90,7 @@ const retakeAvailability = async (item) => {
 };
 
 const deleteBooking = onCall(async (request) => {
-  const data = JSON.parse(request.data.item);
+  const data = JSON.parse(request.data);
   const bookingRef = db.collection('reservas').doc(data.id);
 
   const bookingRange = [];

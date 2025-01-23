@@ -36,18 +36,13 @@
   </v-container>
 </template>
 
-<script>
+<script setup>
 import cabanas from '../assets/cabanas.json';
 
-export default {
-  data() {
-    return {
-      stylingCabanas: {
-        divStyle: 'height: 100%',
-        imgStyle: 'height: 100%; width: 87%; object-fit: cover;',
-      },
-      content: cabanas.filter((item) => item.tipo === 'Safari'),
-    };
-  },
+const stylingCabanas = {
+  divStyle: 'height: 100%',
+  imgStyle: 'height: 100%; width: 87%; object-fit: cover;',
 };
+
+const content = cabanas.filter((item) => item.tipo === 'Safari');
 </script>

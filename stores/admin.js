@@ -19,20 +19,6 @@ export const useAdminStore = defineStore('admin', {
     };
   },
   actions: {
-    async lookBooking(bookingInfo) {
-      try {
-        const lookBookingFunction = httpsCallable(
-          functions,
-          'lookBooking',
-        );
-        const booking = await lookBookingFunction({ bookingInfo });
-        return booking;
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    },
-
     async adminBookings(filters) {
       try {
         const reservaDB = query(
@@ -52,39 +38,6 @@ export const useAdminStore = defineStore('admin', {
         throw error;
       }
     },
-
-    // async adminBookings(filters) {
-    //   const activities = Object.entries(filters.activities).filter(([key, value]) => value === true).map(([key]) => key);
-    //   const horarios = Object.entries(filters.horario).filter(([key, value]) => value === true).map(([key]) => key);
-    //   const comida = Object.entries(filters.comida).filter(([key, value]) => value === true).map(([key]) => key);
-    //   const transporte = Object.entries(filters.transporte).filter(([key, value]) => value === true).map(([key]) => key);
-
-    //   if (activities.length > 0 && horarios.length > 0 && comida.length > 0 && transporte.length > 0) {
-    //     try {
-    //       const reservaDB = query(
-    //         collection(db, "bookings"),
-    //         where("date", "<=", filters.time.startDate),
-    //         where("date", ">=", filters.time.endDate),
-    //         where("activity", "in", activities),
-    //         where("horario", "in", horarios),
-    //         where("transporte", "in", transporte),
-    //         where("food", "in", comida),
-    //         orderBy("date", "desc")
-    //       );
-    //       let snapshot = await getDocs(reservaDB);
-    //       const docs = snapshot.docs.map((doc) => ({
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       }));
-    //       return docs;
-    //     } catch (error) {
-    //       console.log("error fetching booking: ", error);
-    //       throw error;
-    //     }
-    //   } else {
-    //     return ['Faltan filtros']
-    //   }
-    // },
 
     async cargarReservas() {
       try {
@@ -111,7 +64,7 @@ export const useAdminStore = defineStore('admin', {
       const item = JSON.stringify(data);
       try {
         const deleteBooking = httpsCallable(functions, 'deleteBooking');
-        const deleteEvent = await deleteBooking({ item });
+        const deleteEvent = await deleteBooking(item);
         return deleteEvent.data;
       } catch (error) {
         console.error('Error eliminando reserva: ', error);
