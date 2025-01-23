@@ -123,4 +123,8 @@ function redirection(item) {
   };
   useBooking.updateDetails(newItem);
 }
+
+watch(precioActivities, (newPrecio) => {
+  useBooking.updateDetails({ precioActivities: newPrecio });
+});
 </script>

@@ -9,6 +9,12 @@
 import { useBookingStore } from '/stores/booking.js';
 
 export default {
+  setup() {
+    const useBooking = useBookingStore();
+    onMounted(async () => {
+      useBooking.resetStates();
+    });
+  },
   data() {
     return {
       styling: {
