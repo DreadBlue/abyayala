@@ -116,7 +116,6 @@ function redirection(item) {
     },
   });
   const newItem = {
-    precioActivities: activitiesPrice,
     torrentismo: actividades.torrentismo.amount,
     canopy: actividades.canopy.amount,
     rafting: actividades.rafting.amount,
