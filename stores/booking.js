@@ -29,6 +29,7 @@ export const useBookingStore = defineStore('booking', {
   },
   actions: {
     resetStates() {
+      this.$state.precioActivities = 0;
       this.$state.precioMenu = 0;
       this.$state.torrentismo = 0;
       this.$state.canopy = 0;
