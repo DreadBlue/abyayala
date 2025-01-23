@@ -124,7 +124,7 @@ function redirection(item) {
   useBooking.updateDetails(newItem);
 }
 
-watch(precioActivities, (newPrecio) => {
+watch(activitiesPrice, (newPrecio) => {
   useBooking.updateDetails({ precioActivities: newPrecio });
 });
 </script>
