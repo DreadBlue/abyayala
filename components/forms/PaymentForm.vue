@@ -105,14 +105,11 @@ async function generatePayment() {
     orderId: orderId,
     currency: 'COP',
     amount: rawValue.value,
-    // apiKey: 'KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA',
-    apiKey: 'FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw',
+    apiKey: 'KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA',
     integritySignature: hash,
     description: 'Pago valor dinámico',
     renderMode: 'embedded',
-    // redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
-    redirectionUrl:
-      'https://www.abyayalahostel.com/portal-de-pagos/confirmacion',
+    redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
   });
 
   checkout.open();
