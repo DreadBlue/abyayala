@@ -185,6 +185,7 @@ async function initiateCheckout(payment) {
       description: 'Pago valor dinámico',
       // redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
       redirectionUrl: 'https://www.abyayalahostel.com/reservar/confirmacion',
+      renderMode: 'embedded',
     });
 
     if (Object.values(item).every((value) => value !== '')) {
