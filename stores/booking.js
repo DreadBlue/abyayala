@@ -28,6 +28,14 @@ export const useBookingStore = defineStore('booking', {
     pick: ['idReserva'],
   },
   actions: {
+    resetStates() {
+      this.$state.precioMenu = 0;
+      this.$state.torrentismo = 0;
+      this.$state.canopy = 0;
+      this.$state.rafting = 0;
+      this.$state.menu = [];
+    },
+
     updateDetails(item) {
       const statesNames = Object.keys(this.$state);
       for (const data in item) {
