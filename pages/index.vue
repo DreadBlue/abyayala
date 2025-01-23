@@ -13,6 +13,7 @@ export default {
     const useBooking = useBookingStore();
     onMounted(async () => {
       await useBooking.firestoreTesting();
+      useBooking.resetStates();
     });
   },
   data() {
