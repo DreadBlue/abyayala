@@ -13,10 +13,8 @@ const crypto = require("crypto");
 const generateHash = onCall(async (request) => {
   try {
     const datos = request.data;
-    // const boldPrivateKeyTest = process.env.BOLD_PRIVATE_KEY_TEST;
     const boldPrivateKey = process.env.BOLD_PRIVATE_KEY;
 
-    // const cadenaConcatenada = `${datos.orderId}${datos.amount}COP${boldPrivateKeyTest}`;
     const cadenaConcatenada = `${datos.orderId}${datos.amount}COP${boldPrivateKey}`;
 
     const hash = crypto

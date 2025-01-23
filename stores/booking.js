@@ -67,19 +67,6 @@ export const useBookingStore = defineStore('booking', {
       }
     },
 
-    async firestoreTesting() {
-      try {
-        const firestoreTesting = httpsCallable(
-          functions,
-          'firestoreTesting',
-        );
-        await firestoreTesting();
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    },
-
     async reservar(item) {
       const fileToBase64 = (file) => {
         return new Promise((resolve, reject) => {

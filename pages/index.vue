@@ -9,12 +9,6 @@
 import { useBookingStore } from '/stores/booking.js';
 
 export default {
-  setup() {
-    const useBooking = useBookingStore();
-    onMounted(async () => {
-      await useBooking.firestoreTesting();
-    });
-  },
   data() {
     return {
       styling: {
