@@ -210,11 +210,11 @@ const reservar = onCall(async (request) => {
     };
     sendBookEmail(infoEmail);
     const secretCalendar = process.env.SECRET_CALENDAR;
-    const description = `https://www.abyayalahostel.com/admin/reservas/${item.idReserva}-${item.correo}`;
+    const description = `https://www.abyayalahostel.com/admin/reservas/${idReserva}-${item.email}`;
     const infoEvent = {
       RangeDates: item.bookingRange,
       BookingRooms: item.amountRooms,
-      Nombre: item.nombre,
+      Nombre: item.name,
       TipoDeCabaña: item.cabana,
       PrecioCabana: item.precio,
       description,
@@ -230,8 +230,6 @@ const reservar = onCall(async (request) => {
 
 const lookBooking = onCall(async (request) => {
   const { id, email } = request.data;
-  log(id);
-  log(email);
   const bookingQuery = db.collection('reservas').where('idReserva', '==', id).where('Correo', '==', email);
 
   try {
