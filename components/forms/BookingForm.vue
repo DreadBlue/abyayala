@@ -187,7 +187,7 @@ async function initiateCheckout(payment) {
     });
 
     if (Object.values(item).every((value) => value !== '')) {
-      await this.useBooking.reservar(item);
+      await useBooking.reservar(item);
       if (payment == 'card') {
         checkout.open();
       } else if (payment == 'cash') {

@@ -77,7 +77,7 @@ const sendBookEmail = (data) => {
   // Datos del correo
   const mailOptions = {
     to: data.Correo,
-    // bcc: 'reservas.abyayalahostel@gmail.com',
+    bcc: 'reservas.abyayalahostel@gmail.com',
     subject: data.subject,
     html: correoHtml,
     headers: {
