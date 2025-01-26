@@ -96,20 +96,35 @@ export default {
         this.amount--;
       }
     },
+    calcularNoches(fechaInicio, fechaFin) {
+      const inicio = new Date(fechaInicio);
+      const fin = new Date(fechaFin);
+      if (isNaN(inicio) || isNaN(fin)) {
+        return 'Por favor, ingresa fechas válidas.';
+      }
+      const diferenciaMilisegundos = fin - inicio;
+      const noches = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+      if (noches < 0) {
+        return 'La fecha de salida no puede ser anterior a la fecha de entrada.';
+      }
+      return noches;
+    },
     redirection(item) {
       const dates = this.$route.query;
+      const noches = this.calcularNoches(this.checkIn, this.checkOut);
       this.router.push({
         path: '/reservar/actividades',
         query: {
           ...dates,
           cabana: item.tipo,
           amount: this.amount,
+          nights: noches,
         },
       });
       const newItem = {
         cabana: item.tipo,
         amountRooms: this.amount,
-        precio: this.amount * item.precio,
+        precio: this.amount * item.precio * noches,
       };
       this.useBooking.updateDetails(newItem);
     },
