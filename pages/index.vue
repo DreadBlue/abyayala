@@ -14,7 +14,6 @@ export default {
     const useBooking = useBookingStore();
     let urlbill = ref(null);
     onMounted(async () => {
-      urlbill.value = await useBooking.firestoreTesting();
       useBooking.resetStates();
     });
     return {

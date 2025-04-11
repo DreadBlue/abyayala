@@ -29,6 +29,7 @@ export const useBookingStore = defineStore("booking", {
   },
   actions: {
     resetStates() {
+      this.$state.precioActivities = 0;
       this.$state.precioMenu = 0;
       this.$state.torrentismo = 0;
       this.$state.canopy = 0;
@@ -67,16 +68,6 @@ export const useBookingStore = defineStore("booking", {
         const availability = await availabilityFunction({ dates });
         this.bookingRange = availability.data.bookingRange;
         return availability.data.disponibilidad;
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    },
-
-    async firestoreTesting() {
-      try {
-        const firestoreTesting = httpsCallable(functions, "firestoreTesting");
-        await firestoreTesting();
       } catch (error) {
         console.error(error);
         return [];
