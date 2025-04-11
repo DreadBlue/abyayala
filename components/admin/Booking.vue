@@ -11,13 +11,13 @@
         <div class="text-subtitle-2 text-sm-subtitle color-second pl-2">
           Nº DE RESERVA: {{ booking.id }}
         </div>
+        {{ booking }}
       </v-col>
       <v-col
         cols="12"
         sm="5"
         md="3"
-        class="d-flex flex-column justify-center align-center ga-3"
-      >
+        class="d-flex flex-column justify-center align-center ga-3">
         <v-btn
           class="bg-main color-white text-body-2 text-sm-body-1"
           @click="sendEmail"
@@ -41,8 +41,7 @@
               src="/assets/imgs/cabanas/ancestral.jpeg"
               alt="Foto de cabaña"
               style="width: 100%; max-height: 410px; object-fit: cover"
-              class="rounded-lg"
-            />
+              class="rounded-lg" />
           </v-col>
           <v-col cols="12" class="d-none d-sm-flex flex-sm-column">
             <v-card elevation="3" class="mb-8 pa-5">
@@ -56,8 +55,7 @@
                   <v-text-field
                     disabled
                     label="reserva de comida"
-                    variant="solo"
-                  >
+                    variant="solo">
                   </v-text-field>
                   <v-btn class="bg-third color-white">Reservar comida</v-btn>
                 </v-col>
@@ -77,8 +75,7 @@
                     height="200"
                     width="100"
                     style="object-fit: cover"
-                    @click="showModified(true)"
-                  />
+                    @click="showModified(true)" />
                   <v-btn class="bg-second color-white" @click="download"
                     >Descargar comprobante</v-btn
                   >
@@ -102,8 +99,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[item[4]]"
-              >
+                v-model="booking[item[4]]">
               </v-text-field>
             </v-col>
           </v-row>
@@ -119,8 +115,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[item[4]]"
-              >
+                v-model="booking[item[4]]">
               </v-text-field>
             </v-col>
             <v-col cols="12" class="d-flex justify-space-between">
@@ -129,23 +124,20 @@
                 class="flex-grow-0"
                 labelInput="Check in"
                 :min="current"
-                :pickerWidth="reactiveWidth"
-              />
+                :pickerWidth="reactiveWidth" />
               <general-date-picker
                 v-model="booking['Check out']"
                 class="flex-grow-0"
                 labelInput="Check out"
                 :min="checkIn"
-                :pickerWidth="reactiveWidth"
-              />
+                :pickerWidth="reactiveWidth" />
             </v-col>
             <v-col cols="12" class="text-center">
               <v-text-field
                 readonly
                 label="Precio de reserva"
                 variant="solo"
-                v-model="precio"
-              ></v-text-field>
+                v-model="precio"></v-text-field>
             </v-col>
             <v-col cols="12" class="text-center">
               <v-btn class="bg-third color-white">Solicitar cambios</v-btn>
@@ -182,8 +174,7 @@
                 height="200"
                 width="100"
                 style="object-fit: cover"
-                @click="showModified(true)"
-              />
+                @click="showModified(true)" />
               <v-btn class="bg-second color-white" @click="download"
                 >Descargar comprobante</v-btn
               >
@@ -197,11 +188,11 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import { useDisplay } from 'vuetify';
-import { useBookingStore } from '/stores/booking.js';
-import { useGeneralStore } from '/stores/general.js';
-import { useAdminStore } from '/stores/admin.js';
+import dayjs from "dayjs";
+import { useDisplay } from "vuetify";
+import { useBookingStore } from "/stores/booking.js";
+import { useGeneralStore } from "/stores/general.js";
+import { useAdminStore } from "/stores/admin.js";
 
 export default {
   props: {
@@ -213,7 +204,7 @@ export default {
     const useAdmin = useAdminStore();
     const showPreview = computed(() => useGeneral.showPreview);
     function showModified(value) {
-      useGeneral.updateState(value, 'showPreview');
+      useGeneral.updateState(value, "showPreview");
     }
     const download = async () => {
       useBooking.downloadBill(props.booking.urlInvoice);
@@ -221,48 +212,48 @@ export default {
     const deleteBooking = async () => {
       const bookingInfo = props.booking;
       useAdmin.deleteBooking(bookingInfo);
-      return navigateTo('/admin/reservas');
+      return navigateTo("/admin/reservas");
     };
-    const precio = props.booking.Valor.toLocaleString('es-Co');
+    const precio = props.booking.Valor.toLocaleString("es-Co");
     let correoReenviado = ref(false);
 
     const sendEmail = async () => {
       const item = {
         nombre: props.booking.Nombre,
         correo: props.booking.Correo,
-        amountRooms: props.booking['Cantidad de cabañas'],
-        acompanantes: props.booking['Cantidad de huespedes'],
-        checkIn: props.booking['Check in'],
-        checkOut: props.booking['Check out'],
+        amountRooms: props.booking["Cantidad de cabañas"],
+        acompanantes: props.booking["Cantidad de huespedes"],
+        checkIn: props.booking["Check in"],
+        checkOut: props.booking["Check out"],
         precio: props.booking.Valor,
-        cabana: props.booking['Tipo de cabaña'],
+        cabana: props.booking["Tipo de cabaña"],
         idReserva: props.booking.idReserva,
       };
-      localStorage.setItem('item', JSON.stringify(item));
+      localStorage.setItem("item", JSON.stringify(item));
 
       try {
         await useBooking.fetchGoogle(true, false);
-        localStorage.removeItem('item');
+        localStorage.removeItem("item");
         correoReenviado.value = true;
       } catch (error) {
-        console.error('Email error:', error);
+        console.error("Email error:", error);
       }
     };
 
     const { name } = useDisplay();
-    const reactiveWidth = ref('height: 450px');
+    const reactiveWidth = ref("height: 450px");
     watch(
       name,
       (val) => {
-        if (val == 'lg' || val == 'md') {
-          reactiveWidth.value = 'width: 294px';
-        } else if (val == 'sm' || val == 'xs') {
-          reactiveWidth.value = 'width: 145px';
+        if (val == "lg" || val == "md") {
+          reactiveWidth.value = "width: 294px";
+        } else if (val == "sm" || val == "xs") {
+          reactiveWidth.value = "width: 145px";
         }
       },
       {
         immediate: true,
-      },
+      }
     );
     return {
       reactiveWidth,
@@ -278,46 +269,46 @@ export default {
   },
   data() {
     return {
-      current: dayjs().format('YYYY-MM-DD'),
+      current: dayjs().format("YYYY-MM-DD"),
       CardUno: {
-        InputUno: ['12', 'Nombre completo', 'text', 'solo', 'Nombre'],
-        InputDos: ['6', 'Número de celular', 'text', 'solo', 'Celular'],
-        InputTres: ['6', 'Correo Electronico', 'text', 'solo', 'Correo'],
-        InputCuatro: ['6', 'Número de cédula', 'text', 'solo', 'Cédula'],
+        InputUno: ["12", "Nombre completo", "text", "solo", "Nombre"],
+        InputDos: ["6", "Número de celular", "text", "solo", "Celular"],
+        InputTres: ["6", "Correo Electronico", "text", "solo", "Correo"],
+        InputCuatro: ["6", "Número de cédula", "text", "solo", "Cédula"],
         InputCinco: [
-          '6',
-          'Acompañantes',
-          'text',
-          'solo',
-          'Cantidad de huespedes',
+          "6",
+          "Acompañantes",
+          "text",
+          "solo",
+          "Cantidad de huespedes",
         ],
       },
       CardDos: {
         InputUno: [
-          '12',
-          'Nombres y cédulas de los acompañantes',
-          'text',
-          'solo',
-          'Información de acompañantes',
+          "12",
+          "Nombres y cédulas de los acompañantes",
+          "text",
+          "solo",
+          "Información de acompañantes",
         ],
-        InputDos: ['6', 'Tipo de cabaña', 'text', 'solo', 'Tipo de cabaña'],
+        InputDos: ["6", "Tipo de cabaña", "text", "solo", "Tipo de cabaña"],
         InputTres: [
-          '6',
-          'Número de cabañas',
-          'text',
-          'solo',
-          'Cantidad de cabañas',
+          "6",
+          "Número de cabañas",
+          "text",
+          "solo",
+          "Cantidad de cabañas",
         ],
       },
     };
   },
   mounted() {
     console.log(this.booking);
-    this.useBooking.amountRooms = this.booking['Cantidad de cabañas'];
-    this.useBooking.checkIn = this.booking['Check in'];
-    this.useBooking.checkOut = this.booking['Check out'];
+    this.useBooking.amountRooms = this.booking["Cantidad de cabañas"];
+    this.useBooking.checkIn = this.booking["Check in"];
+    this.useBooking.checkOut = this.booking["Check out"];
     this.useBooking.precio = this.booking.Valor;
-    this.useBooking.cabana = this.booking['Tipo de cabaña'];
+    this.useBooking.cabana = this.booking["Tipo de cabaña"];
   },
 };
 </script>
