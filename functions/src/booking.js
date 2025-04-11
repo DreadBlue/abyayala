@@ -1,14 +1,16 @@
-const { log } = require('firebase-functions/logger');
-const { onCall } = require('firebase-functions/v2/https');
-const { FieldValue } = require('firebase-admin/firestore');
-const { formValidations } = require('./middlewares.js');
-const { sendBookEmail, addCalendar } = require('./google.js');
-const dayjs = require('dayjs');
-const { db, bucket } = require('./firebase');
+const { log } = require("firebase-functions/logger");
+const { onCall } = require("firebase-functions/v2/https");
+const { FieldValue } = require("firebase-admin/firestore");
+const { formValidations } = require("./middlewares.js");
+const { sendBookEmail, addCalendar } = require("./google.js");
+const dayjs = require("dayjs");
+const { db, bucket } = require("./firebase");
+const { fetchBill } = require("./admin.js");
 
 const getAvailability = onCall(async (request) => {
   const data = request.data;
-  const availabilityCollection = db.collection('availability');
+  log("data", data);
+  const availabilityCollection = db.collection("availability");
   const disponibilidad = {
     Safari: 8,
     Ancestral: 1,
@@ -16,18 +18,19 @@ const getAvailability = onCall(async (request) => {
   };
   const bookingRange = [];
 
-  let checkIn = dayjs(data.dates.checkIn, 'YYYY-MM-DD');
-  const checkOut = dayjs(data.dates.checkOut, 'YYYY-MM-DD');
+  let checkIn = dayjs(data.dates.checkIn, "YYYY-MM-DD");
+  const checkOut = dayjs(data.dates.checkOut, "YYYY-MM-DD");
 
   while (checkIn.isBefore(checkOut)) {
-    bookingRange.push(checkIn.format('YYYY-MM-DD'));
-    checkIn = checkIn.add(1, 'day');
+    bookingRange.push(checkIn.format("YYYY-MM-DD"));
+    checkIn = checkIn.add(1, "day");
   }
+  log("range", bookingRange);
 
   const availabilityQuery = await availabilityCollection.where(
-    'date',
-    'in',
-    bookingRange,
+    "date",
+    "in",
+    bookingRange
   );
 
   try {
@@ -37,14 +40,16 @@ const getAvailability = onCall(async (request) => {
       ...doc.data(),
     }));
 
+    log("docs", docs);
+
     for (const doc of docs) {
-      if (doc.room_id == 'safari' && doc.spots < disponibilidad.Safari) {
+      if (doc.room_id == "safari" && doc.spots < disponibilidad.Safari) {
         disponibilidad.Safari = doc.spots;
       }
-      if (doc.room_id == 'ancestral' && doc.spots < disponibilidad.Ancestral) {
+      if (doc.room_id == "ancestral" && doc.spots < disponibilidad.Ancestral) {
         disponibilidad.Ancestral = doc.spots;
       }
-      if (doc.room_id == 'anamay' && doc.spots < disponibilidad.Anamay) {
+      if (doc.room_id == "anamay" && doc.spots < disponibilidad.Anamay) {
         disponibilidad.Anamay = doc.spots;
       }
     }
@@ -56,8 +61,8 @@ const getAvailability = onCall(async (request) => {
 });
 
 const generateBookingCode = async () => {
-  const caracteres = 'ABY0123456789';
-  let codigo = '';
+  const caracteres = "ABY0123456789";
+  let codigo = "";
   let uniqueCode = false;
 
   for (let i = 0; i < 6; i++) {
@@ -67,8 +72,8 @@ const generateBookingCode = async () => {
 
   while (uniqueCode == false) {
     const checkingCode = db
-      .collection('reservas')
-      .where('idReserva', '==', codigo);
+      .collection("reservas")
+      .where("idReserva", "==", codigo);
     const snapshot = await checkingCode.get();
     const docs = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -84,10 +89,10 @@ const generateBookingCode = async () => {
 };
 
 const verifyAvailability = async (info) => {
-  const availabilityCollection = db.collection('availability');
+  const availabilityCollection = db.collection("availability");
   const availabilityQuery = availabilityCollection
-    .where('date', 'in', info.bookingRange)
-    .where('room_id', '==', info.cabana);
+    .where("date", "in", info.bookingRange)
+    .where("room_id", "==", info.cabana);
 
   try {
     const availabilitySnapshot = await availabilityQuery.get();
@@ -112,10 +117,10 @@ const verifyAvailability = async (info) => {
 };
 
 const takeAvailability = async (item) => {
-  const availabilityCollection = db.collection('availability');
+  const availabilityCollection = db.collection("availability");
   const availabilityQuery = availabilityCollection
-    .where('date', 'in', item.bookingRange)
-    .where('room_id', '==', item.cabana.toLowerCase());
+    .where("date", "in", item.bookingRange)
+    .where("room_id", "==", item.cabana.toLowerCase());
 
   try {
     const availabilitySnapshot = await availabilityQuery.get();
@@ -123,7 +128,6 @@ const takeAvailability = async (item) => {
       id: doc.id,
       ...doc.data(),
     }));
-
 
     for (const document of docs) {
       const docRef = availabilityCollection.doc(document.id);
@@ -136,23 +140,22 @@ const takeAvailability = async (item) => {
   }
 };
 
-
 const reservar = onCall(async (request) => {
   const item = request.data;
   const inputsVerification = await formValidations(item);
   if (inputsVerification == false) {
-    return 'Error en los datos ingresados';
+    return "Error en los datos ingresados";
   }
   const idReserva = await generateBookingCode();
   const availabilityVerification = await verifyAvailability(item);
   if (availabilityVerification == false) {
-    return 'No hay disponibilidad';
+    return "No hay disponibilidad";
   }
-  const reservasCollection = db.collection('reservas');
+  const reservasCollection = db.collection("reservas");
 
   try {
     if (item.fileData) {
-      const buffer = Buffer.from(item.fileData, 'base64');
+      const buffer = Buffer.from(item.fileData, "base64");
       const file = bucket.file(`comprobantes/${idReserva}`);
       await file.save(buffer, {
         contentType: item.fileType,
@@ -160,35 +163,35 @@ const reservar = onCall(async (request) => {
       });
     }
     const url = `comprobantes/${idReserva}`;
-    log('Comprobante subido con éxito');
+    log("Comprobante subido con éxito");
 
     await reservasCollection.doc(idReserva).set({
-      'idReserva': idReserva,
-      'Nombre': item.name,
-      'Celular': item.phone,
-      'Correo': item.email,
-      'Cédula': item.documentId,
-      'Cantidad de cabañas': item.amountRooms,
-      'Cantidad de huespedes': item.guests,
-      'Check in': item.checkIn,
-      'Check out': item.checkOut,
-      'Información de acompañantes': item.guestsInfo,
-      'Valor': item.precio,
-      'Tipo de cabaña': item.cabana,
-      'timestamp': dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      'path': url,
-      'torrentismo': item.torrentismo,
-      'canopy': item.canopy,
-      'rafting': item.rafting,
-      'menu': item.menu,
-      'precioMenu': item.precioMenu,
-      'precioActividades': item.precioActividades,
-      'precioFinal': item.precioFinal,
-      'status': 'pending',
+      "idReserva": idReserva,
+      "Nombre": item.name,
+      "Celular": item.phone,
+      "Correo": item.email,
+      "Cédula": item.documentId,
+      "Cantidad de cabañas": item.amountRooms,
+      "Cantidad de huespedes": item.guests,
+      "Check in": item.checkIn,
+      "Check out": item.checkOut,
+      "Información de acompañantes": item.guestsInfo,
+      "Valor": item.precio,
+      "Tipo de cabaña": item.cabana,
+      "timestamp": dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      "path": url,
+      "torrentismo": item.torrentismo,
+      "canopy": item.canopy,
+      "rafting": item.rafting,
+      "menu": item.menu,
+      "precioMenu": item.precioMenu,
+      "precioActividades": item.precioActividades,
+      "precioFinal": item.precioFinal,
+      "status": "pending",
     });
-    log('Reserva creada con éxito');
+    log("Reserva creada con éxito");
     await takeAvailability(item);
-    log('Disponibilidad actualizada');
+    log("Disponibilidad actualizada");
     const secretEmail = process.env.SECRET_EMAIL;
     const infoEmail = {
       Nombre: item.name,
@@ -199,7 +202,7 @@ const reservar = onCall(async (request) => {
       CheckOutDate: item.checkOut,
       PrecioCabana: item.precio,
       TipoDeCabaña: item.cabana,
-      subject: 'Confirmación de reserva',
+      subject: "Confirmación de reserva",
       idReserva: idReserva,
       menu: item.menu,
       torrentismo: item.torrentismo,
@@ -224,7 +227,7 @@ const reservar = onCall(async (request) => {
     addCalendar(infoEvent);
     return idReserva;
   } catch (error) {
-    console.error('Error fetching reserva: ', error);
+    console.error("Error fetching reserva: ", error);
   }
 });
 
@@ -239,10 +242,13 @@ const lookBooking = onCall(async (request) => {
       ...doc.data(),
     }));
 
-    log(docs);
+    const urlBill = await fetchBill(id);
+
+    docs[0]["bill"] = urlBill;
+
     return docs[0];
   } catch (error) {
-    log('Wrong information');
+    log("Wrong information", error);
   }
 });
 

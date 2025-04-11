@@ -1,7 +1,7 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { auth } from "../firebase/firebase.config.js";
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    const auth = getAuth();
     const user = await new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         resolve(user);

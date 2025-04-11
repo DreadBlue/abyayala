@@ -6,15 +6,18 @@ module.exports = {
   parserOptions: {
     "ecmaVersion": 2018,
   },
-  extends: [
-    "eslint:recommended",
-    "google",
-  ],
+  extends: ["eslint:recommended", "google"],
   rules: {
-    "quotes": "off",
-    'max-len': ["error", { "code": 180 }],
+    "prettier/prettier": [
+      "error",
+      {
+        quoteProps: "preserve",
+      },
+    ],
+    "quotes": "on",
+    "max-len": ["error", { "code": 180 }],
     "object-curly-spacing": [2, "always"],
-    'indent': 'off',
+    "indent": "off",
     "react/prop-types": "off",
   },
   overrides: [

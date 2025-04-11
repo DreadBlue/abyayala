@@ -1,13 +1,13 @@
-import { defineStore } from 'pinia';
-import { httpsCallable } from 'firebase/functions';
+import { defineStore } from "pinia";
+import { httpsCallable } from "firebase/functions";
 import { functions } from "/firebase/firebase.config.js";
 
-export const useBookingStore = defineStore('booking', {
+export const useBookingStore = defineStore("booking", {
   state: () => {
     return {
-      checkIn: '',
-      checkOut: '',
-      cabana: '',
+      checkIn: "",
+      checkOut: "",
+      cabana: "",
       amountRooms: 0,
       bookingRange: [],
       precio: 0,
@@ -17,15 +17,15 @@ export const useBookingStore = defineStore('booking', {
       canopy: 0,
       rafting: 0,
       menu: [],
-      idReserva: 'ABY000',
+      idReserva: "ABY000",
       fetchError: false,
-      currentPath: '',
+      currentPath: "",
       lastBooking: 0,
     };
   },
   persist: {
     storage: sessionStorage,
-    pick: ['idReserva'],
+    pick: ["idReserva"],
   },
   actions: {
     resetStates() {
@@ -47,13 +47,11 @@ export const useBookingStore = defineStore('booking', {
     },
 
     async lookBooking(bookingInfo) {
-      console.log(bookingInfo)
+      console.log(bookingInfo);
       try {
-        const lookBookingFunction = httpsCallable(
-          functions,
-          'lookBooking',
-        );
+        const lookBookingFunction = httpsCallable(functions, "lookBooking");
         const booking = await lookBookingFunction(bookingInfo);
+        console.log("booking", booking);
         return booking.data;
       } catch (error) {
         console.error(error);
@@ -65,7 +63,7 @@ export const useBookingStore = defineStore('booking', {
       try {
         const availabilityFunction = httpsCallable(
           functions,
-          'getAvailability',
+          "getAvailability"
         );
         const availability = await availabilityFunction({ dates });
         this.bookingRange = availability.data.bookingRange;
@@ -80,7 +78,7 @@ export const useBookingStore = defineStore('booking', {
       const fileToBase64 = (file) => {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = () => resolve(reader.result.split(',')[1]);
+          reader.onload = () => resolve(reader.result.split(",")[1]);
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
@@ -108,7 +106,7 @@ export const useBookingStore = defineStore('booking', {
           precioMenu: this.precioMenu,
           precioActividades: this.precioActivities,
           precioFinal: precioFinal,
-          status: 'pending',
+          status: "pending",
         };
       } else {
         bookingInfo = {
@@ -130,17 +128,17 @@ export const useBookingStore = defineStore('booking', {
       }
 
       try {
-        const reservarEvent = httpsCallable(functions, 'reservar');
+        const reservarEvent = httpsCallable(functions, "reservar");
         const reservar = await reservarEvent(bookingInfo);
         this.idReserva = reservar.data;
         return reservar.data;
       } catch (error) {
-        console.error('Error creando reserva: ', error);
+        console.error("Error creando reserva: ", error);
       }
     },
 
     async sendEmail(item) {
-      console.log(item)
+      console.log(item);
       // try {
       //   const sendEmail = httpsCallable(functions, 'sendEmail');
       //   const email = await sendEmail(item);
@@ -152,16 +150,15 @@ export const useBookingStore = defineStore('booking', {
     },
 
     async changeRequest(item) {
-      console.log(item)
+      console.log(item);
       try {
-        const sendChangeRequest = httpsCallable(functions, 'createRequest');
+        const sendChangeRequest = httpsCallable(functions, "createRequest");
         const changeRequest = await sendChangeRequest(item);
         return changeRequest;
       } catch (error) {
-        console.log('error sending request: ', error);
+        console.log("error sending request: ", error);
         throw error;
       }
     },
-
   },
 });
