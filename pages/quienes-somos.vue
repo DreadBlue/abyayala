@@ -53,16 +53,16 @@
 <script setup>
 const BannerFamily = {
   card: {
-    title: '¿QUIENES SOMOS?',
-    src: '/otros/familia.png',
+    title: "¿QUIENES SOMOS?",
+    src: "/otros/familia.png",
     flex: 12,
-    height: '500px',
+    height: "500px",
   },
 };
 const BannerRoom = {
   card: {
-    title: '',
-    src: '/otros/imagen3.JPG',
+    title: "",
+    src: "/otros/imagen3.JPG",
     flex: 12,
   },
 };

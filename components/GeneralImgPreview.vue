@@ -17,11 +17,11 @@
 </template>
 
 <script setup>
-import { useGeneralStore } from '/stores/general.js';
+import { useGeneralStore } from "/stores/general.js";
 
 const useGeneral = useGeneralStore();
 function showModified(value) {
-  useGeneral.updateState(value, 'showPreview');
+  useGeneral.updateState(value, "showPreview");
 }
 
 const props = defineProps({

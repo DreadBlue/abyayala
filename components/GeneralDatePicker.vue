@@ -26,23 +26,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
-import dayjs from 'dayjs';
+import { defineComponent, type PropType } from "vue";
+import dayjs from "dayjs";
 
 export default defineComponent({
-  name: 'DateInput',
+  name: "DateInput",
   props: {
     icon: {
       type: String,
-      default: 'mdi-calendar-today',
+      default: "mdi-calendar-today",
     },
     location: {
-      type: String as PropType<'top' | 'bottom'>,
-      default: 'bottom',
+      type: String as PropType<"top" | "bottom">,
+      default: "bottom",
     },
     elevation: {
       type: String,
-      default: '6',
+      default: "6",
     },
     closeOnContentClick: {
       type: Boolean,
@@ -50,7 +50,7 @@ export default defineComponent({
     },
     labelInput: {
       type: String,
-      default: 'Escribe aquí',
+      default: "Escribe aquí",
     },
     modelValue: {
       type: String,
@@ -62,7 +62,7 @@ export default defineComponent({
     },
     pickerWidth: {
       type: String,
-      default: 'max-width: 85%',
+      default: "max-width: 85%",
     },
     showPicker: {
       type: Boolean,
@@ -73,12 +73,12 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['update:model-value', 'update:show-picker'],
+  emits: ["update:model-value", "update:show-picker"],
   methods: {
     date(value: any) {
-      this.$emit('update:model-value', dayjs(value).format('DD-MM-YYYY'));
+      this.$emit("update:model-value", dayjs(value).format("DD-MM-YYYY"));
       this.showMenu = false; // Close the menu after selecting a date
-      this.$emit('update:show-picker', false); // Emit the closed state to the parent
+      this.$emit("update:show-picker", false); // Emit the closed state to the parent
     },
   },
   watch: {
@@ -86,8 +86,8 @@ export default defineComponent({
       this.showMenu = newValue;
     },
     showMenu(newValue) {
-      this.$emit('update:show-picker', newValue);
-    }
+      this.$emit("update:show-picker", newValue);
+    },
   },
   data() {
     return {

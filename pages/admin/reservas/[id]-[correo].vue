@@ -4,13 +4,13 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
+import { useBookingStore } from "/stores/booking.js";
 
 export default {
   setup() {
     definePageMeta({
-      middleware: 'auth',
-      layout: 'admin',
+      middleware: "auth",
+      layout: "admin",
     });
   },
   data() {
@@ -22,7 +22,7 @@ export default {
       info: { id: route.params.id, email: route.params.correo },
       booking: [],
       loaded: ref(false),
-      textLoaded: 'Buscando reserva',
+      textLoaded: "Buscando reserva",
     };
   },
   methods: {
@@ -30,14 +30,14 @@ export default {
       try {
         this.booking = await this.useBooking.lookBooking(this.info);
         console.log(this.booking);
-        if (this.booking.value == 'wrong information') {
+        if (this.booking.value == "wrong information") {
           this.useBooking.fetchError = true;
           // navigateTo(this.useBooking.currentPath);
-        } else if (this.booking.value !== 'wrong information') {
+        } else if (this.booking.value !== "wrong information") {
           this.loaded = true;
         }
       } catch (error) {
-        console.error('Error fetching booking:', error);
+        console.error("Error fetching booking:", error);
       }
     },
   },

@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import { getAuth, signOut } from 'firebase/auth';
-import { useGeneralStore } from '/stores/general.js';
+import { getAuth, signOut } from "firebase/auth";
+import { useGeneralStore } from "/stores/general.js";
 
 export default {
   setup() {
@@ -73,28 +73,28 @@ export default {
     group: null,
     routes: [
       {
-        name: 'Inicio',
-        route: '/',
+        name: "Inicio",
+        route: "/",
       },
       {
-        name: 'Actividades',
-        route: '/actividades',
+        name: "Actividades",
+        route: "/actividades",
       },
       {
-        name: 'Cabañas',
-        route: '/cabanas',
+        name: "Cabañas",
+        route: "/cabanas",
       },
       {
-        name: '¿Quienes somos?',
-        route: '/quienes-somos',
+        name: "¿Quienes somos?",
+        route: "/quienes-somos",
       },
       {
-        name: 'Contacto',
-        route: '/contacto',
+        name: "Contacto",
+        route: "/contacto",
       },
       {
-        name: 'Mi reserva',
-        route: '/mireserva',
+        name: "Mi reserva",
+        route: "/mireserva",
       },
     ],
   }),
@@ -108,8 +108,8 @@ export default {
         .catch((error) => {
           // An error happened.
         });
-      this.useGeneral.updateState(false, 'signOutButton');
-      return navigateTo('/admin');
+      this.useGeneral.updateState(false, "signOutButton");
+      return navigateTo("/admin");
     },
   },
   watch: {

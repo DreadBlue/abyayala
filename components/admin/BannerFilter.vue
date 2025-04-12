@@ -311,20 +311,20 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 export default {
   data() {
     const useAdmin = useAdminStore();
     return {
-      open: ['Filters', 'Time'],
-      buscar: '',
+      open: ["Filters", "Time"],
+      buscar: "",
       warning: false,
       drawer: false,
       group: null,
       filters: {
         time: {
-          startDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-          endDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+          startDate: dayjs().endOf("month").format("YYYY-MM-DD"),
+          endDate: dayjs().startOf("month").format("YYYY-MM-DD"),
         },
         activities: {
           Torrentismo: true,
@@ -358,14 +358,14 @@ export default {
       this.drawer = false;
     },
   },
-  emits: ['update:bookings', 'update:loading'],
+  emits: ["update:bookings", "update:loading"],
   methods: {
     async filterHandler() {
-      this.$emit('update:loading', true);
+      this.$emit("update:loading", true);
       const bookings = await this.useAdmin.adminBookings(this.filters);
-      if (bookings[0] != 'Faltan filtros') {
-        this.$emit('update:bookings', bookings);
-        this.$emit('update:loading', false);
+      if (bookings[0] != "Faltan filtros") {
+        this.$emit("update:bookings", bookings);
+        this.$emit("update:loading", false);
       } else {
         console.log(bookings);
         this.warning = true;
@@ -374,8 +374,8 @@ export default {
   },
   async mounted() {
     const bookings = await this.useAdmin.adminBookings(this.filters);
-    this.$emit('update:bookings', bookings);
-    this.$emit('update:loading', false);
+    this.$emit("update:bookings", bookings);
+    this.$emit("update:loading", false);
   },
 };
 </script>

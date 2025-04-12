@@ -40,7 +40,7 @@
   <v-col cols="12">
     <div class="d-flex justify-center ga-4">
       <v-btn readonly class="ml-2 bg-second color-white"
-        >COMIDA: {{ menuPrice.toLocaleString('es-Co') }}</v-btn
+        >COMIDA: {{ menuPrice.toLocaleString("es-Co") }}</v-btn
       >
       <v-btn class="bg-second color-white" @click="updateInfo(menuPrice)"
         >Continuar</v-btn
@@ -50,8 +50,8 @@
 </template>
 
 <script setup>
-import menuJSON from '../../assets/menu.json';
-import { useBookingStore } from '/stores/booking.js';
+import menuJSON from "../../assets/menu.json";
+import { useBookingStore } from "/stores/booking.js";
 
 const foodMenu = menuJSON;
 const route = useRoute();
@@ -73,7 +73,7 @@ function deletePlate(item) {
 function updateInfo(item) {
   const data = route.query;
   router.push({
-    path: '/reservar/datos',
+    path: "/reservar/datos",
     query: {
       ...data,
       menuAmount: menuPrice.value,

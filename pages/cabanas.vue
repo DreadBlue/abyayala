@@ -37,12 +37,12 @@
 </template>
 
 <script setup>
-import cabanas from '../assets/cabanas.json';
+import cabanas from "../assets/cabanas.json";
 
 const stylingCabanas = {
-  divStyle: 'height: 100%',
-  imgStyle: 'height: 100%; width: 87%; object-fit: cover;',
+  divStyle: "height: 100%",
+  imgStyle: "height: 100%; width: 87%; object-fit: cover;",
 };
 
-const content = cabanas.filter((item) => item.tipo === 'Safari');
+const content = cabanas.filter((item) => item.tipo === "Safari");
 </script>

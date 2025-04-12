@@ -62,7 +62,7 @@ export const useBookingStore = defineStore("booking", {
       try {
         const availabilityFunction = httpsCallable(
           functions,
-          "getAvailability"
+          "getAvailability",
         );
         const availability = await availabilityFunction({ dates });
         this.bookingRange = availability.data.bookingRange;

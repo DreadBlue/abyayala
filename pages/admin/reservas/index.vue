@@ -13,13 +13,13 @@
 </template>
 
 <script setup>
-import dayjs from 'dayjs';
-import { useBookingStore } from '/stores/booking.js';
-import { useAdminStore } from '/stores/admin.js';
+import dayjs from "dayjs";
+import { useBookingStore } from "/stores/booking.js";
+import { useAdminStore } from "/stores/admin.js";
 
 definePageMeta({
-  middleware: 'auth',
-  layout: 'admin',
+  middleware: "auth",
+  layout: "admin",
 });
 
 const useBooking = useBookingStore();
@@ -27,18 +27,18 @@ const useAdmin = useAdminStore();
 let bookings = ref([]);
 
 let filters = ref({
-  startDate: dayjs().format('YYYY-MM-DD'),
+  startDate: dayjs().format("YYYY-MM-DD"),
   endDate: dayjs(),
 });
 
 let loading = ref(true);
-const loaderText = 'Cargando reservas';
+const loaderText = "Cargando reservas";
 
 const fetchBookings = async () => {
   try {
     bookings.value = await useAdmin.adminBookings(filters.value);
   } catch (error) {
-    console.error('Failed to fetch bookings:', error);
+    console.error("Failed to fetch bookings:", error);
   }
 };
 onMounted(() => {

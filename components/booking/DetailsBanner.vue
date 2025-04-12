@@ -50,7 +50,7 @@
             ><span
               class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
-              >{{ precio.toLocaleString('es-Co') }}</span
+              >{{ precio.toLocaleString("es-Co") }}</span
             >
           </div>
           <div class="d-flex justify-space-between">
@@ -59,7 +59,7 @@
             ><span
               class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
-              >{{ precioActivities.toLocaleString('es-Co') }}</span
+              >{{ precioActivities.toLocaleString("es-Co") }}</span
             >
           </div>
           <div class="d-flex justify-space-between pb-3">
@@ -68,7 +68,7 @@
             ><span
               class="text-body-2 text-sm-body-2"
               style="font-weight: 400"
-              >{{ precioMenu.toLocaleString('es-Co') }}</span
+              >{{ precioMenu.toLocaleString("es-Co") }}</span
             >
           </div>
           <v-divider :thickness="4" class="border-opacity-50" />
@@ -99,7 +99,7 @@
                   useBooking.precio +
                   useBooking.precioActivities +
                   useBooking.precioMenu
-                ).toLocaleString('es-Co')
+                ).toLocaleString("es-Co")
               }}</span
             >
           </div>
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
+import { useBookingStore } from "/stores/booking.js";
 
 export default {
   data() {
@@ -124,7 +124,7 @@ export default {
       precioActivities: useBooking.precioActivities,
       precioMenu: useBooking.precioMenu,
       precio: useBooking.precio,
-      voucher: '',
+      voucher: "",
       descuentos: {
         AbyaCash: 95,
         sepsafari: 84.375,

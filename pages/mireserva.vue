@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
+import { useBookingStore } from "/stores/booking.js";
 
 export default {
   data() {
@@ -26,14 +26,14 @@ export default {
     return {
       useBooking,
       route,
-      idReserva: '',
-      correo: '',
+      idReserva: "",
+      correo: "",
       BannerMireserva: {
         card: {
-          title: '',
-          src: '/otros/panoramica.jpg',
+          title: "",
+          src: "/otros/panoramica.jpg",
           flex: 12,
-          height: '700px',
+          height: "700px",
         },
       },
     };
@@ -41,16 +41,16 @@ export default {
   computed: {
     info() {
       return {
-        InputUno: ['Codigo de reserva', 'Codigo de reserva', 'mdi-ticket'],
+        InputUno: ["Codigo de reserva", "Codigo de reserva", "mdi-ticket"],
         InputDos: [
-          'Correo titular',
-          'Ingresa tu correo electronico',
-          'mdi-email-outline',
+          "Correo titular",
+          "Ingresa tu correo electronico",
+          "mdi-email-outline",
         ],
         Descripcion:
-          '¡Hola! Bienvenido a casa, desde aquí podrás enviar solicitudes para modificar tus fechas de reserva, el titular o realizar la reserva anticipada de tu menú de comidas durante tu estancia',
+          "¡Hola! Bienvenido a casa, desde aquí podrás enviar solicitudes para modificar tus fechas de reserva, el titular o realizar la reserva anticipada de tu menú de comidas durante tu estancia",
         Login: false,
-        btn: ['Gestionar reserva', `/reserva-${this.idReserva}-${this.correo}`],
+        btn: ["Gestionar reserva", `/reserva-${this.idReserva}-${this.correo}`],
       };
     },
   },

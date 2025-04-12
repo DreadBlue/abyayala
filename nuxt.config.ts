@@ -1,47 +1,51 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   ssr: false,
 
   nitro: {
     firebase: {
-      gen: 2
-    }
+      gen: 2,
+    },
   },
 
   devtools: { enabled: true },
 
-  app: { 
+  app: {
     head: {
-      title: 'Abya Yala Hostel',
-      link: [{
-        rel: "icon", href: "/logo-e7954e35.ico", type:"image/x-icon"
-      }],
-      script:[
-       {
-        src: "https://checkout.bold.co/library/boldPaymentButton.js"
-       } 
-      ] 
+      title: "Abya Yala Hostel",
+      link: [
+        {
+          rel: "icon",
+          href: "/logo-e7954e35.ico",
+          type: "image/x-icon",
+        },
+      ],
+      script: [
+        {
+          src: "https://checkout.bold.co/library/boldPaymentButton.js",
+        },
+      ],
     },
   },
 
   build: {
-    transpile: ['vuetify'],
+    transpile: ["vuetify"],
   },
 
-  css: ['vuetify/lib/styles/main.sass'],
+  css: ["vuetify/lib/styles/main.sass"],
 
   modules: [
     (_options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', (config) => {
+      nuxt.hooks.hook("vite:extendConfig", (config) => {
         // @ts-expect-error
-        config.plugins.push(vuetify({ autoImport: true }))
-      })
+        config.plugins.push(vuetify({ autoImport: true }));
+      });
     },
-    '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt',
-    'dayjs-nuxt',
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+    "dayjs-nuxt",
   ],
 
   vite: {
@@ -52,5 +56,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2025-01-06',
-})
+  compatibilityDate: "2025-01-06",
+});

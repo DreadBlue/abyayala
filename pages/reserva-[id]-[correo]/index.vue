@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
-import { useAdminStore } from '/stores/admin.js';
+import { useBookingStore } from "/stores/booking.js";
+import { useAdminStore } from "/stores/admin.js";
 
 export default {
   data() {
@@ -19,21 +19,21 @@ export default {
       info: { id: route.params.id, email: route.params.correo },
       booking: ref(),
       loaded: ref(false),
-      textLoaded: 'Buscando reserva',
+      textLoaded: "Buscando reserva",
     };
   },
   methods: {
     async lookBooking() {
       try {
         this.booking = await this.useBooking.lookBooking(this.info);
-        if (this.booking.value == 'wrong information') {
+        if (this.booking.value == "wrong information") {
           this.useBooking.fetchError = true;
           // navigateTo(this.useBooking.currentPath);
-        } else if (this.booking.value !== 'wrong information') {
+        } else if (this.booking.value !== "wrong information") {
           this.loaded = true;
         }
       } catch (error) {
-        console.error('Error fetching booking:', error);
+        console.error("Error fetching booking:", error);
       }
     },
   },

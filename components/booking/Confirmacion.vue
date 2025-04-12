@@ -31,8 +31,8 @@
 </template>
 
 <script setup>
-import { useBookingStore } from '/stores/booking.js';
-import { useDisplay } from 'vuetify';
+import { useBookingStore } from "/stores/booking.js";
+import { useDisplay } from "vuetify";
 
 const useBooking = useBookingStore();
 const idReserva = computed(() => {
@@ -40,20 +40,20 @@ const idReserva = computed(() => {
 });
 
 const { smAndDown } = useDisplay();
-const reactiveHeight = ref('height: 450px');
+const reactiveHeight = ref("height: 450px");
 
 let loaded = ref(true);
-const textLoader = 'Confirmando reserva';
+const textLoader = "Confirmando reserva";
 
 onMounted(async () => {
   loaded.value = false;
-  sessionStorage.removeItem('booking');
+  sessionStorage.removeItem("booking");
 });
 
 const BannerMenu = {
   card: {
-    title: '',
-    src: '/otros/menu1.jpg',
+    title: "",
+    src: "/otros/menu1.jpg",
     flex: 12,
     height: reactiveHeight.value,
   },

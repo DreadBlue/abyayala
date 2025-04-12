@@ -22,7 +22,7 @@
               size="30"
             />
             <span class="ml-1 px-1"
-              >${{ plate.precio.toLocaleString('es-Co') }}</span
+              >${{ plate.precio.toLocaleString("es-Co") }}</span
             >
           </div>
           <div class="d-flex justify-center mt-2">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { useBookingStore } from '/stores/booking.js';
+import { useBookingStore } from "/stores/booking.js";
 
 const props = defineProps({
   plate: Object,

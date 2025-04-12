@@ -60,16 +60,16 @@
 </template>
 
 <script>
-import rooms from '../assets/rooms.json';
+import rooms from "../assets/rooms.json";
 
 export default {
   data() {
     return {
       stylingCabanas: {
-        divStyle: 'height: 100%',
-        imgStyle: 'height: 100%; width: 87%; object-fit: cover;',
+        divStyle: "height: 100%",
+        imgStyle: "height: 100%; width: 87%; object-fit: cover;",
       },
-      content: rooms.filter((item) => item.home === 'si'),
+      content: rooms.filter((item) => item.home === "si"),
     };
   },
 };

@@ -33,7 +33,7 @@
               size="40"
             />
             <span class="ml-1 px-1"
-              >${{ actividad.price.toLocaleString('es-Co') }}</span
+              >${{ actividad.price.toLocaleString("es-Co") }}</span
             >
           </div>
           <span class="color-white text-body-2 ml-10">Precio por persona*</span>
@@ -54,7 +54,7 @@
         class="d-flex flex-md-row flex-column ga-3 justify-center align-center"
       >
         <v-btn readonly class="ml-2 bg-main" style="width: 210px"
-          >ACTIVIDADES: {{ activitiesPrice.toLocaleString('es-Co') }}</v-btn
+          >ACTIVIDADES: {{ activitiesPrice.toLocaleString("es-Co") }}</v-btn
         >
         <v-btn class="bg-main" @click="redirection(activitiesPrice)"
           >Agregar y continuar reserva</v-btn
@@ -66,8 +66,8 @@
 </template>
 
 <script setup>
-import { VNumberInput } from 'vuetify/labs/VNumberInput';
-import { useBookingStore } from '/stores/booking.js';
+import { VNumberInput } from "vuetify/labs/VNumberInput";
+import { useBookingStore } from "/stores/booking.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -81,26 +81,26 @@ const activitiesPrice = computed(() => {
 });
 const actividades = reactive({
   torrentismo: {
-    img: '/otros/newrappell.jpg',
-    name: 'torrentismo',
+    img: "/otros/newrappell.jpg",
+    name: "torrentismo",
     description:
-      'Descubre la emoción de descender por cascadas majestuosas mientras te sumerges en la naturaleza. El torrentismo es la actividad perfecta para los amantes de la aventura y la adrenalina.',
+      "Descubre la emoción de descender por cascadas majestuosas mientras te sumerges en la naturaleza. El torrentismo es la actividad perfecta para los amantes de la aventura y la adrenalina.",
     price: 75000,
     amount: 0,
   },
   canopy: {
-    img: '/otros/newcanoppy.jpg',
-    name: 'canopy',
+    img: "/otros/newcanoppy.jpg",
+    name: "canopy",
     description:
-      'Atrévete a vivir la adrenalina mientras te deslizas a toda velocidad por el canopy más largo de Colombia. Disfruta de vistas espectaculares y una experiencia que recordarás para siempre.',
+      "Atrévete a vivir la adrenalina mientras te deslizas a toda velocidad por el canopy más largo de Colombia. Disfruta de vistas espectaculares y una experiencia que recordarás para siempre.",
     price: 80000,
     amount: 0,
   },
   rafting: {
-    img: '/otros/newraftingg.jpg',
-    name: 'rafting',
+    img: "/otros/newraftingg.jpg",
+    name: "rafting",
     description:
-      'Embárcate en una emocionante aventura en las aguas rápidas de los ríos de la región. Perfecto para quienes buscan emociones fuertes, adrenalina y momentos llenos de risas en equipo.',
+      "Embárcate en una emocionante aventura en las aguas rápidas de los ríos de la región. Perfecto para quienes buscan emociones fuertes, adrenalina y momentos llenos de risas en equipo.",
     price: 80000,
     amount: 0,
   },
@@ -109,7 +109,7 @@ const actividades = reactive({
 function redirection(item) {
   const data = route.query;
   router.push({
-    path: '/reservar/menu',
+    path: "/reservar/menu",
     query: {
       ...data,
       activitiesAmount: item,

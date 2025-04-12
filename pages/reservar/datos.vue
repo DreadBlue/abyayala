@@ -19,8 +19,8 @@
 </template>
 
 <script setup>
-import { useBookingStore } from '/stores/booking.js';
-import { useGeneralStore } from '/stores/general.js';
+import { useBookingStore } from "/stores/booking.js";
+import { useGeneralStore } from "/stores/general.js";
 
 const useBooking = useBookingStore();
 const useGeneral = useGeneralStore();
@@ -41,7 +41,7 @@ onBeforeMount(() => {
     !checkIn.value ||
     !checkOut.value
   ) {
-    return navigateTo('/');
+    return navigateTo("/");
   }
 });
 </script>

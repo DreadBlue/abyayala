@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
-import { useDisplay } from 'vuetify';
+import { useBookingStore } from "/stores/booking.js";
+import { useDisplay } from "vuetify";
 
 export default {
   setup() {
@@ -55,14 +55,14 @@ export default {
     const checkIn = computed(() => useBooking.checkIn);
     const checkOut = computed(() => useBooking.checkOut);
     const { smAndDown } = useDisplay();
-    const reactiveHeight = ref('height: 450px');
+    const reactiveHeight = ref("height: 450px");
     watch(
       smAndDown,
       (val) => {
         if (val == true) {
-          reactiveHeight.value = 'height: auto';
+          reactiveHeight.value = "height: auto";
         } else {
-          reactiveHeight.value = 'height: 450px';
+          reactiveHeight.value = "height: 450px";
         }
       },
       {
@@ -99,7 +99,7 @@ export default {
     redirection(item) {
       const dates = this.$route.query;
       this.router.push({
-        path: '/reservar/actividades',
+        path: "/reservar/actividades",
         query: {
           ...dates,
           cabana: item.tipo,

@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { useBookingStore } from '/stores/booking.js';
+import { useBookingStore } from "/stores/booking.js";
 
 export default {
   props: {
@@ -129,12 +129,12 @@ export default {
       adminError: useBooking.loginError,
     };
   },
-  emits: ['update:fieldOne', 'update:fieldTwo'],
+  emits: ["update:fieldOne", "update:fieldTwo"],
   methods: {
     signInIf() {
-      if (this.action && this.fieldOne !== '' && this.fieldTwo !== '') {
+      if (this.action && this.fieldOne !== "" && this.fieldTwo !== "") {
         this.action();
-      } else if (!this.action && this.fieldOne !== '' && this.fieldTwo !== '') {
+      } else if (!this.action && this.fieldOne !== "" && this.fieldTwo !== "") {
         return navigateTo(this.formato.btn[1]);
       }
     },

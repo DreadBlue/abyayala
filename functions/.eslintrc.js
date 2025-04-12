@@ -4,25 +4,25 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    "ecmaVersion": 2018,
+    'ecmaVersion': 2018,
   },
-  extends: ["eslint:recommended", "google"],
+  extends: ['eslint:recommended', 'google', 'plugin:prettier/recommended'],
   rules: {
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
-        quoteProps: "preserve",
+        quoteProps: 'preserve',
       },
     ],
-    "quotes": "on",
-    "max-len": ["error", { "code": 180 }],
-    "object-curly-spacing": [2, "always"],
-    "indent": "off",
-    "react/prop-types": "off",
+    'quotes': 'off',
+    'max-len': ['error', { 'code': 180 }],
+    'object-curly-spacing': [2, 'always'],
+    'indent': 'off',
+    'react/prop-types': 'off',
   },
   overrides: [
     {
-      files: ["**/*.spec.*"],
+      files: ['**/*.spec.*'],
       env: {
         mocha: true,
       },
