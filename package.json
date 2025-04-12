@@ -29,7 +29,10 @@
   "devDependencies": {
     "autoprefixer": "^10.4.18",
     "dayjs-nuxt": "^2.1.9",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "postcss": "^8.4.37",
+    "prettier": "^3.5.3",
     "sass": "^1.77.8",
     "sass-loader": "^14.2.1",
     "vite-plugin-vuetify": "^2.0.4",

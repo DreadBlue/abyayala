@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid>
+  <general-loader v-if="loader" loadingText="Confirmando reserva..." />
+  <v-container v-if="!loader" fluid>
     <v-row>
       <v-col cols="12" class="text-center">
         <span class="color-main text-h4 text-sm-h3">DATOS DE RESERVA</span>
@@ -26,9 +27,6 @@
                 </v-text-field>
               </v-col>
             </v-row>
-            <span class="d-flex justify-center pt-3" v-if="warning"
-              >Faltan datos</span
-            >
           </v-container>
         </v-form>
       </v-col>
@@ -71,6 +69,9 @@
             @click="initiateCheckout('card')"
             >PAGAR</v-btn
           >
+          <span class="d-flex justify-center pt-3" v-if="newWarning"
+            >Faltan datos</span
+          >
         </div>
       </v-col>
     </v-row>
@@ -92,6 +93,8 @@ const warning = computed(() => {
 const card = ref(false);
 const cash = ref(false);
 const invoice = ref([]);
+const loader = ref(false);
+const newWarning = ref(false);
 
 const inputs = reactive({
   name: {
@@ -155,7 +158,7 @@ const inputs = reactive({
 });
 
 async function initiateCheckout(payment) {
-  // this.useGeneral.updateDetails({loading: true});
+  loader.value = true;
   const amount = useBooking.precio;
   const orderId = "ORDER" + Date.now() * 1e6;
 
@@ -179,10 +182,10 @@ async function initiateCheckout(payment) {
       orderId: orderId,
       currency: "COP",
       amount: amount,
-      apiKey: "KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA",
+      apiKey: "FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw",
       integritySignature: hash,
       description: "Pago valor dinámico",
-      redirectionUrl: "https://abyayalahostel.com/reservar/confirmacion",
+      redirectionUrl: "https://www.abyayalahostel.com/reservar/confirmacion",
       renderMode: "embedded",
     });
 
@@ -194,8 +197,8 @@ async function initiateCheckout(payment) {
         return navigateTo("/reservar/confirmacion");
       }
     } else {
-      this.useGeneral.updateDetails({ loading: false });
-      this.useGeneral.updateDetails({ warning: true });
+      loader.value = false;
+      newWarning.value = true;
     }
   } catch (error) {
     console.error("Booking error:", error);

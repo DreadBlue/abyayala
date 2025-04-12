@@ -1,6 +1,8 @@
-const dotenv = require('dotenv').config();
+const dotoenv = require('dotenv');
 const admin = require('firebase-admin');
 const { Storage } = require('@google-cloud/storage');
+
+dotoenv.config();
 
 admin.initializeApp();
 const db = admin.firestore();

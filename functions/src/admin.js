@@ -2,7 +2,7 @@ const { onCall } = require('firebase-functions/v2/https');
 const { log } = require('firebase-functions/logger');
 const { FieldValue } = require('firebase-admin/firestore');
 const { deleteCalendarEvent } = require('./google');
-const { db, storage, bucket } = require('./firebase');
+const { db, bucket } = require('./firebase');
 const dayjs = require('dayjs');
 
 const createDatabase = onCall(async () => {

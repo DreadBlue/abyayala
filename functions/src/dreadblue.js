@@ -3,8 +3,6 @@ const { db } = require('./firebase');
 const { onCall } = require('firebase-functions/v2/https');
 const { sendBillEmail } = require('./google');
 const dayjs = require('dayjs');
-const { log } = require('firebase-functions/logger');
-const { fetchBill } = require('./admin.js');
 
 const formatDate = (date) => {
   const year = date.getFullYear();
