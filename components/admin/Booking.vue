@@ -73,7 +73,7 @@
                 </v-col>
                 <v-col cols="12" class="d-flex flex-column align-center ga-8">
                   <img
-                    :src="booking.urlInvoice"
+                    :src="booking.bill"
                     alt="Comprobante"
                     height="200"
                     width="100"
