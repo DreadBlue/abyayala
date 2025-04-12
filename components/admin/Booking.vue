@@ -17,8 +17,7 @@
         cols="12"
         sm="5"
         md="3"
-        class="d-flex flex-column justify-center align-center ga-3"
-      >
+        class="d-flex flex-column justify-center align-center ga-3">
         <v-btn
           class="bg-main color-white text-body-2 text-sm-body-1"
           @click="sendEmail"
@@ -42,8 +41,7 @@
               src="/assets/imgs/cabanas/ancestral.jpeg"
               alt="Foto de cabaña"
               style="width: 100%; max-height: 410px; object-fit: cover"
-              class="rounded-lg"
-            />
+              class="rounded-lg" />
           </v-col>
           <v-col cols="12" class="d-none d-sm-flex flex-sm-column">
             <v-card elevation="3" class="mb-8 pa-5">
@@ -57,8 +55,7 @@
                   <v-text-field
                     disabled
                     label="reserva de comida"
-                    variant="solo"
-                  >
+                    variant="solo">
                   </v-text-field>
                   <v-btn class="bg-third color-white">Reservar comida</v-btn>
                 </v-col>
@@ -73,13 +70,12 @@
                 </v-col>
                 <v-col cols="12" class="d-flex flex-column align-center ga-8">
                   <img
-                    :src="booking.urlInvoice"
+                    :src="booking.bill"
                     alt="Comprobante"
                     height="200"
                     width="100"
                     style="object-fit: cover"
-                    @click="showModified(true)"
-                  />
+                    @click="showModified(true)" />
                   <v-btn class="bg-second color-white" @click="download"
                     >Descargar comprobante</v-btn
                   >
@@ -103,8 +99,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[item[4]]"
-              >
+                v-model="booking[item[4]]">
               </v-text-field>
             </v-col>
           </v-row>
@@ -120,8 +115,7 @@
               <v-text-field
                 :label="item[1]"
                 :variant="item[3]"
-                v-model="booking[item[4]]"
-              >
+                v-model="booking[item[4]]">
               </v-text-field>
             </v-col>
             <v-col cols="12" class="d-flex justify-space-between">
@@ -130,23 +124,20 @@
                 class="flex-grow-0"
                 labelInput="Check in"
                 :min="current"
-                :pickerWidth="reactiveWidth"
-              />
+                :pickerWidth="reactiveWidth" />
               <general-date-picker
                 v-model="booking['Check out']"
                 class="flex-grow-0"
                 labelInput="Check out"
                 :min="checkIn"
-                :pickerWidth="reactiveWidth"
-              />
+                :pickerWidth="reactiveWidth" />
             </v-col>
             <v-col cols="12" class="text-center">
               <v-text-field
                 readonly
                 label="Precio de reserva"
                 variant="solo"
-                v-model="precio"
-              ></v-text-field>
+                v-model="precio"></v-text-field>
             </v-col>
             <v-col cols="12" class="text-center">
               <v-btn class="bg-third color-white">Solicitar cambios</v-btn>
@@ -183,8 +174,7 @@
                 height="200"
                 width="100"
                 style="object-fit: cover"
-                @click="showModified(true)"
-              />
+                @click="showModified(true)" />
               <v-btn class="bg-second color-white" @click="download"
                 >Descargar comprobante</v-btn
               >
@@ -263,7 +253,7 @@ export default {
       },
       {
         immediate: true,
-      },
+      }
     );
     return {
       reactiveWidth,
