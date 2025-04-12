@@ -72,44 +72,44 @@
 </template>
 
 <script setup>
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../../firebase/firebase.config';
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../firebase/firebase.config";
 
-const name = ref('');
-const btnLabel = ref('PAGAR');
-const phone = ref('');
-const email = ref('');
-const concept = ref('');
-const idReserva = ref('');
+const name = ref("");
+const btnLabel = ref("PAGAR");
+const phone = ref("");
+const email = ref("");
+const concept = ref("");
+const idReserva = ref("");
 const rawValue = ref(0);
 const formattedValue = computed({
   get() {
-    const cleanValue = String(rawValue.value || 0).replace(/[^\d.]/g, '');
-    return Number(rawValue.value || 0).toLocaleString('es-CO');
+    const cleanValue = String(rawValue.value || 0).replace(/[^\d.]/g, "");
+    return Number(rawValue.value || 0).toLocaleString("es-CO");
   },
   set(value) {
-    rawValue.value = value.replace(/\D/g, '');
+    rawValue.value = value.replace(/\D/g, "");
   },
 });
 
-const generateHash = httpsCallable(functions, 'generateHash');
+const generateHash = httpsCallable(functions, "generateHash");
 const warning = ref(false);
 
 async function generatePayment() {
-  btnLabel.value = 'Cargando...';
-  const orderId = 'ORDER' + Date.now() * 1e6;
+  btnLabel.value = "Cargando...";
+  const orderId = "ORDER" + Date.now() * 1e6;
   const response = await generateHash({ orderId, amount: rawValue.value });
   const { hash } = response.data;
 
   const checkout = new BoldCheckout({
     orderId: orderId,
-    currency: 'COP',
+    currency: "COP",
     amount: rawValue.value,
-    apiKey: 'KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA',
+    apiKey: "KhzLJ-jCnTupzgcld8RwAJb0LquXdO45i5JyG4FpouA",
     integritySignature: hash,
-    description: 'Pago valor dinámico',
-    renderMode: 'embedded',
-    redirectionUrl: 'http://localhost:3000/reservar/confirmacion',
+    description: "Pago valor dinámico",
+    renderMode: "embedded",
+    redirectionUrl: "http://localhost:3000/reservar/confirmacion",
   });
 
   checkout.open();
@@ -117,10 +117,10 @@ async function generatePayment() {
 
 const BannerMireserva = {
   card: {
-    title: '',
-    src: '/otros/bargente.jpg',
+    title: "",
+    src: "/otros/bargente.jpg",
     flex: 12,
-    height: '700px',
+    height: "700px",
   },
 };
 </script>

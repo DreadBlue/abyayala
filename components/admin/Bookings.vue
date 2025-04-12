@@ -14,7 +14,7 @@
               :src="cabanasPic[item['Tipo de cabaña']]"
               cover
             >
-              <v-card-title>{{ item['Tipo de cabaña'] }}</v-card-title>
+              <v-card-title>{{ item["Tipo de cabaña"] }}</v-card-title>
             </v-img>
 
             <v-card-text class="pt-4 texto-main">
@@ -22,17 +22,17 @@
             </v-card-text>
 
             <v-card-subtitle class="d-flex flex-column px-4 pb-3 ga-1">
-              <div>{{ item['Cantidad de cabañas'] }} cabaña(s)</div>
+              <div>{{ item["Cantidad de cabañas"] }} cabaña(s)</div>
               <v-divider
                 :thickness="4"
                 class="border-opacity-100 rounded color-main"
               />
-              <div>CHECK IN: {{ item['Check in'] }}</div>
+              <div>CHECK IN: {{ item["Check in"] }}</div>
               <v-divider
                 :thickness="4"
                 class="border-opacity-100 rounded color-main"
               />
-              <div>CHECK OUT: {{ item['Check out'] }}</div>
+              <div>CHECK OUT: {{ item["Check out"] }}</div>
               <v-divider
                 :thickness="4"
                 class="border-opacity-100 rounded color-main"
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { useAdminStore } from '/stores/admin.js';
+import { useAdminStore } from "/stores/admin.js";
 
 export default {
   props: {
@@ -77,10 +77,10 @@ export default {
     return {
       displayed: [],
       cabanasPic: {
-        Ancestral: '/cabanas/ancestral.jpeg',
-        Safari: '/otros/imagen3.JPG',
-        AncestralDos: '/cabanas/anamay.jpeg',
-        Anamay: '/cabanas/anamay.jpeg',
+        Ancestral: "/cabanas/ancestral.jpeg",
+        Safari: "/otros/imagen3.JPG",
+        AncestralDos: "/cabanas/anamay.jpeg",
+        Anamay: "/cabanas/anamay.jpeg",
       },
       useAdmin,
     };

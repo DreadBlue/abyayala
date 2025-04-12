@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useGeneralStore = defineStore('general', {
+export const useGeneralStore = defineStore("general", {
   state: () => {
     return {
       showPreview: false,

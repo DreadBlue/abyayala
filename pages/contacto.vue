@@ -46,20 +46,20 @@
 <script setup>
 const redes = {
   whatsapp: {
-    texto: '+57 311 226 9303',
-    icon: 'mdi-whatsapp',
+    texto: "+57 311 226 9303",
+    icon: "mdi-whatsapp",
   },
   instagram: {
-    texto: 'Instagram',
-    icon: 'mdi-instagram',
+    texto: "Instagram",
+    icon: "mdi-instagram",
   },
   facebook: {
-    texto: 'Facebook',
-    icon: 'mdi-facebook',
+    texto: "Facebook",
+    icon: "mdi-facebook",
   },
   correo: {
-    texto: 'reservas.abyayalahostel@gmail.com',
-    icon: 'mdi-gmail',
+    texto: "reservas.abyayalahostel@gmail.com",
+    icon: "mdi-gmail",
   },
 };
 </script>

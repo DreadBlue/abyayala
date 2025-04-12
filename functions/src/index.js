@@ -1,11 +1,11 @@
-const { getAvailability, reservar, lookBooking } = require("./booking");
-const { sendEmail, sendCalendar } = require("./google.js");
-const { generateHash, paymentReceiver } = require("./payments.js");
+const { getAvailability, reservar, lookBooking } = require('./booking');
+const { sendEmail, sendCalendar } = require('./google.js');
+const { generateHash, paymentReceiver } = require('./payments.js');
 const {
   facturaFinal,
   facturaManual,
   firestoreTesting,
-} = require("./dreadblue.js");
+} = require('./dreadblue.js');
 const {
   deleteBooking,
   createDatabase,
@@ -14,7 +14,7 @@ const {
   fetchRequests,
   manageChangeRequest,
   fetchBill,
-} = require("./admin.js");
+} = require('./admin.js');
 
 module.exports = {
   sendEmail,

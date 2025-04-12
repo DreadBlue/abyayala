@@ -10,7 +10,10 @@
           />
         </div>
       </v-col>
-      <v-col cols="6" class="d-flex flex-column justify-center align-center pr-10">
+      <v-col
+        cols="6"
+        class="d-flex flex-column justify-center align-center pr-10"
+      >
         <span class="text-h2 color-main pb-5">RETIRO ESPIRITUAL</span>
         <div>
           <p>
@@ -36,14 +39,25 @@
           <p>💆‍♂️ Espacios de relajación y bienestar.</p>
         </div>
         <div class="w-100 py-3 d-flex align-center ga-2">
-            <p class="text-h5 color-second">COSTO:</p>
-            <p>400.000 COP (Puedes apartar tu cupo con solo $150.000 y paga el resto en cómodos abonos hasta el día del viaje. )</p>
+          <p class="text-h5 color-second">COSTO:</p>
+          <p>
+            400.000 COP (Puedes apartar tu cupo con solo $150.000 y paga el
+            resto en cómodos abonos hasta el día del viaje. )
+          </p>
         </div>
         <div class="w-100">
-            <p>Ven a vivir esta experiencia inolvidable, un regalo para ti mismo y tu bienestar.</p>
-            <p>¡Te esperamos! 🌸🔮</p>
+          <p>
+            Ven a vivir esta experiencia inolvidable, un regalo para ti mismo y
+            tu bienestar.
+          </p>
+          <p>¡Te esperamos! 🌸🔮</p>
         </div>
-        <v-btn class="bg-main color-white mt-5" width="100" to="/reservar/eventos/meditacion">Reservar</v-btn>
+        <v-btn
+          class="bg-main color-white mt-5"
+          width="100"
+          to="/reservar/eventos/meditacion"
+          >Reservar</v-btn
+        >
       </v-col>
     </v-row>
   </v-container>

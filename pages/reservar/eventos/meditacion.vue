@@ -12,7 +12,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" class="px-15" >
+      <v-col cols="12" class="px-15">
         <booking-event />
       </v-col>
     </v-row>

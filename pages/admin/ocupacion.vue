@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3"> 
-        <admin-ocupation-banner/>
+      <v-col cols="3">
+        <admin-ocupation-banner />
       </v-col>
-      <v-col cols="9"> 
+      <v-col cols="9">
         <v-row>
           <v-col>
-            <admin-ocupation/>
+            <admin-ocupation />
           </v-col>
         </v-row>
       </v-col>
@@ -17,7 +17,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  layout: 'admin',
+  middleware: "auth",
+  layout: "admin",
 });
 </script>

@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { useAdminStore } from '/stores/admin.js';
+import { useAdminStore } from "/stores/admin.js";
 
 const useAdmin = useAdminStore();
 const solicitudes = ref({});

@@ -12,12 +12,12 @@
 <script setup>
 let show = ref(true);
 const searcherRoutes = [
-  '/',
-  '/actividades',
-  '/cabanas',
-  '/quienes-somos',
-  '/contacto',
-  '/disponibilidad',
+  "/",
+  "/actividades",
+  "/cabanas",
+  "/quienes-somos",
+  "/contacto",
+  "/disponibilidad",
 ];
 const currentRoute = computed(() => useRoute().path);
 watchEffect(() => {

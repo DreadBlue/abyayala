@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import cabanas from '../assets/cabanas.json';
-import { useBookingStore } from '/stores/booking.js';
+import cabanas from "../assets/cabanas.json";
+import { useBookingStore } from "/stores/booking.js";
 
 export default {
   data() {

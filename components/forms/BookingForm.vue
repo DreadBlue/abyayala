@@ -79,10 +79,10 @@
 </template>
 
 <script setup>
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../../firebase/firebase.config';
-import { useBookingStore } from '/stores/booking.js';
-import { useGeneralStore } from '/stores/general.js';
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../firebase/firebase.config";
+import { useBookingStore } from "/stores/booking.js";
+import { useGeneralStore } from "/stores/general.js";
 
 const useGeneral = useGeneralStore();
 const useBooking = useBookingStore();
@@ -98,71 +98,71 @@ const newWarning = ref(false);
 
 const inputs = reactive({
   name: {
-    cols: '6',
-    colsMobile: '12',
-    label: 'Nombre y apellido',
-    type: 'text',
-    variant: 'solo',
-    icon: 'mdi-account-edit',
-    value: '',
+    cols: "6",
+    colsMobile: "12",
+    label: "Nombre y apellido",
+    type: "text",
+    variant: "solo",
+    icon: "mdi-account-edit",
+    value: "",
   },
   phone: {
-    cols: '6',
-    colsMobile: '12',
-    label: 'Número de celular',
-    type: 'number',
-    variant: 'solo',
-    icon: 'mdi-cellphone',
-    minLenght: '10',
+    cols: "6",
+    colsMobile: "12",
+    label: "Número de celular",
+    type: "number",
+    variant: "solo",
+    icon: "mdi-cellphone",
+    minLenght: "10",
     spin: true,
-    value: '',
+    value: "",
   },
   email: {
-    cols: '6',
-    colsMobile: '12',
-    label: 'Correo Electronico',
-    type: 'mail',
-    variant: 'solo',
-    icon: 'mdi-email',
-    value: '',
+    cols: "6",
+    colsMobile: "12",
+    label: "Correo Electronico",
+    type: "mail",
+    variant: "solo",
+    icon: "mdi-email",
+    value: "",
   },
   documentId: {
-    cols: '6',
-    colsMobile: '8',
-    label: 'Número de cédula / pasaporte',
-    type: 'text',
-    variant: 'solo',
-    icon: 'mdi-card-account-details-outline',
-    value: '',
+    cols: "6",
+    colsMobile: "8",
+    label: "Número de cédula / pasaporte",
+    type: "text",
+    variant: "solo",
+    icon: "mdi-card-account-details-outline",
+    value: "",
   },
   guests: {
-    cols: '3',
-    colsMobile: '4',
-    label: 'Acompañantes',
-    type: 'number',
-    variant: 'solo',
-    icon: 'mdi-account-multiple',
-    min: '0',
+    cols: "3",
+    colsMobile: "4",
+    label: "Acompañantes",
+    type: "number",
+    variant: "solo",
+    icon: "mdi-account-multiple",
+    min: "0",
     spin: false,
-    value: '',
+    value: "",
   },
   guestsInfo: {
-    cols: '9',
-    colsMobile: '12',
-    label: 'Nombres y cédulas de los acompañantes',
-    type: 'text',
-    variant: 'solo',
-    icon: 'mdi-account-multiple',
-    value: '',
+    cols: "9",
+    colsMobile: "12",
+    label: "Nombres y cédulas de los acompañantes",
+    type: "text",
+    variant: "solo",
+    icon: "mdi-account-multiple",
+    value: "",
   },
 });
 
 async function initiateCheckout(payment) {
   loader.value = true;
   const amount = useBooking.precio;
-  const orderId = 'ORDER' + Date.now() * 1e6;
+  const orderId = "ORDER" + Date.now() * 1e6;
 
-  const generateHash = httpsCallable(functions, 'generateHash');
+  const generateHash = httpsCallable(functions, "generateHash");
 
   try {
     const response = await generateHash({ orderId, amount });
@@ -180,28 +180,28 @@ async function initiateCheckout(payment) {
 
     const checkout = new BoldCheckout({
       orderId: orderId,
-      currency: 'COP',
+      currency: "COP",
       amount: amount,
-      apiKey: 'FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw',
+      apiKey: "FeCNwHajYokCj6t2VQrednNaNP5L7c4g4cS2BAAxopw",
       integritySignature: hash,
-      description: 'Pago valor dinámico',
-      redirectionUrl: 'https://www.abyayalahostel.com/reservar/confirmacion',
-      renderMode: 'embedded',
+      description: "Pago valor dinámico",
+      redirectionUrl: "https://www.abyayalahostel.com/reservar/confirmacion",
+      renderMode: "embedded",
     });
 
-    if (Object.values(item).every((value) => value !== '')) {
+    if (Object.values(item).every((value) => value !== "")) {
       await useBooking.reservar(item);
-      if (payment == 'card') {
+      if (payment == "card") {
         checkout.open();
-      } else if (payment == 'cash') {
-        return navigateTo('/reservar/confirmacion');
+      } else if (payment == "cash") {
+        return navigateTo("/reservar/confirmacion");
       }
     } else {
       loader.value = false;
       newWarning.value = true;
     }
   } catch (error) {
-    console.error('Booking error:', error);
+    console.error("Booking error:", error);
   }
 }
 </script>

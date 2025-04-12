@@ -24,14 +24,16 @@ const htmlTemplate = fs.readFileSync('emailTemplate.html', 'utf-8');
 const BillTemplate = fs.readFileSync('billTemplate.html', 'utf-8');
 const secretEmail = process.env.SECRET_EMAIL;
 
-
 const sendBillEmail = (data) => {
   if (data.secret !== secretEmail) return 'Missing secret';
   let correoHtml = BillTemplate;
 
   correoHtml = correoHtml.replace('{{mes}}', data.mes);
   correoHtml = correoHtml.replace('{{aliado}}', data.aliado);
-  correoHtml = correoHtml.replace('{{numeroDeReservas}}', data.numeroDeReservas);
+  correoHtml = correoHtml.replace(
+    '{{numeroDeReservas}}',
+    data.numeroDeReservas,
+  );
   correoHtml = correoHtml.replace('{{ventasTotales}}', data.ventasTotales);
   correoHtml = correoHtml.replace('{{comision}}', data.comision);
   correoHtml = correoHtml.replace('{{valorFactura}}', data.billValue);
@@ -46,7 +48,8 @@ const sendBillEmail = (data) => {
       'Content-Type': 'text/html',
     },
   };
-  return transporter.sendMail(mailOptions)
+  return transporter
+    .sendMail(mailOptions)
     .then((r) => {
       log('Correo enviado con éxito');
       log('Correo enviado:', r.accepted);
@@ -69,10 +72,7 @@ const sendBookEmail = (data) => {
   correoHtml = correoHtml.replace('{{cabana}}', data.TipoDeCabaña);
   correoHtml = correoHtml.replace('{{checkIn}}', data.CheckInDate);
   correoHtml = correoHtml.replace('{{checkOut}}', data.CheckOutDate);
-  correoHtml = correoHtml.replace(
-    '{{cantidadCabañas}}',
-    data.BookingRooms,
-  );
+  correoHtml = correoHtml.replace('{{cantidadCabañas}}', data.BookingRooms);
 
   // Datos del correo
   const mailOptions = {
@@ -84,7 +84,8 @@ const sendBookEmail = (data) => {
       'Content-Type': 'text/html',
     },
   };
-  return transporter.sendMail(mailOptions)
+  return transporter
+    .sendMail(mailOptions)
     .then((r) => {
       log('Correo enviado con éxito');
       log('Correo enviado:', r.accepted);
@@ -162,7 +163,9 @@ const addCalendar = async (data) => {
               return;
             }
             eventIds.push(result.data.id);
-            reservasCollection.doc(data.idReserva).update({ 'calendarIds': eventIds });
+            reservasCollection
+              .doc(data.idReserva)
+              .update({ 'calendarIds': eventIds });
             log('Evento creado:', result.data);
           },
         );

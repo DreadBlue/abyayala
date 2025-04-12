@@ -43,7 +43,7 @@ export default {
     content: Object,
     columnas: {
       type: String,
-      default: '3',
+      default: "3",
     },
   },
   setup() {

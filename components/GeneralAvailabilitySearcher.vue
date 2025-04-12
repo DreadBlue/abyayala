@@ -59,33 +59,33 @@
 </template>
 
 <script setup>
-import { DateTime } from 'luxon';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { useBookingStore } from '/stores/booking.js';
-import { useDisplay } from 'vuetify';
+import { DateTime } from "luxon";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useBookingStore } from "/stores/booking.js";
+import { useDisplay } from "vuetify";
 
 const router = useRouter();
 dayjs.extend(customParseFormat);
 const { smAndUp } = useDisplay();
-const reactiveHeight = ref('max-width: 85%');
+const reactiveHeight = ref("max-width: 85%");
 const useBooking = useBookingStore();
 const min = DateTime.local().toString().slice(0, 10);
 let minMonth = 0;
-const dateCheckIn = ref('');
-const dateCheckOut = ref('');
+const dateCheckIn = ref("");
+const dateCheckOut = ref("");
 const showCheckoutPicker = ref(false);
 
 const minOut = computed(() => {
-  if (!dateCheckIn.value) return '';
-  const checkInDate = DateTime.fromFormat(dateCheckIn.value, 'dd-MM-yyyy');
+  if (!dateCheckIn.value) return "";
+  const checkInDate = DateTime.fromFormat(dateCheckIn.value, "dd-MM-yyyy");
   const nextDay = checkInDate.plus({ days: 1 });
   minMonth = nextDay.month - 1;
-  return nextDay.toFormat('yyyy-MM-dd');
+  return nextDay.toFormat("yyyy-MM-dd");
 });
 
 const onCheckInSelected = () => {
-  dateCheckOut.value = '';
+  dateCheckOut.value = "";
   nextTick(() => {
     showCheckoutPicker.value = true;
   });
@@ -93,18 +93,18 @@ const onCheckInSelected = () => {
 
 const redirection = async () => {
   const dates = {
-    checkIn: dayjs(dateCheckIn.value, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-    checkOut: dayjs(dateCheckOut.value, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+    checkIn: dayjs(dateCheckIn.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
+    checkOut: dayjs(dateCheckOut.value, "DD-MM-YYYY").format("YYYY-MM-DD"),
   };
   useBooking.updateDetails(dates);
 
-  router.push({ path: '/reservar', query: dates });
+  router.push({ path: "/reservar", query: dates });
 };
 
 watch(
   smAndUp,
   (val) => {
-    reactiveHeight.value = val ? 'max-width: 95%' : 'max-width: 85%';
+    reactiveHeight.value = val ? "max-width: 95%" : "max-width: 85%";
   },
   { immediate: true },
 );
